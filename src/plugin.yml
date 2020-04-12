@@ -1,0 +1,88 @@
+name: FullPvP
+main: net.galanthus.fullpvp.FullPvP
+version: 1.0.0
+author: [TU PUTA MADRE, neeah el risas y javita]
+commands:
+   fly:
+   heal:
+   repairall:
+     aliases: [fixall]
+   repair:
+     aliases: [fix]
+   fullpvp:
+   warp:
+   refund:
+   top:
+   reply:
+     aliases: [r]
+   message:
+     aliases: [m, msg]
+   enderchest:
+     aliases: [ec]
+   gamemode:
+     aliases: [gm]
+   invsee:
+   kit:
+   enchant:
+   feed:
+   points:
+     aliases: [rp, reabpoints]
+   tournament:
+     aliases: [host]
+   staffmode:
+     aliases: [mod, staff, modmode, h]
+   vanish:
+     aliases: [v]
+   freeze:
+     aliases: [ss]
+   chatclear:
+     aliases: [cc]
+   broadcast:
+     aliases: [bc]
+   craft:
+   rename:
+   points:
+   discord:
+   more:
+   store:
+   teamspeak:
+     aliases: [ts]
+   twitter:
+   website:
+   koth:
+   list:
+      aliases: [players]
+   setspawn:
+      description: Set the default spawn at player location
+   spawn:
+      description: Teleport to the Spawn
+   economy:
+      description: Manage the balance of another player
+      aliases: [eco, bal, balance, money]
+   pay:
+      description: Pay to player
+      aliases: [p2p]
+   stats:
+      description: Check the stats of a player
+      aliases: [statistic]
+   statsmanager:
+      description: Edit kills or deaths of a player
+      aliases: [statsedit, statsman]
+   claim:
+      description: null
+      aliases: [claimset, claimcreate, createclaim]
+   gun:
+      description: Get Hoe Guns
+      aliases: [hoegun, gunhoe]
+   headloot:
+      description: Give a HeadLoot, to receive a good loot
+      aliases: [hl]
+   kit:
+      description: Kits
+      aliases: [kits]
+   dtc:
+      description: Destroy The Core Event
+      aliases: [destroythecore]
+   clan:
+   giveaway:
+      aliases: [ga]
