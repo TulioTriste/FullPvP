@@ -26,9 +26,10 @@ commands:
    enchant:
    feed:
    points:
-     aliases: [rp, reabpoints]
+     aliases: [dp, dragonpoints]
    tournament:
-     aliases: [host]
+   host:
+     aliases: [event]
    staffmode:
      aliases: [mod, staff, modmode, h]
    vanish:

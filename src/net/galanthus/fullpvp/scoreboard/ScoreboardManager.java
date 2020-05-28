@@ -1,13 +1,17 @@
 package net.galanthus.fullpvp.scoreboard;
 
 import org.bukkit.Statistic;
+import org.bukkit.World;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Team;
+
+import com.sk89q.worldedit.bukkit.selections.CuboidSelection;
 
 import net.galanthus.fullpvp.FullPvP;
 import net.galanthus.fullpvp.clans.ClanHandler;
 import net.galanthus.fullpvp.commands.StaffModeCommand;
 import net.galanthus.fullpvp.commands.essentials.FreezeCommand;
+import net.galanthus.fullpvp.configuration.LocationFile;
 import net.galanthus.fullpvp.configuration.PointsFile;
 import net.galanthus.fullpvp.destroythecore.DTCHandler;
 import net.galanthus.fullpvp.listener.VanishListener;
@@ -20,6 +24,7 @@ import net.galanthus.fullpvp.utilities.Utils;
 
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.EventHandler;
@@ -100,7 +105,7 @@ public class ScoreboardManager implements Listener {
         for (final Player other : Bukkit.getServer().getOnlinePlayers()) {
             if (other != player && this.getScoreboardFor(other) != null) {
                 final Scoreboard scoreboard = this.getScoreboardFor(other).getScoreBoard();
-                final Team otherteam = this.getTeam(scoreboard, "other", ColorText.translate("&c"));
+                final Team otherteam = this.getTeam(scoreboard, "other", ColorText.translate(FullPvP.getPlugin().getChat().getPlayerSuffix(player) + "&e"));
                 otherteam.addEntry(player.getName());
             }
         }
@@ -113,14 +118,19 @@ public class ScoreboardManager implements Listener {
         final Scoreboard scoreboard = this.getScoreboardFor(player).getScoreBoard();
         this.unregister(scoreboard, "player");
         this.unregister(scoreboard, "other");
-        final Team playerteam = this.getTeam(scoreboard, "player", ColorText.translate("&a"));
-        final Team otherteam = this.getTeam(scoreboard, "other", ColorText.translate("&c"));
+        this.unregister(scoreboard, "staff");
+        final Team playerteam = this.getTeam(scoreboard, "player", ColorText.translate(FullPvP.getPlugin().getChat().getPlayerSuffix(player) + "&a"));
+        final Team otherteam = this.getTeam(scoreboard, "other", ColorText.translate(FullPvP.getPlugin().getChat().getPlayerSuffix(player) + "&e"));
+        final Team staffteam = this.getTeam(scoreboard, "staffmode", ColorText.translate(FullPvP.getPlugin().getChat().getPlayerSuffix(player) + "&b"));
         for (final Player other : Bukkit.getServer().getOnlinePlayers()) {
-            if (ClanHandler.areMember(other, player, ClanHandler.getClan(player))) {
+            if (ClanHandler.areMember(other, player, ClanHandler.getClan(player)) && !StaffModeCommand.isMod(player)) {
                 playerteam.addEntry(other.getName());
             }
-            else {
+            else if(!ClanHandler.areMember(other, player, ClanHandler.getClan(player)) && !StaffModeCommand.isMod(player)) {
                 otherteam.addEntry(other.getName());
+            }
+            else if(StaffModeCommand.isMod(player)) {
+            	staffteam.addEntry(other.getName());
             }
         }
     }
@@ -129,64 +139,77 @@ public class ScoreboardManager implements Listener {
 			public void run() {
                 for (final Player player : Bukkit.getServer().getOnlinePlayers()) {
                     if (ScoreboardManager.this.helper.containsKey(player)) {
+                        LocationFile location = LocationFile.getConfig();
 	                    ScoreboardAPI lines = ScoreboardManager.this.getScoreboardFor(player);
 	                    TournamentManager tournamentManager = FullPvP.getPlugin().getTournamentManager();
 	                    PointsFile points = PointsFile.getConfig();
 	                	UUID UUID = player.getUniqueId();
+	                	String uuidd = player.getUniqueId().toString();
 	                    String p = player.getName();
-	                    String rank = ColorText.translate(FullPvP.getPlugin().getChat().getPlayerPrefix(player));
 	                    lines.clear();
 	                    lines.add(bars);
-	                    if(StaffModeCommand.isMod(player)) {
-	                        lines.add("&2&lStaffMode");
-	                    	lines.add(" &f\u00BB &aVanished&7: " + (VanishListener.isVanished(player) ? "&a\u2714" : "&c\u2716"));
-	                    	lines.add(" &f\u00BB &aPlayers&7: &f" + Bukkit.getOnlinePlayers().size());
-	                    } else if (tournamentManager.isInTournament(player) && !FreezeCommand.isFrozen(player.getUniqueId())) {
-                			Tournament tournament = FullPvP.getPlugin().getTournamentManager().getTournament();
-                			int announceCountdown = tournament.getDesecrentAnn();
-                			lines.add("&2&l" + tournament.getType().getName() + " Event");
-                            if (tournament.getType() == TournamentType.SUMO) {
-                            	lines.add(" &f\u00BB &aPlayers&7: &f" + tournament.getPlayers().size() + "/" + tournament.getSize());
-                            	if (announceCountdown > 0) {
-                            		lines.add(" &f\u00BB &aStarting&7: &f" + announceCountdown + "s");
-                            	}
-                            	if (tournament.getTournamentState() == TournamentState.WAITING) {
-                            		lines.add(" &f\u00BB &aStatus&7: &fWaiting...");
-                            	} else if (tournament.getTournamentState() == TournamentState.FIGHTING) {
-                            		lines.add(" &f\u00BB &aStatus&7: &fFighting...");
-                            		String first = tournament.getFirstPlayer().getDisplayName();
-                                    String second = tournament.getSecondPlayer().getDisplayName();
-                                    if (first.length() > 14) {
-                                        first = first.substring(0, 14);
-                                    }
-                                    lines.add("");
-                                    lines.add("&2&l" + first + " &aVS &2&l" + second);
-                            	} else {
-                            		lines.add(" &f\u00BB &aStatus&7: &fSelecting...");
-                            	}
-                            } else if (tournament.getType() == TournamentType.FFA || tournament.getType() == TournamentType.TNTTAG) {
-                            	lines.add(" &f\u00BB &aPlayers&7: &f" + tournament.getPlayers().size() + "/" + tournament.getSize());
-                            	if (announceCountdown > 0) {
-                            		lines.add(" &f\u00BB &aStarting&7: &f" + announceCountdown + "s");
-                            	}
-                            	if (tournament.getTournamentState() == TournamentState.WAITING) {
-                            		lines.add(" &f\u00BB &aStatus&7: &fWaiting...");		
-                            	}
-                            	else if (tournament.isActiveProtection()) {
-	                            	lines.add(" &f\u00BB &aStatus&7: &fInvincibility...");
+		                    if(StaffModeCommand.isMod(player)) {
+		                        lines.add("&2&lStaffMode");
+		                    	lines.add(" &f\u00BB &aVanished&7: " + (VanishListener.isVanished(player) ? "&a\u2714" : "&c\u2716"));
+		                    	lines.add(" &f\u00BB &aPlayers&7: &f" + Bukkit.getOnlinePlayers().size());
+		                    } else if (tournamentManager.isInTournament(player) && !FreezeCommand.isFrozen(player.getUniqueId())) {
+	                			Tournament tournament = FullPvP.getPlugin().getTournamentManager().getTournament();
+	                			int announceCountdown = tournament.getDesecrentAnn();
+	                			lines.add("&2&l" + tournament.getType().getName() + " Event");
+	                            if (tournament.getType() == TournamentType.SUMO) {
+	                            	lines.add(" &f\u00BB &aPlayers&7: &f" + tournament.getPlayers().size() + "/" + tournament.getSize());
+	                            	if (announceCountdown > 0) {
+	                            		lines.add(" &f\u00BB &aStarting&7: &f" + announceCountdown + "s");
+	                            	}
+	                            	if (tournament.getTournamentState() == TournamentState.WAITING) {
+	                            		lines.add(" &f\u00BB &aStatus&7: &fWaiting...");
+	                            	} else if (tournament.getTournamentState() == TournamentState.FIGHTING) {
+	                            		lines.add(" &f\u00BB &aStatus&7: &fFighting...");
+	                            		String first = tournament.getFirstPlayer().getDisplayName();
+	                                    String second = tournament.getSecondPlayer().getDisplayName();
+	                                    if (first.length() > 14) {
+	                                        first = first.substring(0, 14);
+	                                    }
+	                                    lines.add("");
+	                                    lines.add("&2&l" + first + " &aVS &2&l" + second);
+	                            	} else {
+	                            		lines.add(" &f\u00BB &aStatus&7: &fSelecting...");
+	                            	}
+	                            } else if (tournament.getType() == TournamentType.FFA || tournament.getType() == TournamentType.TNTTAG) {
+	                            	lines.add(" &f\u00BB &aPlayers&7: &f" + tournament.getPlayers().size() + "/" + tournament.getSize());
+	                            	if (announceCountdown > 0) {
+	                            		lines.add(" &f\u00BB &aStarting&7: &f" + announceCountdown + "s");
+	                            	}
+	                            	if (tournament.getTournamentState() == TournamentState.WAITING) {
+	                            		lines.add(" &f\u00BB &aStatus&7: &fWaiting...");		
+	                            	}
+	                            	else if (tournament.isActiveProtection()) {
+		                            	lines.add(" &f\u00BB &aStatus&7: &fInvincibility...");
+		                            }
+	                            	else {
+	                            		lines.add(" &f\u00BB &aStatus&7: &fFighting...");
+	                            	}
 	                            }
-                            	else {
-                            		lines.add(" &f\u00BB &aStatus&7: &fFighting...");
-                            	}
-                            }
-                		} else {
-	                    	lines.add(" &aNombre&7: &f" + p);
-	                    	lines.add(" &aRango&7: &f" + rank);
-	                    	lines.add(" &aRP&7: &f" + points.getInt("users." + UUID + ".points"));
-	                    	lines.add("");
-		                    lines.add(" &aBajas&7: &f" + player.getStatistic(Statistic.PLAYER_KILLS));
-		                    lines.add(" &aMuertes&7: &f" + player.getStatistic(Statistic.DEATHS));
-		                    lines.add(" &aDinero&7: &2\u26C3 &f" + FullPvP.getPlugin().getEconomyManager().getBalance(player.getUniqueId()));
+	                		} 
+		                    for (final String claim : location.getConfigurationSection("Claims").getKeys(false)) {
+		                        final CuboidSelection selection = new CuboidSelection(Bukkit.getWorld(location.getString("Claims." + claim + ".world")), ScoreboardManager.this.getLocation(claim, "cornerA"), ScoreboardManager.this.getLocation(claim, "cornerB"));
+		                        final boolean isPvP = location.getBoolean("Claims." + claim + ".pvp");
+		                        final String clan = FullPvP.getPlugin().getClanHandler().getClan(player);
+			                    if(selection.contains(player.getLocation()) && !StaffModeCommand.isMod(player)) {
+			                    	if(!isPvP) {
+			                			lines.add("&eDinero &7\u00BB &f$" + FullPvP.getPlugin().getEconomyManager().getBalance(UUID));
+			                			if(FullPvP.getPlugin().getClanHandler().hasClan(player)) {
+				                			lines.add("&eClan &7\u00BB &9" + FullPvP.getPlugin().getClanHandler().getClan(player));
+				                			lines.add("&eOnline &7\u00BB &f" + FullPvP.getPlugin().getClanHandler().getClanMembers(clan) + "/" + FullPvP.getPlugin().getClanHandler().getMembers(clan));
+				                			lines.add("");
+			                			}
+			                			lines.add("");
+			                    	}
+			                		if(isPvP) {
+			                			lines.add("&eKills &7\u00BB &f" + player.getStatistic(Statistic.PLAYER_KILLS));
+			                			lines.add("&eDeaths &7\u00BB &f" + player.getStatistic(Statistic.DEATHS));
+			                		}
+		                		}
 	                    }
                         for (final String dtc : DTCHandler.getDTCActiveList()) {
                             if (DTCHandler.isStarted(dtc)) {
@@ -216,6 +239,16 @@ public class ScoreboardManager implements Listener {
                 }
             }
         }.runTaskTimer(FullPvP.getPlugin(), 2L, 2L);
+    }
+    
+    public Location getLocation(final String town, final String corner) {
+        LocationFile location = LocationFile.getConfig();
+        final LocationFile location1 = location;
+        final World world = Bukkit.getWorld((String)LocationFile.getConfig().get("Claims." + town + ".world"));
+        final double x = location1.getDouble("Claims." + town + "." + corner + ".x");
+        final double y = location1.getDouble("Claims." + town + "." + corner + ".y");
+        final double z = location1.getDouble("Claims." + town + "." + corner + ".z");
+        return new Location(world, x, y, z);
     }
     
     static {

@@ -21,6 +21,7 @@ import net.galanthus.fullpvp.clans.ClanListener;
 import net.galanthus.fullpvp.commands.GiveawayCommand;
 import net.galanthus.fullpvp.commands.GunCommand;
 import net.galanthus.fullpvp.commands.HeadLootCommand;
+import net.galanthus.fullpvp.commands.HostCommand;
 import net.galanthus.fullpvp.commands.PointsCommand;
 import net.galanthus.fullpvp.commands.RefundCommand;
 import net.galanthus.fullpvp.commands.SetSpawnCommand;
@@ -217,6 +218,7 @@ public class FullPvP extends JavaPlugin implements Listener {
         getCommand("freeze").setExecutor(new FreezeCommand(this));
         getCommand("tournament").setExecutor(new TournamentExecutor());
         getCommand("koth").setExecutor(new KothExecutor(this));
+        getCommand("host").setExecutor(new HostCommand());
         kitExecutor = new KitExecutor(this);
         getCommand("kit").setExecutor(kitExecutor);
     }
@@ -224,6 +226,7 @@ public class FullPvP extends JavaPlugin implements Listener {
     private void registerListeners() {
         final PluginManager manager = getServer().getPluginManager();
         manager.registerEvents(new TournamentHostArgument(), this);
+        manager.registerEvents(new HostCommand(), this);
         manager.registerEvents(new PointsListener(), this);
     	new RepairSignListener(this);
         new ClaimListener(this);

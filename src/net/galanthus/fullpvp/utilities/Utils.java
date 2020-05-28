@@ -37,6 +37,10 @@ public class Utils
         return new DecimalFormat("0.0");
     }
     
+    public static DecimalFormat getNormalFormat() {
+        return new DecimalFormat("0");
+    }
+    
     public static String format(final double tps) {
         return ((tps > 18.0) ? ChatColor.GREEN : ((tps > 16.0) ? ChatColor.YELLOW : ChatColor.RED)).toString() + ((tps > 20.0) ? "*" : "") + Math.min(Math.round(tps * 100.0) / 100.0, 20.0);
     }

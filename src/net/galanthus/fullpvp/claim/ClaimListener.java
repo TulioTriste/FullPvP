@@ -2,10 +2,12 @@ package net.galanthus.fullpvp.claim;
 
 import org.bukkit.World;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.EventHandler;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Player;
 
@@ -16,6 +18,9 @@ import net.galanthus.fullpvp.configuration.LocationFile;
 import net.galanthus.fullpvp.utilities.ColorText;
 
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
+import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
@@ -40,10 +45,10 @@ public class ClaimListener implements Listener {
             final CuboidSelection selection = new CuboidSelection(Bukkit.getWorld(this.location.getString("Claims." + claim + ".world")), this.getLocation(claim, "cornerA"), this.getLocation(claim, "cornerB"));
             final boolean isPvP = this.location.getBoolean("Claims." + claim + ".pvp");
             if (selection.contains(event.getTo()) && !selection.contains(event.getFrom())) {
-                player.sendMessage(ColorText.translate("&eNow Entering: &c" + (isPvP ? claim : ("&a" + claim)) + " &e(" + (isPvP ? "&cPvP" : "&aSafeZone") + "&e)"));
                 if (isPvP) {
                     continue;
                 }
+                player.sendMessage(ColorText.translate("&7* &eEntrando a Zona Segura"));
                 player.setHealth(((Damageable)player).getMaxHealth());
                 player.setFoodLevel(20);
                 player.setFireTicks(0);
@@ -52,7 +57,39 @@ public class ClaimListener implements Listener {
                 if (!selection.contains(event.getFrom()) || selection.contains(event.getTo())) {
                     continue;
                 }
-                player.sendMessage(ColorText.translate("&eNow leaving: &c" + (isPvP ? claim : ("&a" + claim)) + " &e(" + (isPvP ? "&cPvP" : "&aSafeZone") + "&e)"));
+                if(isPvP) {
+                	continue;
+                }
+                player.sendMessage(ColorText.translate("&7* &eSaliendo de Zona Segura"));
+            }
+        }
+    }
+    
+    @EventHandler
+    public void onFoodChange(FoodLevelChangeEvent event) {
+        for (final String claim : this.location.getConfigurationSection("Claims").getKeys(false)) {
+            final CuboidSelection selection = new CuboidSelection(Bukkit.getWorld(this.location.getString("Claims." + claim + ".world")), this.getLocation(claim, "cornerA"), this.getLocation(claim, "cornerB"));
+            final boolean isPvP = this.location.getBoolean("Claims." + claim + ".pvp");
+            if(event.getEntity() instanceof Player) {
+	            if(selection.contains(event.getEntity().getLocation()) && !isPvP) {
+	            	event.setCancelled(true);
+	            }
+            }
+        }
+    }
+    
+    @EventHandler
+    public void onEnderpearl(final PlayerTeleportEvent event) {
+        for (final String claim : this.location.getConfigurationSection("Claims").getKeys(false)) {
+            final CuboidSelection selection = new CuboidSelection(Bukkit.getWorld(this.location.getString("Claims." + claim + ".world")), this.getLocation(claim, "cornerA"), this.getLocation(claim, "cornerB"));
+            final boolean isPvP = this.location.getBoolean("Claims." + claim + ".pvp");
+            if(event.getCause().equals(TeleportCause.ENDER_PEARL)) {
+	            if(!selection.contains(event.getFrom()) && selection.contains(event.getTo()) && !isPvP) {
+	            	FullPvP.getPlugin().getEnderpearlListener().removeCooldown(event.getPlayer());
+	                event.getPlayer().getInventory().addItem(new ItemStack[] { new ItemStack(Material.ENDER_PEARL) });
+	            	event.setCancelled(true);
+	            	event.getPlayer().sendMessage(ColorText.translate("&cNo puedes perlear a una zona sin PvP!"));
+	            }	
             }
         }
     }

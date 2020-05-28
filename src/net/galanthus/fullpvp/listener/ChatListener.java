@@ -21,13 +21,13 @@ public class ChatListener implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
 	public void onPlayerChat(final AsyncPlayerChatEvent event) {
 		final Player player = event.getPlayer();
-		String prefix = DeluxeTag.getPlayerDisplayTag(player);
+		String prefix = DeluxeTag.getPlayerDisplayTag(player) + "&r ";
 		String rank = FullPvP.getPlugin().getChat().getPlayerPrefix(player);
-		String name = player.getDisplayName() + "&7: &f";
+		String name = player.getDisplayName() + " &7\u00BB&f ";
 		String message = player.hasPermission("fullpvp.chat.color") ? ColorText.translate(event.getMessage()) : event.getMessage();
 		event.setCancelled(true);
 		if (ClanHandler.hasClan(player) == true) {
-			String clan = "&2[" + ClanHandler.getClan(player) + "] ";
+			String clan = "&7(&9" + ClanHandler.getClan(player) + "&7) ";
 			String chat = ColorText.translate(clan + prefix + rank + name) + (message);
             for (final Player recipient : event.getRecipients()) {
                 recipient.sendMessage(chat);
