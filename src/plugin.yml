@@ -1,7 +1,7 @@
 name: FullPvP
-main: net.galanthus.fullpvp.FullPvP
+main: net.bfcode.fullpvp.FullPvP
 version: 1.0.0
-author: [TU PUTA MADRE, neeah el risas y javita]
+author: [TU PUTA MADRE, neeah el risas y javita(Tulio)]
 commands:
    fly:
    heal:
