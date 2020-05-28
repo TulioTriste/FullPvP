@@ -162,9 +162,9 @@ public class FullPvP extends JavaPlugin implements Listener {
         registerConfiguration();
         FullPvP.plugin = this;
         System.out.println("");
-        System.out.println("FullPvP Core - GalanthusMC");
+        System.out.println("FullPvP Core");
         System.out.println("Version: 1.0.0");
-        System.out.println("Author: JavaPinq & Risas");
+        System.out.println("Author: TulioTriste & Risas");
         System.out.println("");
         registerCommands();
         registerListeners();

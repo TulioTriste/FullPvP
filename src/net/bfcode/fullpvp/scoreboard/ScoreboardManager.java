@@ -150,44 +150,44 @@ public class ScoreboardManager implements Listener {
 	                    lines.add(bars);
 		                    if(StaffModeCommand.isMod(player)) {
 		                        lines.add("&2&lStaffMode");
-		                    	lines.add(" &f\u00BB &aVanished&7: " + (VanishListener.isVanished(player) ? "&a\u2714" : "&c\u2716"));
-		                    	lines.add(" &f\u00BB &aPlayers&7: &f" + Bukkit.getOnlinePlayers().size());
+		                    	lines.add(" &f\u00BB &dVanished&7: " + (VanishListener.isVanished(player) ? "&a\u2714" : "&c\u2716"));
+		                    	lines.add(" &f\u00BB &dPlayers&7: &f" + Bukkit.getOnlinePlayers().size());
 		                    } else if (tournamentManager.isInTournament(player) && !FreezeCommand.isFrozen(player.getUniqueId())) {
 	                			Tournament tournament = FullPvP.getPlugin().getTournamentManager().getTournament();
 	                			int announceCountdown = tournament.getDesecrentAnn();
-	                			lines.add("&2&l" + tournament.getType().getName() + " Event");
+	                			lines.add("&5&l" + tournament.getType().getName() + " Event");
 	                            if (tournament.getType() == TournamentType.SUMO) {
-	                            	lines.add(" &f\u00BB &aPlayers&7: &f" + tournament.getPlayers().size() + "/" + tournament.getSize());
+	                            	lines.add(" &f\u00BB &dPlayers&7: &f" + tournament.getPlayers().size() + "/" + tournament.getSize());
 	                            	if (announceCountdown > 0) {
-	                            		lines.add(" &f\u00BB &aStarting&7: &f" + announceCountdown + "s");
+	                            		lines.add(" &f\u00BB &dStarting&7: &f" + announceCountdown + "s");
 	                            	}
 	                            	if (tournament.getTournamentState() == TournamentState.WAITING) {
-	                            		lines.add(" &f\u00BB &aStatus&7: &fWaiting...");
+	                            		lines.add(" &f\u00BB &dStatus&7: &fWaiting...");
 	                            	} else if (tournament.getTournamentState() == TournamentState.FIGHTING) {
-	                            		lines.add(" &f\u00BB &aStatus&7: &fFighting...");
+	                            		lines.add(" &f\u00BB &dStatus&7: &fFighting...");
 	                            		String first = tournament.getFirstPlayer().getDisplayName();
 	                                    String second = tournament.getSecondPlayer().getDisplayName();
 	                                    if (first.length() > 14) {
 	                                        first = first.substring(0, 14);
 	                                    }
 	                                    lines.add("");
-	                                    lines.add("&2&l" + first + " &aVS &2&l" + second);
+	                                    lines.add("&5&l" + first + " &dVS &5&l" + second);
 	                            	} else {
-	                            		lines.add(" &f\u00BB &aStatus&7: &fSelecting...");
+	                            		lines.add(" &f\u00BB &dStatus&7: &fSelecting...");
 	                            	}
 	                            } else if (tournament.getType() == TournamentType.FFA || tournament.getType() == TournamentType.TNTTAG) {
-	                            	lines.add(" &f\u00BB &aPlayers&7: &f" + tournament.getPlayers().size() + "/" + tournament.getSize());
+	                            	lines.add(" &f\u00BB &dPlayers&7: &f" + tournament.getPlayers().size() + "/" + tournament.getSize());
 	                            	if (announceCountdown > 0) {
-	                            		lines.add(" &f\u00BB &aStarting&7: &f" + announceCountdown + "s");
+	                            		lines.add(" &f\u00BB &dStarting&7: &f" + announceCountdown + "s");
 	                            	}
 	                            	if (tournament.getTournamentState() == TournamentState.WAITING) {
-	                            		lines.add(" &f\u00BB &aStatus&7: &fWaiting...");		
+	                            		lines.add(" &f\u00BB &dStatus&7: &fWaiting...");		
 	                            	}
 	                            	else if (tournament.isActiveProtection()) {
-		                            	lines.add(" &f\u00BB &aStatus&7: &fInvincibility...");
+		                            	lines.add(" &f\u00BB &dStatus&7: &fInvincibility...");
 		                            }
 	                            	else {
-	                            		lines.add(" &f\u00BB &aStatus&7: &fFighting...");
+	                            		lines.add(" &f\u00BB &dStatus&7: &fFighting...");
 	                            	}
 	                            }
 	                		} 
@@ -197,25 +197,25 @@ public class ScoreboardManager implements Listener {
 		                        final String clan = FullPvP.getPlugin().getClanHandler().getClan(player);
 			                    if(selection.contains(player.getLocation()) && !StaffModeCommand.isMod(player)) {
 			                    	if(!isPvP) {
-			                			lines.add("&eDinero &7\u00BB &f$" + FullPvP.getPlugin().getEconomyManager().getBalance(UUID));
+			                			lines.add("&dDinero &7\u00BB &f$" + FullPvP.getPlugin().getEconomyManager().getBalance(UUID));
 			                			if(FullPvP.getPlugin().getClanHandler().hasClan(player)) {
-				                			lines.add("&eClan &7\u00BB &9" + FullPvP.getPlugin().getClanHandler().getClan(player));
-				                			lines.add("&eOnline &7\u00BB &f" + FullPvP.getPlugin().getClanHandler().getClanMembers(clan) + "/" + FullPvP.getPlugin().getClanHandler().getMembers(clan));
+				                			lines.add("&dClan &7\u00BB &9" + FullPvP.getPlugin().getClanHandler().getClan(player));
+				                			lines.add("&dOnline &7\u00BB &f" + FullPvP.getPlugin().getClanHandler().getClanMembers(clan) + "/" + FullPvP.getPlugin().getClanHandler().getMembers(clan));
 				                			lines.add("");
 			                			}
 			                			lines.add("");
 			                    	}
 			                		if(isPvP) {
-			                			lines.add("&eKills &7\u00BB &f" + player.getStatistic(Statistic.PLAYER_KILLS));
-			                			lines.add("&eDeaths &7\u00BB &f" + player.getStatistic(Statistic.DEATHS));
+			                			lines.add("&dKills &7\u00BB &f" + player.getStatistic(Statistic.PLAYER_KILLS));
+			                			lines.add("&dDeaths &7\u00BB &f" + player.getStatistic(Statistic.DEATHS));
 			                		}
 		                		}
 	                    }
                         for (final String dtc : DTCHandler.getDTCActiveList()) {
                             if (DTCHandler.isStarted(dtc)) {
                             	lines.add("&2&lDTC");
-                                lines.add(" &f\u00BB &aPoints: &f" + DTCHandler.dtcFile.get("DTC." + dtc + ".PointsLeft"));
-                                lines.add(" &f\u00BB &aCoords: &f" + DTCHandler.dtcFile.getInt("CurrentDTC." + dtc + ".X") + ", " + 
+                                lines.add(" &f\u00BB &dPoints: &f" + DTCHandler.dtcFile.get("DTC." + dtc + ".PointsLeft"));
+                                lines.add(" &f\u00BB &dCoords: &f" + DTCHandler.dtcFile.getInt("CurrentDTC." + dtc + ".X") + ", " + 
                                 		DTCHandler.dtcFile.getInt("CurrentDTC." + dtc + ".Y") + ", " + 
                                 		DTCHandler.dtcFile.getInt("CurrentDTC." + dtc + ".Z"));
                             }
@@ -232,7 +232,7 @@ public class ScoreboardManager implements Listener {
                             FullPvP.getPlugin().getSpawnHandler().applyWarmup(player);
                         }
                         lines.add("");
-                        lines.add("&2galanthusmc.net");
+                        lines.add("&5faltryxpvp.us");
                         lines.add(bars);
                         lines.update(player);
                     }
