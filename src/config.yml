@@ -103,7 +103,7 @@ Scoreboard:
            - " &f\u00BB &dStarting&7: &f{countdown}"
          Waiting:
            - " &f\u00BB &dStatus&7: &fWaiting..."
-         Invicibility:
+         Invicibility: #Variables: {time}
            - " &f\u00BB &dStatus&7: &fInvincibility..."
          Fighting:
            - " &f\u00BB &dStatus&7: &fFighting..."

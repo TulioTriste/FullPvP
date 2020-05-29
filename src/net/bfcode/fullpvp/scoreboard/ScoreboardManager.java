@@ -9,9 +9,14 @@ import com.sk89q.worldedit.bukkit.selections.CuboidSelection;
 import net.bfcode.fullpvp.FullPvP;
 import net.bfcode.fullpvp.clans.ClanHandler;
 import net.bfcode.fullpvp.commands.StaffModeCommand;
+import net.bfcode.fullpvp.commands.essentials.FreezeCommand;
 import net.bfcode.fullpvp.configuration.LocationFile;
 import net.bfcode.fullpvp.destroythecore.DTCHandler;
 import net.bfcode.fullpvp.listener.VanishListener;
+import net.bfcode.fullpvp.tournaments.Tournament;
+import net.bfcode.fullpvp.tournaments.TournamentManager;
+import net.bfcode.fullpvp.tournaments.TournamentState;
+import net.bfcode.fullpvp.tournaments.TournamentType;
 import net.bfcode.fullpvp.utilities.ColorText;
 import net.bfcode.fullpvp.utilities.Utils;
 
@@ -132,6 +137,7 @@ public class ScoreboardManager implements Listener {
                 for (final Player player : Bukkit.getServer().getOnlinePlayers()) {
                     if (ScoreboardManager.this.helper.containsKey(player)) {
 	                    ScoreboardAPI lines = ScoreboardManager.this.getScoreboardFor(player);
+	                    TournamentManager tournamentManager = FullPvP.getPlugin().getTournamentManager();
 	                    LocationFile location = LocationFile.getConfig();
 	                    lines.clear();
 	                    for(String string : FullPvP.getPlugin().getConfig().getStringList("Scoreboard.Lines")) {
@@ -167,7 +173,7 @@ public class ScoreboardManager implements Listener {
 	                    		
 	                    		if(StaffModeCommand.isMod(player)) {
 	                                for(String stafflines : FullPvP.getPlugin().getConfig().getStringList("Scoreboard.Variables.StaffMode")) {
-	                                	stafflines.replace("{status}", (VanishListener.isVanished(player) ? "&a\u2714" : "&c\u2716"))
+	                                	stafflines = stafflines.replace("{status}", (VanishListener.isVanished(player) ? "&a\u2714" : "&c\u2716"))
 	                                	.replace("{players}", Bukkit.getOnlinePlayers().size() + "");
 	                                	lines.add(stafflines);
 	                                }
@@ -182,7 +188,7 @@ public class ScoreboardManager implements Listener {
 	                    		for(String dtc : DTCHandler.getDTCActiveList()) {
 	                    			if(DTCHandler.isStarted(dtc)) {
 	                    				for(String dtclines : FullPvP.getPlugin().getConfig().getStringList("Scoreboard.Variables.DestroyTheCore")) {
-	                    					dtclines.replace("{points-left}", DTCHandler.dtcFile.get("DTC." + dtc + ".PointsLeft") + "")
+	                    					dtclines = dtclines.replace("{points-left}", DTCHandler.dtcFile.get("DTC." + dtc + ".PointsLeft") + "")
 	                    					.replace("{x}", DTCHandler.dtcFile.getInt("CurrentDTC." + dtc + ".X") + "")
 	                    					.replace("{y}", DTCHandler.dtcFile.getInt("CurrentDTC." + dtc + ".Y") + "")
 	                    					.replace("{z}", DTCHandler.dtcFile.getInt("CurrentDTC." + dtc + ".Z") + "");
@@ -201,7 +207,7 @@ public class ScoreboardManager implements Listener {
 				                    if(selection.contains(player.getLocation()) && !StaffModeCommand.isMod(player)) {
 				                    	if(!isPvP) {
 				                    		for(String noPvP : FullPvP.getPlugin().getConfig().getStringList("Scoreboard.Variables.Claims.noPvP")) {
-				                    			noPvP.replace("{balance}", FullPvP.getPlugin().getEconomyManager().getBalance(player.getUniqueId()) + "")
+				                    			noPvP = noPvP.replace("{balance}", FullPvP.getPlugin().getEconomyManager().getBalance(player.getUniqueId()) + "")
 				                    			.replace("{kills}", player.getStatistic(Statistic.PLAYER_KILLS) + "")
 				                    			.replace("{deaths}", player.getStatistic(Statistic.DEATHS) + "");
 				                    			lines.add(noPvP);
@@ -209,7 +215,7 @@ public class ScoreboardManager implements Listener {
 				                    				if(ClanHandler.hasClan(player)) {
 				                    					String clan = ClanHandler.getClan(player);
 				                    					for(String clanlines : FullPvP.getPlugin().getConfig().getStringList("Scoreboard.Variables.Claims.Clan-info")) {
-				                    						clanlines.replace("{name}", ClanHandler.getClan(player))
+				                    						clanlines = clanlines.replace("{name}", ClanHandler.getClan(player))
 				                    						.replace("{members-online}", ClanHandler.getClanMembers(clan) + "")
 				                    						.replace("{max-members}", ClanHandler.getMembers(clan));
 				                    						lines.add(clanlines);
@@ -221,7 +227,7 @@ public class ScoreboardManager implements Listener {
 				                    	}
 				                		if(isPvP) {
 				                			for(String PvP : FullPvP.getPlugin().getConfig().getStringList("Scoreboard.Variables.Claims.PvP")) {
-				                				PvP.replace("{kills}", player.getStatistic(Statistic.PLAYER_KILLS) + "")
+				                				PvP = PvP.replace("{kills}", player.getStatistic(Statistic.PLAYER_KILLS) + "")
 				                				.replace("{deaths}", player.getStatistic(Statistic.DEATHS) + "")
 				                				.replace("{balance}", FullPvP.getPlugin().getEconomyManager().getBalance(player.getUniqueId()) + "");
 				                				lines.add(PvP);
@@ -229,7 +235,7 @@ public class ScoreboardManager implements Listener {
 				                    				if(ClanHandler.hasClan(player)) {
 				                    					String clan = ClanHandler.getClan(player);
 				                    					for(String clanlines : FullPvP.getPlugin().getConfig().getStringList("Scoreboard.Variables.Claims.Clan-info")) {
-				                    						clanlines.replace("{name}", ClanHandler.getClan(player))
+				                    						clanlines = clanlines.replace("{name}", ClanHandler.getClan(player))
 				                    						.replace("{members-online}", ClanHandler.getClanMembers(clan) + "")
 				                    						.replace("{max-members}", ClanHandler.getMembers(clan));
 				                    						lines.add(clanlines);
@@ -241,6 +247,73 @@ public class ScoreboardManager implements Listener {
 				                		}
 			                		}
 		                    }
+			                    
+			                    if (tournamentManager.isInTournament(player) && !FreezeCommand.isFrozen(player.getUniqueId())) {
+		                			Tournament tournament = FullPvP.getPlugin().getTournamentManager().getTournament();
+		                			int announceCountdown = tournament.getDesecrentAnn();
+		                			lines.add(FullPvP.getPlugin().getConfig().getString("Scoreboard.Variables.Tournament.Title")
+		                					.replace("{event}", tournament.getType().getName()));
+		                            if (tournament.getType() == TournamentType.SUMO) {
+		                            	for(String sumolines : FullPvP.getPlugin().getConfig().getStringList("Scoreboard.Variables.Tournament.Sumo.Lines")) {
+		                            		sumolines = sumolines.replace("{players}", tournament.getPlayers().size() + "")
+		                            				.replace("{max-players}", tournament.getSize() + "");
+		                            		lines.add(sumolines);
+		                            		if(sumolines.contains("{countdown}")) {
+				                            	if (announceCountdown > 0) {
+				                            		lines.add(sumolines.replace("{countdown}", announceCountdown + ""));
+				                            	}
+		                            			continue;
+		                            		}
+		                            	}
+		                            	if (tournament.getTournamentState() == TournamentState.WAITING) {
+		                            		for(String waitingsumolines : FullPvP.getPlugin().getConfig().getStringList("Scoreboard.Variables.Tournament.Sumo.Waiting")) {
+		                            			lines.add(waitingsumolines);
+		                            		}
+		                            	} else if (tournament.getTournamentState() == TournamentState.FIGHTING) {
+		                            		for(String fightingsumolines : FullPvP.getPlugin().getConfig().getStringList("Scoreboard.Variables.Tournament.Sumo.Fighting")) {
+			                            		String first = tournament.getFirstPlayer().getDisplayName();
+			                                    String second = tournament.getSecondPlayer().getDisplayName();
+			                                    if (first.length() > 14) {
+			                                        first = first.substring(0, 14);
+			                                    }
+		                            			fightingsumolines = fightingsumolines.replace("{first}", first)
+		                            					.replace("{second}", second);
+		                            		}
+		                            	} else {
+		                            		for(String selectingsumolines : FullPvP.getPlugin().getConfig().getStringList("Scoreboard.Variables.Tournament.Sumo.Selecting")) {
+		                            			lines.add(selectingsumolines);
+		                            		}
+		                            	}
+		                            } else if (tournament.getType() == TournamentType.FFA) {
+		                            	for(String ffalines : FullPvP.getPlugin().getConfig().getStringList("Scoreboard.Variables.Tournament.FFA.Lines")) {
+		                            		ffalines = ffalines.replace("{players}", tournament.getPlayers().size() + "")
+		                            				.replace("{max-players}", tournament.getSize() + "");
+		                            		lines.add(ffalines);
+		                            		if(ffalines.contains("{countdown}")) {
+				                            	if (announceCountdown > 0) {
+				                            		lines.add(ffalines.replace("{countdown}", announceCountdown + ""));
+				                            	}
+		                            			continue;
+		                            		}
+		                            	}
+		                            	if (tournament.getTournamentState() == TournamentState.WAITING) {
+		                            		for(String waitingffalines : FullPvP.getPlugin().getConfig().getStringList("Scoreboard.Variables.Tournament.FFA.Waiting")) {
+		                            			lines.add(waitingffalines);
+		                            		}
+		                            	}
+		                            	else if (tournament.isActiveProtection()) {
+		                            		for(String invicibilityffalines : FullPvP.getPlugin().getConfig().getStringList("Scoreboard.Variables.Tournament.FFA.Invicibility")) {
+		                            			invicibilityffalines = invicibilityffalines.replace("{time}", tournament.getProtection() + "");
+		                            			lines.add(invicibilityffalines);
+		                            		}
+			                            }
+		                            	else {
+		                            		for(String fightingffalines : FullPvP.getPlugin().getConfig().getStringList("Scoreboard.Variables.Tournament.FFA.Fighting")) {
+		                            			lines.add(fightingffalines);
+		                            		}
+		                            	}
+		                            }
+		                		} 
 	                    		
 	                    		continue;
 	                    	}
