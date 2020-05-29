@@ -71,18 +71,6 @@ Scoreboard:
        - "&6&lDTC"
        - " &f\u00BB &ePoints: &f{points-left}"
        - " &f\u00BB &eCoords: &f{x}, {y}, {z}"
-     Claims:
-       PvP: #variables: {kills}, {deaths}, {balance}, {clan-info}
-         - " &f\u00BB &eKills&7: &f{kills}"
-         - " &f\u00BB &eDeaths&7: &f{deaths}"
-       noPvP: #variables: {kills}, {deaths}, {balance}, {clan-info}
-         - " &f\u00BB &eKills&7: &f{kills}"
-         - " &f\u00BB &eDeaths&7: &f{deaths}"
-         - " &f\u00BB &eBalance&7: &f{balance}"
-         - "{clan-info}"
-       Clan-info:
-         - "&dClan &7\u00BB &9{name}"
-         - "&dOnline &7\u00BB &f{members-online}/{max-members}"
      Tournament:
        Title: "&6&l{event} Event"
        Sumo:

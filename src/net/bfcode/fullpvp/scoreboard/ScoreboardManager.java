@@ -260,13 +260,13 @@ public class ScoreboardManager implements Listener {
 		                            	for(String sumolines : FullPvP.getPlugin().getConfig().getStringList("Scoreboard.Variables.Tournament.Sumo.Lines")) {
 		                            		sumolines = sumolines.replace("{players}", tournament.getPlayers().size() + "")
 		                            				.replace("{max-players}", tournament.getSize() + "");
-		                            		lines.add(sumolines);
 		                            		if(sumolines.contains("{countdown}")) {
 				                            	if (announceCountdown > 0) {
 				                            		lines.add(sumolines.replace("{countdown}", announceCountdown + ""));
 				                            	}
 		                            			continue;
 		                            		}
+		                            		lines.add(sumolines);
 		                            	}
 		                            	if (tournament.getTournamentState() == TournamentState.WAITING) {
 		                            		for(String waitingsumolines : FullPvP.getPlugin().getConfig().getStringList("Scoreboard.Variables.Tournament.Sumo.Waiting")) {
@@ -291,13 +291,13 @@ public class ScoreboardManager implements Listener {
 		                            	for(String ffalines : FullPvP.getPlugin().getConfig().getStringList("Scoreboard.Variables.Tournament.FFA.Lines")) {
 		                            		ffalines = ffalines.replace("{players}", tournament.getPlayers().size() + "")
 		                            				.replace("{max-players}", tournament.getSize() + "");
-		                            		lines.add(ffalines);
 		                            		if(ffalines.contains("{countdown}")) {
 				                            	if (announceCountdown > 0) {
 				                            		lines.add(ffalines.replace("{countdown}", announceCountdown + ""));
 				                            	}
 		                            			continue;
 		                            		}
+		                            		lines.add(ffalines);
 		                            	}
 		                            	if (tournament.getTournamentState() == TournamentState.WAITING) {
 		                            		for(String waitingffalines : FullPvP.getPlugin().getConfig().getStringList("Scoreboard.Variables.Tournament.FFA.Waiting")) {
@@ -316,7 +316,7 @@ public class ScoreboardManager implements Listener {
 		                            		}
 		                            	}
 		                            }
-		                		} 
+		                		}
 			                    continue;
 	                    	}
 	                    	
