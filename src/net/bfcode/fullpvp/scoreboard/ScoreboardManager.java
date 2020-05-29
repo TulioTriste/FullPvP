@@ -141,13 +141,9 @@ public class ScoreboardManager implements Listener {
 			public void run() {
                 for (final Player player : Bukkit.getServer().getOnlinePlayers()) {
                     if (ScoreboardManager.this.helper.containsKey(player)) {
-                        LocationFile location = LocationFile.getConfig();
 	                    ScoreboardAPI lines = ScoreboardManager.this.getScoreboardFor(player);
 	                    TournamentManager tournamentManager = FullPvP.getPlugin().getTournamentManager();
 	                    PointsFile points = PointsFile.getConfig();
-	                	UUID UUID = player.getUniqueId();
-	                	String uuidd = player.getUniqueId().toString();
-	                    String p = player.getName();
 	                    lines.clear();
 	                    for(String string : FullPvP.getPlugin().getConfig().getStringList("Scoreboard.Lines")) {
 	                    	
@@ -155,6 +151,36 @@ public class ScoreboardManager implements Listener {
 	                    		
 	                    		string.replace("%bars%", bars);
 	                    		
+	                    		continue;
+	                    	}
+	                    	
+	                    	if(string.contains("%combat%")) {
+	                    		
+	                    		if(FullPvP.getPlugin().getCombatTagListener().hasCooldown(player)) {
+	                    			lines.add(string.replace("%combat%", Utils.formatLongMin(FullPvP.getPlugin().getCombatTagListener().getMillisecondsLeft(player))));
+	                    		}
+	                    		
+	                    		continue;
+	                    	}
+	                    	
+	                    	if(string.contains("%enderpearl%")) {
+	                    		
+	                    		if(FullPvP.getPlugin().getEnderpearlListener().hasCooldown(player)) {
+	                    			lines.add(string.replace("%enderpearl%", Utils.formatLongMin(FullPvP.getPlugin().getEnderpearlListener().getMillisecondsLeft(player))));
+	                    		}
+	                    		
+	                    		continue;
+	                    	}
+	                    	
+	                    	if(string.contains("%spawn%")) {
+	                    		
+	                    		if(FullPvP.getPlugin().getSpawnHandler().isActive(player)) {
+	                    			lines.add(string.replace("%spawn%", Utils.formatLongMin(FullPvP.getPlugin().getSpawnHandler().getMillisecondsLeft(player))));
+	                    		} else {
+	                    			FullPvP.getPlugin().getSpawnHandler().applyWarmup(player);
+	                    		}
+	                    		
+	                    		continue;
 	                    	}
 	                    	
 	                    	if(string.contains("%staffmode%")) {
@@ -166,6 +192,22 @@ public class ScoreboardManager implements Listener {
 	                                	lines.add(stafflines);
 	                                }
 	                    			
+	                    		}
+	                    		
+	                    		continue;
+	                    	}
+	                    	
+	                    	if(string.contains("%dtc%")) {
+	                    		
+	                    		for(String dtc : DTCHandler.getDTCActiveList()) {
+	                    			if(DTCHandler.isStarted(dtc)) {
+	                    				for(String dtclines : FullPvP.getPlugin().getConfig().getStringList("Scoreboard.Variables.DestroyTheCore")) {
+	                    					dtclines.replace("%points-left%", DTCHandler.dtcFile.get("DTC." + dtc + ".PointsLeft") + "")
+	                    					.replace("%x%", DTCHandler.dtcFile.getInt("CurrentDTC." + dtc + ".X") + "")
+	                    					.replace("%y%", DTCHandler.dtcFile.getInt("CurrentDTC." + dtc + ".Y") + "")
+	                    					.replace("%z%", DTCHandler.dtcFile.getInt("CurrentDTC." + dtc + ".Z") + "");
+	                    				}
+	                    			}
 	                    		}
 	                    		
 	                    		continue;
@@ -279,6 +321,6 @@ public class ScoreboardManager implements Listener {
     }
     
     static {
-    	bars = "&7&m---------------------";
+    	bars = "--------------------------";
     }
 }

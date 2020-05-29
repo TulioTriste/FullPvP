@@ -14,25 +14,25 @@ public class DTCHandler
     public static DTCFile dtcFile;
     
     public static void createDTC(final String DTC, final int points) {
-        DTCHandler.dtcFile.set("DTC." + DTC + ".X", (Object)DTCHandler.dtcFile.getInt("CurrentSelect.X"));
-        DTCHandler.dtcFile.set("DTC." + DTC + ".Y", (Object)DTCHandler.dtcFile.getInt("CurrentSelect.Y"));
-        DTCHandler.dtcFile.set("DTC." + DTC + ".Z", (Object)DTCHandler.dtcFile.getInt("CurrentSelect.Z"));
-        DTCHandler.dtcFile.set("DTC." + DTC + ".Active", (Object)false);
-        DTCHandler.dtcFile.set("DTC." + DTC + ".Points", (Object)points);
-        DTCHandler.dtcFile.set("DTC." + DTC + ".PointsLeft", (Object)0);
-        DTCHandler.dtcFile.set("CurrentSelect.X", (Object)null);
-        DTCHandler.dtcFile.set("CurrentSelect.Y", (Object)null);
-        DTCHandler.dtcFile.set("CurrentSelect.Z", (Object)null);
+        DTCHandler.dtcFile.set("DTC." + DTC + ".X", DTCHandler.dtcFile.getInt("CurrentSelect.X"));
+        DTCHandler.dtcFile.set("DTC." + DTC + ".Y", DTCHandler.dtcFile.getInt("CurrentSelect.Y"));
+        DTCHandler.dtcFile.set("DTC." + DTC + ".Z", DTCHandler.dtcFile.getInt("CurrentSelect.Z"));
+        DTCHandler.dtcFile.set("DTC." + DTC + ".Active", false);
+        DTCHandler.dtcFile.set("DTC." + DTC + ".Points", points);
+        DTCHandler.dtcFile.set("DTC." + DTC + ".PointsLeft", 0);
+        DTCHandler.dtcFile.set("CurrentSelect.X", null);
+        DTCHandler.dtcFile.set("CurrentSelect.Y", null);
+        DTCHandler.dtcFile.set("CurrentSelect.Z", null);
         saveFile();
     }
     
     public static void deleteDTC(final String DTC) {
-        DTCHandler.dtcFile.set("DTC." + DTC, (Object)null);
+        DTCHandler.dtcFile.set("DTC." + DTC, null);
         saveFile();
     }
     
     public static void decrementPoints(final String DTC) {
-        DTCHandler.dtcFile.set("DTC." + DTC + ".PointsLeft", (Object)(DTCHandler.dtcFile.getInt("DTC." + DTC + ".PointsLeft") - 1));
+        DTCHandler.dtcFile.set("DTC." + DTC + ".PointsLeft", (DTCHandler.dtcFile.getInt("DTC." + DTC + ".PointsLeft") - 1));
         saveFile();
     }
     
@@ -71,17 +71,17 @@ public class DTCHandler
     
     public static void setDTCEvent(final String DTC, final boolean b) {
         if (b) {
-            DTCHandler.dtcFile.set("DTC." + DTC + ".Active", (Object)true);
-            DTCHandler.dtcFile.set("DTC." + DTC + ".PointsLeft", (Object)DTCHandler.dtcFile.getInt("DTC." + DTC + ".Points"));
-            DTCHandler.dtcFile.set("CurrentDTC." + DTC + ".X", (Object)DTCHandler.dtcFile.getInt("DTC." + DTC + ".X"));
-            DTCHandler.dtcFile.set("CurrentDTC." + DTC + ".Y", (Object)DTCHandler.dtcFile.getInt("DTC." + DTC + ".Y"));
-            DTCHandler.dtcFile.set("CurrentDTC." + DTC + ".Z", (Object)DTCHandler.dtcFile.getInt("DTC." + DTC + ".Z"));
+            DTCHandler.dtcFile.set("DTC." + DTC + ".Active", true);
+            DTCHandler.dtcFile.set("DTC." + DTC + ".PointsLeft", DTCHandler.dtcFile.getInt("DTC." + DTC + ".Points"));
+            DTCHandler.dtcFile.set("CurrentDTC." + DTC + ".X", DTCHandler.dtcFile.getInt("DTC." + DTC + ".X"));
+            DTCHandler.dtcFile.set("CurrentDTC." + DTC + ".Y", DTCHandler.dtcFile.getInt("DTC." + DTC + ".Y"));
+            DTCHandler.dtcFile.set("CurrentDTC." + DTC + ".Z", DTCHandler.dtcFile.getInt("DTC." + DTC + ".Z"));
             saveFile();
         }
         else {
-            DTCHandler.dtcFile.set("DTC." + DTC + ".Active", (Object)false);
-            DTCHandler.dtcFile.set("DTC." + DTC + ".PointsLeft", (Object)0);
-            DTCHandler.dtcFile.set("CurrentDTC." + DTC, (Object)null);
+            DTCHandler.dtcFile.set("DTC." + DTC + ".Active", false);
+            DTCHandler.dtcFile.set("DTC." + DTC + ".PointsLeft", 0);
+            DTCHandler.dtcFile.set("CurrentDTC." + DTC, null);
             saveFile();
         }
     }
@@ -95,9 +95,9 @@ public class DTCHandler
     }
     
     public static void setCurrentSelection(final int x, final int y, final int z) {
-        DTCHandler.dtcFile.set("CurrentSelect.X", (Object)x);
-        DTCHandler.dtcFile.set("CurrentSelect.Y", (Object)y);
-        DTCHandler.dtcFile.set("CurrentSelect.Z", (Object)z);
+        DTCHandler.dtcFile.set("CurrentSelect.X", x);
+        DTCHandler.dtcFile.set("CurrentSelect.Y", y);
+        DTCHandler.dtcFile.set("CurrentSelect.Z", z);
         saveFile();
     }
     
