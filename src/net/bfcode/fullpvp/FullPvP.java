@@ -66,8 +66,6 @@ import net.bfcode.fullpvp.kit.Kit;
 import net.bfcode.fullpvp.kit.KitExecutor;
 import net.bfcode.fullpvp.kit.KitListener;
 import net.bfcode.fullpvp.kit.KitManager;
-import net.bfcode.fullpvp.koth.KothExecutor;
-import net.bfcode.fullpvp.koth.KothListener;
 import net.bfcode.fullpvp.listener.ArrowListener;
 import net.bfcode.fullpvp.listener.ChatListener;
 import net.bfcode.fullpvp.listener.ChestListener;
@@ -217,7 +215,6 @@ public class FullPvP extends JavaPlugin implements Listener {
         getCommand("chatclear").setExecutor(new ChatClearCommand());
         getCommand("freeze").setExecutor(new FreezeCommand(this));
         getCommand("tournament").setExecutor(new TournamentExecutor());
-        getCommand("koth").setExecutor(new KothExecutor(this));
         getCommand("host").setExecutor(new HostCommand());
         kitExecutor = new KitExecutor(this);
         getCommand("kit").setExecutor(kitExecutor);
@@ -246,7 +243,6 @@ public class FullPvP extends JavaPlugin implements Listener {
         new VanishListener();
         new StaffModeListener(this);
         new TournamentListener(this);
-        new KothListener(this);
         new WorldListener(this);
         new KitListener(this);
         (combatTagListener = new CombatTagListener(this)).init();

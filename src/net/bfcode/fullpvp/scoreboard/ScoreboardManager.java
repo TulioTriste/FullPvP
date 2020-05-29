@@ -32,6 +32,8 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import java.util.WeakHashMap;
 import org.bukkit.event.Listener;
@@ -147,7 +149,32 @@ public class ScoreboardManager implements Listener {
 	                	String uuidd = player.getUniqueId().toString();
 	                    String p = player.getName();
 	                    lines.clear();
-	                    lines.add(bars);
+	                    for(String string : FullPvP.getPlugin().getConfig().getStringList("Scoreboard.Lines")) {
+	                    	
+	                    	if(string.contains("%bars%")) {
+	                    		
+	                    		string.replace("%bars%", bars);
+	                    		
+	                    	}
+	                    	
+	                    	if(string.contains("%staffmode%")) {
+	                    		
+	                    		if(StaffModeCommand.isMod(player)) {
+	                                for(String stafflines : FullPvP.getPlugin().getConfig().getStringList("Scoreboard.Variables.StaffMode")) {
+	                                	stafflines.replace("%status%", (VanishListener.isVanished(player) ? "&a\u2714" : "&c\u2716"))
+	                                	.replace("%players%", Bukkit.getOnlinePlayers().size() + "");
+	                                	lines.add(stafflines);
+	                                }
+	                    			
+	                    		}
+	                    		
+	                    		continue;
+	                    	}
+	                    	
+	                    	lines.add(ColorText.translate(string));
+	                    	
+	                    }
+/*	                    lines.add(bars);
 		                    if(StaffModeCommand.isMod(player)) {
 		                        lines.add("&2&lStaffMode");
 		                    	lines.add(" &f\u00BB &dVanished&7: " + (VanishListener.isVanished(player) ? "&a\u2714" : "&c\u2716"));
@@ -233,7 +260,7 @@ public class ScoreboardManager implements Listener {
                         }
                         lines.add("");
                         lines.add("&5faltryxpvp.us");
-                        lines.add(bars);
+                        lines.add(bars);*/
                         lines.update(player);
                     }
                 }

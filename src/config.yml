@@ -43,5 +43,14 @@ Spawn:
    Time: 15
 Scoreboard:
    Title: "&2&lFullPvP"
+   Variables:
+     StaffMode:
+       - "&2&lStaffMode"
+       - " &f\u00BB &dVanished&7: %status%"
+       - " &f\u00BB &dPlayers&7: &f"
    Lines:
-      Bars: ""
+     - "&7&m%bars%"
+     - "%staffmode%"
+     - ""
+     - ""
+     - "&7&m%bars%"

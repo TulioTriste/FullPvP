@@ -50,7 +50,6 @@ commands:
      aliases: [ts]
    twitter:
    website:
-   koth:
    list:
       aliases: [players]
    setspawn:
