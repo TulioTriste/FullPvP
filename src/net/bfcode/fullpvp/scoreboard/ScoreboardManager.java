@@ -1,24 +1,15 @@
 package net.bfcode.fullpvp.scoreboard;
 
-import org.bukkit.Statistic;
 import org.bukkit.World;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Team;
 
-import com.sk89q.worldedit.bukkit.selections.CuboidSelection;
-
 import net.bfcode.fullpvp.FullPvP;
 import net.bfcode.fullpvp.clans.ClanHandler;
 import net.bfcode.fullpvp.commands.StaffModeCommand;
-import net.bfcode.fullpvp.commands.essentials.FreezeCommand;
 import net.bfcode.fullpvp.configuration.LocationFile;
-import net.bfcode.fullpvp.configuration.PointsFile;
 import net.bfcode.fullpvp.destroythecore.DTCHandler;
 import net.bfcode.fullpvp.listener.VanishListener;
-import net.bfcode.fullpvp.tournaments.Tournament;
-import net.bfcode.fullpvp.tournaments.TournamentManager;
-import net.bfcode.fullpvp.tournaments.TournamentState;
-import net.bfcode.fullpvp.tournaments.TournamentType;
 import net.bfcode.fullpvp.utilities.ColorText;
 import net.bfcode.fullpvp.utilities.Utils;
 
@@ -32,9 +23,6 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 import java.util.WeakHashMap;
 import org.bukkit.event.Listener;
 
@@ -142,8 +130,6 @@ public class ScoreboardManager implements Listener {
                 for (final Player player : Bukkit.getServer().getOnlinePlayers()) {
                     if (ScoreboardManager.this.helper.containsKey(player)) {
 	                    ScoreboardAPI lines = ScoreboardManager.this.getScoreboardFor(player);
-	                    TournamentManager tournamentManager = FullPvP.getPlugin().getTournamentManager();
-	                    PointsFile points = PointsFile.getConfig();
 	                    lines.clear();
 	                    for(String string : FullPvP.getPlugin().getConfig().getStringList("Scoreboard.Lines")) {
 	                    	

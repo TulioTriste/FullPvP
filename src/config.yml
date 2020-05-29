@@ -1,56 +1,64 @@
-HWID: ""
-Discord: "&2&lDiscord: &fdiscord.gg/tu-discord"
-Store: "&2&lStore: &ftu-tienda"
-Teamspeak: "&2&lTeamspeak: &ftu-teamspeak"
-Twitter: "&2&lTwitter: &ftu-twitter"
-Website: "&2&lWebsite: &ftu-website"
-DefaultBalance: 250
-Not-Remove-Armor-on-Kit: false
-Block-Commands-In-Combat:
+HWID: "" 
+
+Starting-Balance: 250
+
+Remove-Armor-Kit: false
+
+Block-Command-In-Combat:
   - "/pv"
   - "/enderchest"
   - "/vault"
   - "/ec"
   - "/echest"
   - "/chest"
-Giveaway:
-   Number: 0
-CombatTag:
+  
+Combat-Tag:
    Time: 45
-   Message: "&eYou are now spawn-tagged for &c%time% &eseconds."
-EnderPearl:
-   Message:
-      Remaining: "&eYou still have a &a&lEnderpearl &ecooldown for another &l%enderpearl_cooldown%&c."
-      Ended: "&eYour &a&lEnderpearl &ecooldown has expired."
-   Name:
-      Remaining: "&eEnderpearl Cooldown: &7%enderpearl_cooldown%s"
-      Ended: "&aEnderpearl Cooldown ended!"
+   Message: "&eYou are now spawn-tagged for &c{time} &eseconds."
+   
+Ender-Pearl:
    Time: 16
-DeathMessage:
+   Message:
+      Remaining: "&cYou still have a &5&lEnderpearl &ccooldown for another &l{time}&c."
+      Ended: "&eYour &5&lEnderpearl &ecooldown has expired."
+   Name:
+      Remaining: "&cEnderpearl cooldown: &f{time}"
+      Ended: "&aEnderpearl cooldown ended."
+      
+Death:
    Money: 10
-   Killer: "&eYou killed to &c%playername% &eand you have received &a$%money%."
-DestroyTheCore:
-   Started: "&7[&6DTC&7] &f%destroythecore% &ehas been &astarted &eby &c%playername%&e."
-   Stopped: "&7[&6DTC&7] &f%destroythecore% &ehas been &cstopped &eby &c%playername%&e."
-   Destroyed: "&7[&6DTC&7] &c%playername% &ehas destroyed a piece of &6%destroythecore% &e(Points: &7%points%&e)"
-   DestroyedCore: "&7[&6DTC&7] &f%destroythecore% &ehas been destroyed by &c%playername%&e."
+   Player-Message: "&c{killer} &ehas killer you."
+   Killer-Message: "&eYou killed &c{player} &eand you have received &a${money}&e."
+   
+Destroy-The-Core:
+   Started: "&6&l{dtc} &ehas been &astarted &eby &d{player}&e."
+   Stopped: "&6&l{dtc} &ehas been &cstopped &eby &d{player}&e."
+   Destroyed: "&d{player} &ehas destroyed a piece of &6&l{dtc} &7(&ePoints&7: &f{points}&7)"
+   Destroyed-Core: "&6&l{dtc} &ehas been destroyed by &d{player}&e."
+   
 Spawn:
-   Teleporting: "&eTeleporting to the spawn in &a%time% &eseconds."
-   TeleportCancelled: "&cTeleporting has been cancelled."
-   AlreadyTeleporting: "&cYou already teleporting..."
-   Teleported: "&aYou has been teleported to spawn."
-   Set: "&aYou have set the spawn successfully."
    Time: 15
+   Teleporting: "&eTeleporting to the spawn in &a{time} &eseconds."
+   Teleport-Cancelled: "&cTeleporting has been cancelled."
+   Already-Teleporting: "&cYou already teleporting..."
+   Teleported: "&aYou has been teleported to spawn."
+   Set-Spawn: "&aYou have set the spawn successfully."
+   
 Scoreboard:
-   Title: "&2&lFullPvP"
+   Title: "&6&lFullPvP"
    Variables:
      StaffMode:
-       - "&2&lStaffMode"
-       - " &f\u00BB &dVanished&7: %status%"
-       - " &f\u00BB &dPlayers&7: &f"
+       - "&6&lStaffMode"
+       - " &f\u00BB &eVanished&7: %status%"
+       - " &f\u00BB &ePlayers&7: &f%players%"
+     DestroyTheCore:
+       - "&6&lDTC"
+       - " &f\u00BB &ePoints: &f%points-left%"
+       - " &f\u00BB &eCoords: &f%x%, %y%, %z%"
    Lines:
      - "&7&m%bars%"
      - "%staffmode%"
-     - ""
-     - ""
+     - "&4&lCombat&7: &f%combat%"
+     - "&9&lEnderpearl&7: %enderpearl%"
+     - "&a&lSpawn&7: %spawn%"
      - "&7&m%bars%"

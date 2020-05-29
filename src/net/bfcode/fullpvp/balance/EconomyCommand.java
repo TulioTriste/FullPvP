@@ -21,8 +21,8 @@ import net.bfcode.fullpvp.utilities.JavaUtils;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.command.CommandExecutor;
 
-public class EconomyCommand implements CommandExecutor, TabCompleter
-{
+public class EconomyCommand implements CommandExecutor, TabCompleter {
+	
     private static final ImmutableList<String> COMPLETIONS;
     private static final ImmutableList<String> GIVE;
     private static final ImmutableList<String> TAKE;
