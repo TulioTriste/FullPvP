@@ -26,7 +26,7 @@ public class DTCFile extends YamlConfiguration
     
     public DTCFile() {
         this.plugin = this.main();
-        this.configFile = new File(this.plugin.getDataFolder(), "dtc.yml");
+        this.configFile = new File(this.plugin.getDataFolder(), "destroy-the-core.yml");
         this.saveDefault();
         this.reload();
     }
@@ -50,6 +50,6 @@ public class DTCFile extends YamlConfiguration
     }
     
     public void saveDefault() {
-        this.plugin.saveResource("dtc.yml", false);
+        this.plugin.saveResource("destroy-the-core.yml", false);
     }
 }

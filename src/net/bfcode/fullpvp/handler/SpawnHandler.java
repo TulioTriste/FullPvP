@@ -88,7 +88,7 @@ public class SpawnHandler extends Handler implements Listener {
         if (this.spawnTasks.containsKey(player.getUniqueId()) && (from.getBlockX() != to.getBlockX() || from.getBlockZ() != to.getBlockZ())) {
             this.spawnTasks.get(player.getUniqueId()).cancel();
             this.spawnTasks.remove(player.getUniqueId());
-            player.sendMessage(ColorText.translate(FullPvP.getPlugin().getConfig().getString("Spawn.TeleportCancelled")));
+            player.sendMessage(ColorText.translate(FullPvP.getPlugin().getConfig().getString("Spawn.Teleport-Cancelled")));
         }
     }
     
@@ -100,7 +100,7 @@ public class SpawnHandler extends Handler implements Listener {
             if (this.spawnTasks.containsKey(player.getUniqueId())) {
                 this.spawnTasks.get(player.getUniqueId()).cancel();
                 this.spawnTasks.remove(player.getUniqueId());
-                player.sendMessage(ColorText.translate(FullPvP.getPlugin().getConfig().getString("Spawn.TeleportCancelled")));
+                player.sendMessage(ColorText.translate(FullPvP.getPlugin().getConfig().getString("Spawn.Teleport-Cancelled")));
             }
         }
     }
@@ -141,7 +141,7 @@ public class SpawnHandler extends Handler implements Listener {
             this.player.sendMessage(ColorText.translate(FullPvP.getPlugin().getConfig().getString("Spawn.Teleported")));
             SpawnHandler.this.spawnTasks.remove(this.player.getUniqueId());
             if (FullPvP.getPlugin().getConfig().getBoolean("Spawn.Sound.Enabled")) {
-                final String sound = FullPvP.getPlugin().getConfig().getString("Spawn.Sound.Type");
+                String sound = FullPvP.getPlugin().getConfig().getString("Spawn.Sound.Type");
                 if (sound == null) {
                     return;
                 }

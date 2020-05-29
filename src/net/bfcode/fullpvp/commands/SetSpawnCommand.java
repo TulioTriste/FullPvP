@@ -3,6 +3,7 @@ package net.bfcode.fullpvp.commands;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
+import net.bfcode.fullpvp.FullPvP;
 import net.bfcode.fullpvp.configuration.LocationFile;
 import net.bfcode.fullpvp.utilities.ColorText;
 import net.bfcode.fullpvp.utilities.Utils;
@@ -23,7 +24,7 @@ public class SetSpawnCommand implements CommandExecutor {
             return true;
         }
         this.setSpawnLocation(player);
-        player.sendMessage(ColorText.translate("&aSpawn location has been successfully set!"));
+        player.sendMessage(ColorText.translate(FullPvP.getPlugin().getConfig().getString("Spawn.Set-Spawn")));
         player.playSound(player.getLocation(), Sound.EXPLODE, 1.0f, 1.0f);
         return true;
     }

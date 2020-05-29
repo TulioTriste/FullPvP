@@ -26,11 +26,11 @@ public class SpawnCommand implements CommandExecutor {
             return true;
         }
         if (FullPvP.getPlugin().getSpawnHandler().getSpawnTasks().containsKey(player.getUniqueId())) {
-            player.sendMessage(ColorText.translate(FullPvP.getPlugin().getConfig().getString("Spawn.AlreadyTeleporting")));
+            player.sendMessage(ColorText.translate(FullPvP.getPlugin().getConfig().getString("Spawn.Already-Teleporting")));
             return true;
         }
         if (FullPvP.getPlugin().getCombatTagListener().hasCooldown(player)) {
-            player.sendMessage(ColorText.translate("&cYou can't teleport to spawn if you have &4&lCombat Tag&c."));
+            player.sendMessage(ColorText.translate(FullPvP.getPlugin().getConfig().getString("Spawn.Combat-Tag")));
             return true;
         }
         if (player.hasPermission("rank.staff")) {
@@ -45,7 +45,8 @@ public class SpawnCommand implements CommandExecutor {
         	return true;
         } else {
         	FullPvP.getPlugin().getSpawnHandler().createSpawn(player);
-            player.sendMessage(ColorText.translate(FullPvP.getPlugin().getConfig().getString("Spawn.Teleporting")).replace("%time%", "" + FullPvP.getPlugin().getConfig().getInt("Spawn.Time")));
+            player.sendMessage(ColorText.translate(FullPvP.getPlugin().getConfig().getString("Spawn.Teleporting"))
+            		.replace("{time}", String.valueOf(FullPvP.getPlugin().getConfig().getInt("Spawn.Time"))));
             return true;
         }
     }

@@ -4,7 +4,7 @@ Starting-Balance: 250
 
 Remove-Armor-Kit: false
 
-Block-Command-In-Combat:
+Block-Commands-In-Combat:
   - "/pv"
   - "/enderchest"
   - "/vault"
@@ -15,6 +15,8 @@ Block-Command-In-Combat:
 Combat-Tag:
    Time: 45
    Message: "&eYou are now spawn-tagged for &c{time} &eseconds."
+   Disconnect: "&4&l{player} &chas been disconnected in combat."
+   Block-Command: "&cYou cannot use that command with &4&lCombat-Tag"
    
 Ender-Pearl:
    Time: 16
@@ -35,6 +37,7 @@ Destroy-The-Core:
    Stopped: "&6&l{dtc} &ehas been &cstopped &eby &d{player}&e."
    Destroyed: "&d{player} &ehas destroyed a piece of &6&l{dtc} &7(&ePoints&7: &f{points}&7)"
    Destroyed-Core: "&6&l{dtc} &ehas been destroyed by &d{player}&e."
+   Reward: "cr givekey {player} DTC 2"
    
 Spawn:
    Time: 15
@@ -42,23 +45,39 @@ Spawn:
    Teleport-Cancelled: "&cTeleporting has been cancelled."
    Already-Teleporting: "&cYou already teleporting..."
    Teleported: "&aYou has been teleported to spawn."
-   Set-Spawn: "&aYou have set the spawn successfully."
+   Combat-Tag: "&cYou can't teleport to spawn if you have &4&lCombat-Tag&c."
+   Set-Spawn: "&aSpawn location has been successfully set."
    
 Scoreboard:
    Title: "&6&lFullPvP"
    Variables:
+     Claims:
+       PvP: #variables: {kills}, {deaths}, {balance}, {clan-info}
+         - " &f\u00BB &eKills&7: &f{kills}"
+         - " &f\u00BB &eDeaths&7: &f{deaths}"
+       noPvP: #variables: {kills}, {deaths}, {balance}, {clan-info}
+         - " &f\u00BB &eKills&7: &f{kills}"
+         - " &f\u00BB &eDeaths&7: &f{deaths}"
+         - " &f\u00BB &eBalance&7: &f{balance}"
+         - "{clan-info}"
+       Clan-info:
+         - "&dClan &7\u00BB &9{name}"
+         - "&dOnline &7\u00BB &f{members-online}/{max-members}"
      StaffMode:
        - "&6&lStaffMode"
-       - " &f\u00BB &eVanished&7: %status%"
-       - " &f\u00BB &ePlayers&7: &f%players%"
+       - " &f\u00BB &eVanished&7: {status}"
+       - " &f\u00BB &ePlayers&7: &f{players}"
      DestroyTheCore:
        - "&6&lDTC"
-       - " &f\u00BB &ePoints: &f%points-left%"
-       - " &f\u00BB &eCoords: &f%x%, %y%, %z%"
+       - " &f\u00BB &ePoints: &f{points-left}"
+       - " &f\u00BB &eCoords: &f{x}, {y}, {z}"
    Lines:
-     - "&7&m%bars%"
-     - "%staffmode%"
-     - "&4&lCombat&7: &f%combat%"
-     - "&9&lEnderpearl&7: %enderpearl%"
-     - "&a&lSpawn&7: %spawn%"
-     - "&7&m%bars%"
+     - "&7&m--------------------------"
+     - "{staffmode}"
+     - "{claims}"
+     - "&4&lCombat&7: &f{combat}"
+     - "&9&lEnderpearl&7: {enderpearl}"
+     - "&a&lSpawn&7: {spawn}"
+     - ""
+     - "&e&odiscord.gg/aRTsTHJ"
+     - "&7&m--------------------------"

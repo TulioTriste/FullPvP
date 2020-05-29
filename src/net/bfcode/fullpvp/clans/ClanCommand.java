@@ -37,7 +37,13 @@ public class ClanCommand implements CommandExecutor {
                 player.sendMessage(ColorText.translate("&cThe max clan name characters is 5."));
                 return true;
             }
-            if (clan.contains("*") || clan.contains(",") || clan.contains("[") || clan.contains("]") || clan.contains("-") || clan.contains(".") || clan.contains("&")) {
+            if (clan.contains("*") || 
+            	clan.contains(",") || 
+            	clan.contains("[") || 
+            	clan.contains("]") || 
+            	clan.contains("-") || 
+            	clan.contains(".") || 
+            	clan.contains("&")) {
                 player.sendMessage(ColorText.translate("&cYou can't use that symbols."));
                 return true;
             }
@@ -294,20 +300,20 @@ public class ClanCommand implements CommandExecutor {
     
     private void getUsage(final CommandSender sender) {
         sender.sendMessage("");
-        sender.sendMessage(ColorText.translate("&2[Clans] &7- &a/clan create <name>"));
-        sender.sendMessage(ColorText.translate("&2[Clans] &7- &a/clan delete"));
-        sender.sendMessage(ColorText.translate("&2[Clans] &7- &a/clan info"));
-        sender.sendMessage(ColorText.translate("&2[Clans] &7- &a/clan join <clan>"));
-        sender.sendMessage(ColorText.translate("&2[Clans] &7- &a/clan leave"));
-        sender.sendMessage(ColorText.translate("&2[Clans] &7- &a/clan invite <player>"));
-        sender.sendMessage(ColorText.translate("&2[Clans] &7- &a/clan deinvite <player>"));
-        sender.sendMessage(ColorText.translate("&2[Clans] &7- &a/clan kick <player>"));
-        sender.sendMessage(ColorText.translate("&2[Clans] &7- &a/clan msg <message>"));
-        sender.sendMessage(ColorText.translate("&2[Clans] &7- &a/clan setdescription <description>"));
+        sender.sendMessage(ColorText.translate("&6&lClans &7\u00BB &e/clan create <name>"));
+        sender.sendMessage(ColorText.translate("&6&lClans &7\u00BB &e/clan delete"));
+        sender.sendMessage(ColorText.translate("&6&lClans &7\u00BB &e/clan info"));
+        sender.sendMessage(ColorText.translate("&6&lClans &7\u00BB &e/clan join <clan>"));
+        sender.sendMessage(ColorText.translate("&6&lClans &7\u00BB &e/clan leave"));
+        sender.sendMessage(ColorText.translate("&6&lClans &7\u00BB &e/clan invite <player>"));
+        sender.sendMessage(ColorText.translate("&6&lClans &7\u00BB &e/clan deinvite <player>"));
+        sender.sendMessage(ColorText.translate("&6&lClans &7\u00BB &e/clan kick <player>"));
+        sender.sendMessage(ColorText.translate("&6&lClans &7\u00BB &e/clan msg <message>"));
+        sender.sendMessage(ColorText.translate("&6&lClans &7\u00BB &e/clan setdescription <description>"));
         if (sender.isOp()) {
-            sender.sendMessage(ColorText.translate("&2[Clans] &7- &a/clan forcejoin <clan>"));
-            sender.sendMessage(ColorText.translate("&2[Clans] &7- &a/clan forcedelete <clan>"));
-            sender.sendMessage(ColorText.translate("&2[Clans] &7- &a/clan reload"));
+            sender.sendMessage(ColorText.translate("&6&lClans &7\u00BB &e/clan forcejoin <clan>"));
+            sender.sendMessage(ColorText.translate("&6&lClans &7\u00BB &e/clan forcedelete <clan>"));
+            sender.sendMessage(ColorText.translate("&6&lClans &7\u00BB &e/clan reload"));
         }
         sender.sendMessage("");
     }

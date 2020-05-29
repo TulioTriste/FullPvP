@@ -15,18 +15,20 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.CommandExecutor;
 
 public class DTCCommand implements CommandExecutor {
+	
+	@Override
     public boolean onCommand(final CommandSender sender, final Command command, final String label, final String[] args) {
         if (!(sender instanceof Player)) {
             sender.sendMessage(Utils.MUST_BE_PLAYER);
             return true;
         }
-        final Player player = (Player)sender;
+        Player player = (Player)sender;
         if (!player.hasPermission(Utils.PERMISSION + "destroythecore")) {
             player.sendMessage(Utils.NO_PERMISSION);
             return true;
         }
         if (args.length < 1) {
-            this.getUsage((CommandSender)player);
+            this.getUsage(player, label);
         }
         else if (args[0].equalsIgnoreCase("wand")) {
             player.getInventory().addItem(new ItemStack[] { DTCHandler.getDTCWand() });
@@ -34,7 +36,7 @@ public class DTCCommand implements CommandExecutor {
         }
         else if (args[0].equalsIgnoreCase("create")) {
             if (args.length < 3) {
-                this.getUsage((CommandSender)player);
+                this.getUsage(player, label);
                 return true;
             }
             final String DTC = args[1];
@@ -64,7 +66,7 @@ public class DTCCommand implements CommandExecutor {
         }
         else if (args[0].equalsIgnoreCase("delete")) {
             if (args.length < 2) {
-                this.getUsage((CommandSender)player);
+                this.getUsage(player, label);
                 return true;
             }
             final String DTC = args[1];
@@ -80,7 +82,7 @@ public class DTCCommand implements CommandExecutor {
         }
         else if (args[0].equalsIgnoreCase("start")) {
             if (args.length < 2) {
-                this.getUsage((CommandSender)player);
+                this.getUsage(player, label);
                 return true;
             }
             final String DTC = args[1];
@@ -93,11 +95,13 @@ public class DTCCommand implements CommandExecutor {
                 return true;
             }
             DTCHandler.setDTCEvent(DTC, true);
-            Bukkit.broadcastMessage(ColorText.translate(FullPvP.getPlugin().getConfig().getString("DestroyTheCore.Started").replace("%playername%", player.getName()).replace("%destroythecore%", DTC)));
+            Bukkit.broadcastMessage(ColorText.translate(FullPvP.getPlugin().getConfig().getString("Destroy-The-Core.Started")
+            		.replace("{player}", player.getName())
+            		.replace("{dtc}", DTC)));
         }
         else if (args[0].equalsIgnoreCase("stop")) {
             if (args.length < 2) {
-                this.getUsage((CommandSender)player);
+                this.getUsage(player, label);
                 return true;
             }
             final String DTC = args[1];
@@ -110,11 +114,13 @@ public class DTCCommand implements CommandExecutor {
                 return true;
             }
             DTCHandler.setDTCEvent(DTC, false);
-            Bukkit.broadcastMessage(ColorText.translate(FullPvP.getPlugin().getConfig().getString("DestroyTheCore.Stopped").replace("%playername%", player.getName()).replace("%destroythecore%", DTC)));
+            Bukkit.broadcastMessage(ColorText.translate(FullPvP.getPlugin().getConfig().getString("Destroy-The-Core.Stopped")
+            		.replace("{player}", player.getName())
+            		.replace("{dtc}", DTC)));
         }
         else if (args[0].equalsIgnoreCase("tp") || args[0].equalsIgnoreCase("teleport")) {
             if (args.length < 2) {
-                this.getUsage((CommandSender)player);
+                this.getUsage(player, label);
                 return true;
             }
             final String DTC = args[1];
@@ -136,30 +142,17 @@ public class DTCCommand implements CommandExecutor {
         return true;
     }
     
-    private void getUsage(final CommandSender sender) {
+    private void getUsage(CommandSender sender, String label) {
         sender.sendMessage(ColorText.translate("&7&m------------------------------"));
-        sender.sendMessage(ColorText.translate("&6DTC Command: &7(Page 1 of 1)"));
+        sender.sendMessage(ColorText.translate("&6&lDTC Commands"));
         sender.sendMessage("");
-        sender.sendMessage(ColorText.translate("&e/destroythecore <list>"));
-        sender.sendMessage(ColorText.translate("&7List of all DTC Event"));
-        sender.sendMessage("");
-        sender.sendMessage(ColorText.translate("&e/destroythecore <wand>"));
-        sender.sendMessage(ColorText.translate("&7Receive a wand to create a DTC Event"));
-        sender.sendMessage("");
-        sender.sendMessage(ColorText.translate("&e/destroythecore <create> <dtcName> <amount>"));
-        sender.sendMessage(ColorText.translate("&7Create a DTC Event"));
-        sender.sendMessage("");
-        sender.sendMessage(ColorText.translate("&e/destroythecore <delete> <dtcName>"));
-        sender.sendMessage(ColorText.translate("&7Delete a DTC Event"));
-        sender.sendMessage("");
-        sender.sendMessage(ColorText.translate("&e/destroythecore <start> <dtcName>"));
-        sender.sendMessage(ColorText.translate("&7Start a DTC Event"));
-        sender.sendMessage("");
-        sender.sendMessage(ColorText.translate("&e/destroythecore <stop> <dtcName>"));
-        sender.sendMessage(ColorText.translate("&7Stop a DTC Event"));
-        sender.sendMessage("");
-        sender.sendMessage(ColorText.translate("&e/destroythecore <teleport> <dtcName>"));
-        sender.sendMessage(ColorText.translate("&7Teleport to a DTC Event"));
+        sender.sendMessage(ColorText.translate("  &e/" + label + " list &7- &fList of all DTC Event."));
+        sender.sendMessage(ColorText.translate("  &e/" + label + " wand &7- &fReceive a wand to create a DTC Event."));
+        sender.sendMessage(ColorText.translate("  &e/" + label + " create <name> <points> &7- &fCreate a DTC Event."));
+        sender.sendMessage(ColorText.translate("  &e/" + label + " delete <name> &7- &fDelete a DTC Event."));
+        sender.sendMessage(ColorText.translate("  &e/" + label + " start <name> &7- &fStart a DTC Event."));
+        sender.sendMessage(ColorText.translate("  &e/" + label + " stop <name> &7- &fStop a DTC Event."));
+        sender.sendMessage(ColorText.translate("  &e/" + label + " teleport <name> &7- &fTeleport to a DTC Event"));
         sender.sendMessage(ColorText.translate("&7&m------------------------------"));
     }
 }
