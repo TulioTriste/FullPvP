@@ -4,6 +4,8 @@ import org.bukkit.World;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Team;
 
+import com.sk89q.worldedit.bukkit.selections.CuboidSelection;
+
 import net.bfcode.fullpvp.FullPvP;
 import net.bfcode.fullpvp.clans.ClanHandler;
 import net.bfcode.fullpvp.commands.StaffModeCommand;
@@ -16,6 +18,7 @@ import net.bfcode.fullpvp.utilities.Utils;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Statistic;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.EventHandler;
@@ -28,7 +31,6 @@ import org.bukkit.event.Listener;
 
 public class ScoreboardManager implements Listener {
     public WeakHashMap<Player, ScoreboardAPI> helper;
-    private static String bars;
     private String scoreboardTitle;
     private FullPvP plugin;
     private Configuration config;
@@ -130,51 +132,43 @@ public class ScoreboardManager implements Listener {
                 for (final Player player : Bukkit.getServer().getOnlinePlayers()) {
                     if (ScoreboardManager.this.helper.containsKey(player)) {
 	                    ScoreboardAPI lines = ScoreboardManager.this.getScoreboardFor(player);
+	                    LocationFile location = LocationFile.getConfig();
 	                    lines.clear();
 	                    for(String string : FullPvP.getPlugin().getConfig().getStringList("Scoreboard.Lines")) {
 	                    	
-	                    	if(string.contains("%bars%")) {
-	                    		
-	                    		string.replace("%bars%", bars);
-	                    		
-	                    		continue;
-	                    	}
-	                    	
-	                    	if(string.contains("%combat%")) {
+	                    	if(string.contains("{combat}")) {
 	                    		
 	                    		if(FullPvP.getPlugin().getCombatTagListener().hasCooldown(player)) {
-	                    			lines.add(string.replace("%combat%", Utils.formatLongMin(FullPvP.getPlugin().getCombatTagListener().getMillisecondsLeft(player))));
+	                    			lines.add(string.replace("{combat}", Utils.formatLongMin(FullPvP.getPlugin().getCombatTagListener().getMillisecondsLeft(player))));
 	                    		}
 	                    		
 	                    		continue;
 	                    	}
 	                    	
-	                    	if(string.contains("%enderpearl%")) {
+	                    	if(string.contains("{enderpearl}")) {
 	                    		
 	                    		if(FullPvP.getPlugin().getEnderpearlListener().hasCooldown(player)) {
-	                    			lines.add(string.replace("%enderpearl%", Utils.formatLongMin(FullPvP.getPlugin().getEnderpearlListener().getMillisecondsLeft(player))));
+	                    			lines.add(string.replace("{enderpearl}", Utils.formatLongMin(FullPvP.getPlugin().getEnderpearlListener().getMillisecondsLeft(player))));
 	                    		}
 	                    		
 	                    		continue;
 	                    	}
 	                    	
-	                    	if(string.contains("%spawn%")) {
+	                    	if(string.contains("{spawn}")) {
 	                    		
 	                    		if(FullPvP.getPlugin().getSpawnHandler().isActive(player)) {
-	                    			lines.add(string.replace("%spawn%", Utils.formatLongMin(FullPvP.getPlugin().getSpawnHandler().getMillisecondsLeft(player))));
-	                    		} else {
-	                    			FullPvP.getPlugin().getSpawnHandler().applyWarmup(player);
+	                    			lines.add(string.replace("{spawn}", Utils.formatLongMin(FullPvP.getPlugin().getSpawnHandler().getMillisecondsLeft(player))));
 	                    		}
 	                    		
 	                    		continue;
 	                    	}
 	                    	
-	                    	if(string.contains("%staffmode%")) {
+	                    	if(string.contains("{staffmode}")) {
 	                    		
 	                    		if(StaffModeCommand.isMod(player)) {
 	                                for(String stafflines : FullPvP.getPlugin().getConfig().getStringList("Scoreboard.Variables.StaffMode")) {
-	                                	stafflines.replace("%status%", (VanishListener.isVanished(player) ? "&a\u2714" : "&c\u2716"))
-	                                	.replace("%players%", Bukkit.getOnlinePlayers().size() + "");
+	                                	stafflines.replace("{status}", (VanishListener.isVanished(player) ? "&a\u2714" : "&c\u2716"))
+	                                	.replace("{players}", Bukkit.getOnlinePlayers().size() + "");
 	                                	lines.add(stafflines);
 	                                }
 	                    			
@@ -183,18 +177,70 @@ public class ScoreboardManager implements Listener {
 	                    		continue;
 	                    	}
 	                    	
-	                    	if(string.contains("%dtc%")) {
+	                    	if(string.contains("{dtc}")) {
 	                    		
 	                    		for(String dtc : DTCHandler.getDTCActiveList()) {
 	                    			if(DTCHandler.isStarted(dtc)) {
 	                    				for(String dtclines : FullPvP.getPlugin().getConfig().getStringList("Scoreboard.Variables.DestroyTheCore")) {
-	                    					dtclines.replace("%points-left%", DTCHandler.dtcFile.get("DTC." + dtc + ".PointsLeft") + "")
-	                    					.replace("%x%", DTCHandler.dtcFile.getInt("CurrentDTC." + dtc + ".X") + "")
-	                    					.replace("%y%", DTCHandler.dtcFile.getInt("CurrentDTC." + dtc + ".Y") + "")
-	                    					.replace("%z%", DTCHandler.dtcFile.getInt("CurrentDTC." + dtc + ".Z") + "");
+	                    					dtclines.replace("{points-left}", DTCHandler.dtcFile.get("DTC." + dtc + ".PointsLeft") + "")
+	                    					.replace("{x}", DTCHandler.dtcFile.getInt("CurrentDTC." + dtc + ".X") + "")
+	                    					.replace("{y}", DTCHandler.dtcFile.getInt("CurrentDTC." + dtc + ".Y") + "")
+	                    					.replace("{z}", DTCHandler.dtcFile.getInt("CurrentDTC." + dtc + ".Z") + "");
 	                    				}
 	                    			}
 	                    		}
+	                    		
+	                    		continue;
+	                    	}
+	                    	
+	                    	if(string.contains("{claims}")) {
+	                    		
+			                    for (final String claim : location.getConfigurationSection("Claims").getKeys(false)) {
+			                        final CuboidSelection selection = new CuboidSelection(Bukkit.getWorld(location.getString("Claims." + claim + ".world")), ScoreboardManager.this.getLocation(claim, "cornerA"), ScoreboardManager.this.getLocation(claim, "cornerB"));
+			                        final boolean isPvP = location.getBoolean("Claims." + claim + ".pvp");
+				                    if(selection.contains(player.getLocation()) && !StaffModeCommand.isMod(player)) {
+				                    	if(!isPvP) {
+				                    		for(String noPvP : FullPvP.getPlugin().getConfig().getStringList("Scoreboard.Variables.Claims.noPvP")) {
+				                    			noPvP.replace("{balance}", FullPvP.getPlugin().getEconomyManager().getBalance(player.getUniqueId()) + "")
+				                    			.replace("{kills}", player.getStatistic(Statistic.PLAYER_KILLS) + "")
+				                    			.replace("{deaths}", player.getStatistic(Statistic.DEATHS) + "");
+				                    			lines.add(noPvP);
+				                    			if(noPvP.contains("{clan-info}")) {
+				                    				if(ClanHandler.hasClan(player)) {
+				                    					String clan = ClanHandler.getClan(player);
+				                    					for(String clanlines : FullPvP.getPlugin().getConfig().getStringList("Scoreboard.Variables.Claims.Clan-info")) {
+				                    						clanlines.replace("{name}", ClanHandler.getClan(player))
+				                    						.replace("{members-online}", ClanHandler.getClanMembers(clan) + "")
+				                    						.replace("{max-members}", ClanHandler.getMembers(clan));
+				                    						lines.add(clanlines);
+				                    					}
+				                    				}
+				                    				continue;
+				                    			}
+				                    		}
+				                    	}
+				                		if(isPvP) {
+				                			for(String PvP : FullPvP.getPlugin().getConfig().getStringList("Scoreboard.Variables.Claims.PvP")) {
+				                				PvP.replace("{kills}", player.getStatistic(Statistic.PLAYER_KILLS) + "")
+				                				.replace("{deaths}", player.getStatistic(Statistic.DEATHS) + "")
+				                				.replace("{balance}", FullPvP.getPlugin().getEconomyManager().getBalance(player.getUniqueId()) + "");
+				                				lines.add(PvP);
+				                    			if(PvP.contains("{clan-info}")) {
+				                    				if(ClanHandler.hasClan(player)) {
+				                    					String clan = ClanHandler.getClan(player);
+				                    					for(String clanlines : FullPvP.getPlugin().getConfig().getStringList("Scoreboard.Variables.Claims.Clan-info")) {
+				                    						clanlines.replace("{name}", ClanHandler.getClan(player))
+				                    						.replace("{members-online}", ClanHandler.getClanMembers(clan) + "")
+				                    						.replace("{max-members}", ClanHandler.getMembers(clan));
+				                    						lines.add(clanlines);
+				                    					}
+				                    				}
+				                    				continue;
+				                    			}
+				                			}
+				                		}
+			                		}
+		                    }
 	                    		
 	                    		continue;
 	                    	}
@@ -304,9 +350,5 @@ public class ScoreboardManager implements Listener {
         final double y = location1.getDouble("Claims." + town + "." + corner + ".y");
         final double z = location1.getDouble("Claims." + town + "." + corner + ".z");
         return new Location(world, x, y, z);
-    }
-    
-    static {
-    	bars = "--------------------------";
     }
 }
