@@ -25,8 +25,8 @@ import org.bukkit.Bukkit;
 import java.util.regex.Pattern;
 import org.bukkit.event.Listener;
 
-public class DeathListener implements Listener
-{
+public class DeathListener implements Listener {
+	
     private static Pattern UNDERSCORE_PATTERN;
     private static Pattern LEFT_BRACKET_PATTERN;
     private static Pattern RIGHT_BRACKET_LAST_OCCURRENCE_PATTERN;

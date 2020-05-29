@@ -2,7 +2,6 @@ package net.bfcode.fullpvp.listener;
 
 import org.bukkit.event.EventPriority;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.entity.Projectile;
 import org.bukkit.entity.Entity;
@@ -35,7 +34,7 @@ public class CombatTagListener implements Listener {
     
     public void init() {
         this.fullPvP.getServer().getPluginManager().registerEvents((Listener)this, (Plugin)this.fullPvP);
-        this.combatTagCooldownTime = this.fullPvP.getConfig().getInt("CombatTag.Time");
+        this.combatTagCooldownTime = this.fullPvP.getConfig().getInt("Combat-Tag.Time");
     }
     
     public void putCooldown(final Player player, final long cooldown) {
@@ -72,7 +71,8 @@ public class CombatTagListener implements Listener {
         final Player localPlayer = event.getPlayer();
         if(this.hasCooldown(localPlayer)) {
             localPlayer.setHealth(0.0);
-            Bukkit.broadcastMessage(ColorText.translate("&4" + localPlayer.getName() + " &cse ha desconectado en combate y murio!"));
+            Bukkit.broadcastMessage(ColorText.translate(this.fullPvP.getConfig().getString("Combat-Tag.Disconnect"))
+            		.replace("{player}", localPlayer.getName()));
         }
         this.removeCooldown(localPlayer);
     }
@@ -82,7 +82,8 @@ public class CombatTagListener implements Listener {
         final Player localPlayer = event.getPlayer();
         if(this.hasCooldown(localPlayer)) {
             localPlayer.setHealth(0.0);
-            Bukkit.broadcastMessage(ColorText.translate("&4" + localPlayer.getName() + " &cse ha desconectado en combate y murio!"));
+            Bukkit.broadcastMessage(ColorText.translate(this.fullPvP.getConfig().getString("Combat-Tag.Disconnect"))
+            		.replace("{player}", localPlayer.getName()));
         }
         this.removeCooldown(localPlayer);
     }
@@ -118,10 +119,12 @@ public class CombatTagListener implements Listener {
         final Player localDamaged = this.getPlayer(event.getEntity());
         if (localDamager != null && localDamaged != null && localDamaged != localDamager) {
             if (!this.hasCooldown(localDamager)) {
-                localDamager.sendMessage(ChatColor.translateAlternateColorCodes('&', this.fullPvP.getConfig().getString("CombatTag.Message").replace("%time%", "" + this.fullPvP.getConfig().getInt("CombatTag.Time"))));
+                localDamager.sendMessage(ColorText.translate(this.fullPvP.getConfig().getString("Combat-Tag.Message")
+                		.replace("{time}", String.valueOf(this.fullPvP.getConfig().getInt("Combat-Tag.Time")))));
             }
             if (!this.hasCooldown(localDamaged)) {
-                localDamaged.sendMessage(ChatColor.translateAlternateColorCodes('&', this.fullPvP.getConfig().getString("CombatTag.Message").replace("%time%", "" + this.fullPvP.getConfig().getInt("CombatTag.Time"))));
+            	localDamaged.sendMessage(ColorText.translate(this.fullPvP.getConfig().getString("Combat-Tag.Message")
+                		.replace("{time}", String.valueOf(this.fullPvP.getConfig().getInt("Combat-Tag.Time")))));
             }
             this.putCooldown(localDamager, System.currentTimeMillis() + 1000 * this.combatTagCooldownTime);
             this.putCooldown(localDamaged, System.currentTimeMillis() + 1000 * this.combatTagCooldownTime);
@@ -136,7 +139,7 @@ public class CombatTagListener implements Listener {
     		for(String commands : FullPvP.getPlugin().getConfig().getStringList("Block-Commands-In-Combat")) {
     			if(event.getMessage().contains(commands)) {
         			event.setCancelled(true);
-        			Messager.player(player, "&cYou cannot use that command with CombatTag!");
+        			Messager.player(player, this.fullPvP.getConfig().getString("Combat-Tag.Block-Command"));
         		}
     		}
     	}

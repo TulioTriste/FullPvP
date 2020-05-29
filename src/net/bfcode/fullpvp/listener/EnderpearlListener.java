@@ -31,8 +31,9 @@ import java.util.HashMap;
 import org.bukkit.event.Listener;
 
 public class EnderpearlListener implements Listener {
+	
+	private LocationFile location;
     private FullPvP fullPvP;
-    LocationFile location;
     private HashMap<Player, Long> enderpearlCooldownMap;
     private int enderpearlCooldownTime;
     
@@ -43,7 +44,7 @@ public class EnderpearlListener implements Listener {
     }
     
     public void init() {
-        this.enderpearlCooldownTime = this.fullPvP.getConfig().getInt("EnderPearl.Time");
+        this.enderpearlCooldownTime = this.fullPvP.getConfig().getInt("Ender-Pearl.Time");
         Bukkit.getServer().getPluginManager().registerEvents(this, this.fullPvP);
     }
     
@@ -98,7 +99,8 @@ public class EnderpearlListener implements Listener {
             if (localMaterial == Material.ENDER_PEARL && localPlayer.getGameMode() != GameMode.CREATIVE) {
                 if (this.hasCooldown(localPlayer)) {
                     playerInteractEvent.setUseItemInHand(Event.Result.DENY);
-                    localPlayer.sendMessage(ColorText.translate(this.fullPvP.getConfig().getString("EnderPearl.Message.Remaining").replace("%enderpearl_cooldown%", String.valueOf(Utils.getDecimalFormat().format(this.getMillisecondsLeft(localPlayer) / 1000.0)))));
+                    localPlayer.sendMessage(ColorText.translate(this.fullPvP.getConfig().getString("Ender-Pearl.Message.Remaining")
+                    		.replace("{time}", String.valueOf(Utils.getDecimalFormat().format(this.getMillisecondsLeft(localPlayer) / 1000.0)))));
                 }
                 else {
                     new BukkitRunnable() {
@@ -107,15 +109,16 @@ public class EnderpearlListener implements Listener {
                             if (localItemStack != null && localItemStack.getType() == Material.ENDER_PEARL && localPlayer.getGameMode() != GameMode.CREATIVE) {
                                 if (EnderpearlListener.this.hasCooldown(localPlayer)) {
                                     final ItemMeta localItemMeta = localItemStack.getItemMeta();
-                                    localItemMeta.setDisplayName(ColorText.translate(EnderpearlListener.this.fullPvP.getConfig().getString("EnderPearl.Name.Remaining").replace("%enderpearl_cooldown%", String.valueOf(Utils.getDecimalFormat().format(EnderpearlListener.this.getMillisecondsLeft(localPlayer) / 1000.0)))));
+                                    localItemMeta.setDisplayName(ColorText.translate(EnderpearlListener.this.fullPvP.getConfig().getString("Ender-Pearl.Name.Remaining")
+                                    		.replace("{time}", String.valueOf(Utils.getDecimalFormat().format(EnderpearlListener.this.getMillisecondsLeft(localPlayer) / 1000.0)))));
                                     localItemStack.setItemMeta(localItemMeta);
                                 }
                                 else if (localItemStack.getItemMeta().hasDisplayName()) {
                                     this.cancel();
                                     final ItemMeta localItemMeta = localItemStack.getItemMeta();
-                                    localItemMeta.setDisplayName(ColorText.translate(EnderpearlListener.this.fullPvP.getConfig().getString("EnderPearl.Name.Ended")));
+                                    localItemMeta.setDisplayName(ColorText.translate(EnderpearlListener.this.fullPvP.getConfig().getString("Ender-Pearl.Name.Ended")));
                                     localItemStack.setItemMeta(localItemMeta);
-                                    localPlayer.sendMessage(ColorText.translate(EnderpearlListener.this.fullPvP.getConfig().getString("EnderPearl.Message.Ended")));
+                                    localPlayer.sendMessage(ColorText.translate(EnderpearlListener.this.fullPvP.getConfig().getString("Ender-Pearl.Message.Ended")));
                                 }
                             }
                         }
@@ -145,44 +148,6 @@ public class EnderpearlListener implements Listener {
             localItemStack.setItemMeta(localItemMeta);
         }
     }
-    
-    /*@EventHandler(ignoreCancelled = true, priority = EventPriority.HIGH)
-    public void onPlayerTeleport(final PlayerTeleportEvent event) {
-        for (final String claim : this.location.getConfigurationSection("Claims").getKeys(false)) {
-             if (event.getCause() == PlayerTeleportEvent.TeleportCause.ENDER_PEARL) {
-            	final CuboidSelection selection = new CuboidSelection(Bukkit.getWorld(this.location.getString("Claims." + claim + ".world")), this.getLocation(claim, "cornerA"), this.getLocation(claim, "cornerB"));
-            	final boolean isPvP = this.location.getBoolean("Claims." + claim + ".pvp");
-            	final Player player = event.getPlayer();
-            	if (!selection.contains(player.getLocation()) && !isPvP) {
-                	player.sendMessage("se cancelo el evento");
-                	this.removeCooldown(player);
-                	event.setCancelled(true);
-            	}
-        	}
-    @EventHandler
-    public void onEnderpearl(PlayerTeleportEvent event) {
-        if(event.getCause() == TeleportCause.ENDER_PEARL) {
-            final Player player = event.getPlayer();
-	        for (final String claim : this.location.getConfigurationSection("Claims").getKeys(false)) {
-	            final CuboidSelection selection = new CuboidSelection(Bukkit.getWorld(this.location.getString("Claims." + claim + ".world")), this.getLocation(claim, "cornerA"), this.getLocation(claim, "cornerB"));
-	            if (selection.contains(event.getTo()) && !selection.contains(event.getFrom())) {
-	            	event.setCancelled(true);
-	            	this.removeCooldown(player);
-	                player.getInventory().addItem(new ItemStack(Material.ENDER_PEARL, 1));
-	            	player.sendMessage(ColorText.translate("&cYou do not use enderpearl to this claim."));
-	            }
-	            else {
-	                if (!selection.contains(event.getFrom()) || selection.contains(event.getTo())) {
-	                    continue;
-	                }
-	                event.setCancelled(true);
-	                this.removeCooldown(player);
-	                player.getInventory().addItem(new ItemStack(Material.ENDER_PEARL, 1));
-	                player.sendMessage(ColorText.translate("&cYou do not use enderpearl to this claim."));
-	            }
-	        }
-        }
-    } */
     
     public Location getLocation(final String town, final String corner) {
         final LocationFile location = this.location;
