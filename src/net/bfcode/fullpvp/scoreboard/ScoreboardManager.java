@@ -210,7 +210,6 @@ public class ScoreboardManager implements Listener {
 				                    			noPvP = noPvP.replace("{balance}", FullPvP.getPlugin().getEconomyManager().getBalance(player.getUniqueId()) + "")
 				                    			.replace("{kills}", player.getStatistic(Statistic.PLAYER_KILLS) + "")
 				                    			.replace("{deaths}", player.getStatistic(Statistic.DEATHS) + "");
-				                    			lines.add(noPvP);
 				                    			if(noPvP.contains("{clan-info}")) {
 				                    				if(ClanHandler.hasClan(player)) {
 				                    					String clan = ClanHandler.getClan(player);
@@ -223,6 +222,7 @@ public class ScoreboardManager implements Listener {
 				                    				}
 				                    				continue;
 				                    			}
+				                    			lines.add(noPvP);
 				                    		}
 				                    	}
 				                		if(isPvP) {
@@ -230,7 +230,6 @@ public class ScoreboardManager implements Listener {
 				                				PvP = PvP.replace("{kills}", player.getStatistic(Statistic.PLAYER_KILLS) + "")
 				                				.replace("{deaths}", player.getStatistic(Statistic.DEATHS) + "")
 				                				.replace("{balance}", FullPvP.getPlugin().getEconomyManager().getBalance(player.getUniqueId()) + "");
-				                				lines.add(PvP);
 				                    			if(PvP.contains("{clan-info}")) {
 				                    				if(ClanHandler.hasClan(player)) {
 				                    					String clan = ClanHandler.getClan(player);
@@ -243,11 +242,15 @@ public class ScoreboardManager implements Listener {
 				                    				}
 				                    				continue;
 				                    			}
+				                				lines.add(PvP);
 				                			}
 				                		}
 			                		}
-		                    }
-			                    
+			                    }
+	                    		continue;
+	                    	}
+	                    	
+	                    	if(string.contains("{tournament}")) {
 			                    if (tournamentManager.isInTournament(player) && !FreezeCommand.isFrozen(player.getUniqueId())) {
 		                			Tournament tournament = FullPvP.getPlugin().getTournamentManager().getTournament();
 		                			int announceCountdown = tournament.getDesecrentAnn();
@@ -314,8 +317,7 @@ public class ScoreboardManager implements Listener {
 		                            	}
 		                            }
 		                		} 
-	                    		
-	                    		continue;
+			                    continue;
 	                    	}
 	                    	
 	                    	lines.add(ColorText.translate(string));
