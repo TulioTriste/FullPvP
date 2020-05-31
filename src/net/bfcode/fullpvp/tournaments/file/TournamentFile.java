@@ -1,15 +1,15 @@
 package net.bfcode.fullpvp.tournaments.file;
 
 import java.io.File;
-
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
 import net.bfcode.fullpvp.FullPvP;
 
-public class TournamentFile extends YamlConfiguration {
+import org.bukkit.configuration.file.YamlConfiguration;
 
-	private static TournamentFile config;
+public class TournamentFile extends YamlConfiguration {
+	
+    private static TournamentFile config;
     private Plugin plugin;
     private File configFile;
     

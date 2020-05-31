@@ -1,7 +1,9 @@
 package net.bfcode.fullpvp.tournaments;
 
-import org.bukkit.entity.*;
-import org.bukkit.inventory.*;
+import org.bukkit.Sound;
+import org.bukkit.Material;
+import java.util.HashSet;
+import org.bukkit.inventory.ItemStack;
 
 import net.bfcode.fullpvp.FullPvP;
 import net.bfcode.fullpvp.tournaments.file.TournamentFile;
@@ -9,11 +11,13 @@ import net.bfcode.fullpvp.utilities.ColorText;
 import net.bfcode.fullpvp.utilities.ItemBuilder;
 import net.bfcode.fullpvp.utilities.LocationUtils;
 
-import java.util.*;
-import org.bukkit.*;
+import org.bukkit.entity.Player;
+import java.util.HashMap;
+import java.util.UUID;
+import java.util.Set;
 
-public class Tournament
-{
+public class Tournament {
+	
     private FullPvP plugin;
     private Set<UUID> players;
     private HashMap<Player, ItemStack[]> playerArmor;
@@ -87,7 +91,9 @@ public class Tournament
     }
     
     public void giveItemWait(final Player player) {
-        player.getInventory().setItem(8, new ItemBuilder(Material.NETHER_STAR).displayName(ColorText.translate("&cLeave from event")).lore(ColorText.translate("&7Right click to leave")).build());
+        player.getInventory().setItem(8, new ItemBuilder(Material.NETHER_STAR)
+        		.displayName(ColorText.translate("&cSalir del Evento"))
+        		.lore(new String[] { ColorText.translate("&7Click derecho para salir!") }).build());
     }
     
     public void broadcast(final String message) {

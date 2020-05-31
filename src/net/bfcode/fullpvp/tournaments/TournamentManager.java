@@ -1,18 +1,10 @@
 package net.bfcode.fullpvp.tournaments;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
-import org.bukkit.Bukkit;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.Bukkit;
 import org.bukkit.potion.PotionEffect;
 
 import net.bfcode.fullpvp.FullPvP;
@@ -20,9 +12,18 @@ import net.bfcode.fullpvp.tournaments.runnable.TournamentRunnable;
 import net.bfcode.fullpvp.utilities.ColorText;
 import net.bfcode.fullpvp.utilities.ItemBuilder;
 
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
+import java.util.Map;
+
 public class TournamentManager {
 	
-	private final FullPvP plugin;
+    private final FullPvP plugin;
     public final Map<UUID, Integer> matches;
     private Tournament tournament;
     private final List<UUID> players;
@@ -54,7 +55,9 @@ public class TournamentManager {
         if (type == TournamentType.SUMO) {
             runnable.startSumo();
         }
-        commandSender.sendMessage(ColorText.translate("&aSuccessfully created tournament, size " + size + " with type " + type + '.'));
+        commandSender.sendMessage(ColorText.translate("&aEvento creado correctamente!"));
+        commandSender.sendMessage(ColorText.translate("&7Jugadores Maximos: &f" + size));
+        commandSender.sendMessage(ColorText.translate("&7Tipo de Evento: &f" + type));
         this.created = true;
     }
     
@@ -106,10 +109,10 @@ public class TournamentManager {
                 }
             }
             if (this.getTournament().getType() == TournamentType.SUMO) {
-                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "cr givekey " + winner.getName() + " Event 2");
+                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), FullPvP.getPlugin().getConfig().getString("Host-Menu.items.Sumo.Winner-Command").replace("{winner}", winner.getName()));
             }
             else if (this.getTournament().getType() == TournamentType.FFA) {
-                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "cr givekey " + winner.getName() + " Event 2");
+                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), FullPvP.getPlugin().getConfig().getString("Host-Menu.items.FFA.Winner-Command").replace("{winner}", winner.getName()));
             }
         }
         else if (this.players.size() == 0) {
@@ -140,13 +143,13 @@ public class TournamentManager {
         for (final PotionEffect effects : player.getActivePotionEffects()) {
             player.removePotionEffect(effects.getType());
         }
-        tournament.broadcast(ColorText.translate("&a" + player.getDisplayName() + " &ahas joined the tournament. &7(" + tournament.getPlayers().size() + '/' + tournament.getSize() + ')'));
+        tournament.broadcast(ColorText.translate("&a" + player.getDisplayName() + " &aha entrado el evento. &7(" + tournament.getPlayers().size() + '/' + tournament.getSize() + ')'));
     }
     
     public void joinTournament(final Player player) {
         final Tournament tournament = this.tournament;
         if (this.players.size() >= tournament.getSize()) {
-            player.sendMessage(ColorText.translate("&cThis tournament is already full!"));
+            player.sendMessage(ColorText.translate("&cEste evento ya est\u00e1 lleno!"));
         }
         else {
             this.playerJoined(tournament, player);
@@ -165,25 +168,7 @@ public class TournamentManager {
                 final Player online = Bukkit.getPlayer(players);
                 final PlayerInventory inventory = online.getInventory();
                 inventory.clear();
-                inventory.setItem(0, new ItemBuilder(Material.ENCHANTED_BOOK).displayName(ColorText.translate("&6Default Kit")).lore(ColorText.translate("&7Right click to equip default kit")).build());
-                online.updateInventory();
-                online.setGameMode(GameMode.SURVIVAL);
-                online.setAllowFlight(false);
-                online.setFlying(false);
-            }
-        }
-        else if (this.tournament.getType() == TournamentType.TNTTAG) {
-            for (final UUID players : this.players) {
-                final Player online = Bukkit.getPlayer(players);
-                this.tournament.teleport(online, "TNTTag.Spawn");
-            }
-            this.tournament.setTournamentState(TournamentState.FIGHTING);
-            this.tournament.setProtection(10);
-            for (final UUID players : this.players) {
-                final Player online = Bukkit.getPlayer(players);
-                final PlayerInventory inventory = online.getInventory();
-                inventory.clear();
-                inventory.setItem(0, new ItemBuilder(Material.ENCHANTED_BOOK).displayName("&6Default Kit").lore("&7Right click to equip default kit").build());
+                inventory.setItem(0, new ItemBuilder(Material.ENCHANTED_BOOK).displayName(ColorText.translate("&6Default Kit")).lore(new String[] { ColorText.translate("&7Click derecho para equiparte el kit!") }).build());
                 online.updateInventory();
                 online.setGameMode(GameMode.SURVIVAL);
                 online.setAllowFlight(false);
