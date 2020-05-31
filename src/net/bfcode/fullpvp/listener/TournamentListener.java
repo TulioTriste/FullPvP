@@ -12,8 +12,10 @@ import net.bfcode.fullpvp.kit.event.KitApplyEvent;
 import net.bfcode.fullpvp.tournaments.Tournament;
 import net.bfcode.fullpvp.tournaments.TournamentState;
 import net.bfcode.fullpvp.tournaments.TournamentType;
+import net.bfcode.fullpvp.tournaments.file.TournamentFile;
 import net.bfcode.fullpvp.utilities.ColorText;
 import net.bfcode.fullpvp.utilities.ItemMaker;
+import net.bfcode.fullpvp.utilities.LocationUtils;
 import net.bfcode.fullpvp.utilities.Messager;
 
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -166,8 +168,8 @@ public class TournamentListener implements Listener {
             return;
         }
         final Player player = event.getPlayer();
-        if (this.plugin.getTournamentManager().getTournament() != null && this.plugin.getTournamentManager().getTournament().getTournamentState() == TournamentState.FIGHTING && this.plugin.getTournamentManager().isInTournament(player.getUniqueId())) {
-            if (this.plugin.getTournamentManager().getTournament().getType() == TournamentType.SUMO && player.getLocation().getBlock().getType().equals(Material.WATER) && !player.isDead()) {
+        if (this.plugin.getTournamentManager().getTournament() != null && this.plugin.getTournamentManager().isInTournament(player.getUniqueId())) {
+            if (this.plugin.getTournamentManager().getTournament().getType() == TournamentType.SUMO && player.getLocation().getBlockY() <= LocationUtils.getLocation(TournamentFile.getConfig().getString("Locations.Sumo.First")).getBlockY() - 2 && !player.isDead()) {
                 player.setHealth(0.0);
             }
         }

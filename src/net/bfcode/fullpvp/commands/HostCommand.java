@@ -7,26 +7,36 @@ import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.ItemStack;
-
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
 import com.sk89q.worldedit.bukkit.selections.CuboidSelection;
 
+import net.bfcode.fullpvp.FullPvP;
 import net.bfcode.fullpvp.configuration.LocationFile;
 import net.bfcode.fullpvp.listener.VanishListener;
 import net.bfcode.fullpvp.utilities.ColorText;
-import net.bfcode.fullpvp.utilities.InventoryMaker;
 import net.bfcode.fullpvp.utilities.ItemMaker;
+import net.bfcode.fullpvp.utilities.ItemStackBuilder;
 import net.bfcode.fullpvp.utilities.Messager;
 
 public class HostCommand implements CommandExecutor, Listener {
 	
-	private static String lastLineSumo;
-    private static String lastLineFFA;
+	public Inventory inventory;
+	private static String hostTitle;
 
+    static {
+    	hostTitle = ColorText.translate(FullPvP.getPlugin().getConfig().getString("Host-Menu.Title"));
+    }
+    
+    public HostCommand() {
+        this.inventory = Bukkit.createInventory(null, FullPvP.getPlugin().getConfig().getInt("Host-Menu.Slots"), hostTitle);
+    }
+    
 	public boolean onCommand(final CommandSender sender, final Command command, final String label, final String[] args) {
         if (!(sender instanceof Player)) {
             sender.sendMessage(ColorText.translate("&cDebes ser un jugador para ejecutar este comando."));
@@ -35,19 +45,16 @@ public class HostCommand implements CommandExecutor, Listener {
         final Player player = (Player)sender;
         if(StaffModeCommand.isMod(player) || VanishListener.isVanished(player)) {
         	Messager.player(player, "&cNo puedes hostear eventos en staff-mode.");
+        	return true;
         }
         LocationFile location = LocationFile.getConfig();
         for (final String claim : location.getConfigurationSection("Claims").getKeys(false)) {
             final CuboidSelection selection = new CuboidSelection(Bukkit.getWorld(location.getString("Claims." + claim + ".world")), HostCommand.this.getLocation(claim, "cornerA"), HostCommand.this.getLocation(claim, "cornerB"));
             final boolean isPvP = location.getBoolean("Claims." + claim + ".pvp");
-            if(selection.contains(player.getLocation()) && !StaffModeCommand.isMod(player)) {
-            	if(!isPvP) {
-            		player.sendMessage(ColorText.translate("&cNo puedes hostear Eventos en Zonas con PvP"));
-            		return true;
-            	}
-            	return true;
+            if(selection.contains(player.getLocation()) && !isPvP && !StaffModeCommand.isMod(player)) {
+        		player.sendMessage(ColorText.translate("&cNo puedes hostear Eventos en Zonas con PvP"));
+        		return true;
             }
-            return true;
         }
     	HostGUI(player);
         return true;
@@ -56,83 +63,28 @@ public class HostCommand implements CommandExecutor, Listener {
     @EventHandler
     public void onInventoryClick(final InventoryClickEvent event) {
         Player player = (Player)event.getWhoClicked();
-        if(event.getInventory().getTitle().equals("Host's")) {
+        if(event.getInventory().getTitle().equals(hostTitle)) {
         	if(event.getClickedInventory() == null || event.getInventory() != event.getClickedInventory()) {
         		return;
         	}
-        	if(event.getRawSlot() == 11 && player.hasPermission("tournament.sumo")) {
-        		player.performCommand("tournament create 24 sumo");
-        	}
-        	else if(event.getRawSlot() == 15 && player.hasPermission("tournament.ffa")) {
-        		player.performCommand("tournament create 24 ffa");
+        	for(int i = 1; i <= FullPvP.getPlugin().getConfig().getInt("Host-Menu.Slots") + 1; ++i) {
+        		if(event.getRawSlot() == i && player.hasPermission(FullPvP.getPlugin().getConfig().getString("Host-Menu.items." + i + ".Permission"))) {
+        			player.performCommand("/" + FullPvP.getPlugin().getConfig().getString("Host-Menu.items." + i + ".Start-Command"));
+        		}
         	}
             event.setCancelled(true);	
         }
     }
     
     public void HostGUI(Player player) {
-	    if(player.hasPermission("tournament.sumo")) {
-	   		 lastLineSumo = ColorText.translate("&aPuedes hostear este evento!");
-	   	} else {
-	   		 lastLineSumo = ColorText.translate("&cNo tienes permisos para hostear este evento!");
-	   	}
-		if(player.hasPermission("tournament.ffa")) {
-			 lastLineFFA = ColorText.translate("&aPuedes hostear este evento!");
-		} else {
-			 lastLineFFA = ColorText.translate("&cNo tienes permisos para hostear este evento!");
-		}
-		ItemStack NONE = new ItemMaker(Material.STAINED_GLASS_PANE).data((short)7).displayName(" ").create();
-		player.openInventory(new InventoryMaker(null, 3, "Host's")
-				.setItem(0, NONE)
-				.setItem(1, NONE)
-				.setItem(2, NONE)
-				.setItem(3, NONE)
-				.setItem(4, NONE)
-				.setItem(5, NONE)
-				.setItem(6, NONE)
-				.setItem(7, NONE)
-				.setItem(8, NONE)
-				.setItem(9, NONE)
-        		.setItem(10, NONE)
-        		.setItem(11, new ItemMaker(Material.RAW_FISH).displayName("&2&lSumo").lore(
-        				"&7&m-----------------------------------",
-                		"&eDescripción sobre este evento&7:",
-                		" &8* &7No debes ser tirado de la plataforma!",
-                		" &8* &7El ultimo que queda en pie gana!",
-                		"",
-                		"&ePremios del evento&7:",
-                		" &8+&f2 &7Event Key",
-                		"",
-                		"&eClick para hostear el evento de &2Sumo",
-                		"&7&m-----------------------------------",
-                		lastLineSumo).create())
-        		.setItem(12, NONE)
-        		.setItem(13, NONE)
-        		.setItem(14, NONE)
-        		.setItem(15, new ItemMaker(Material.DIAMOND_SWORD).displayName("&2&lFFA").lore(
-        				"&7&m-----------------------------------",
-                		"&eDescripción sobre este evento&7:",
-                		" &8* &7Tienes que combatir contra los demas enemigos!",
-                		" &8* &7El ultimo que queda en pie gana!",
-                		"",
-                		"&ePremios del evento&7:",
-                		" &8+&f2 &7Event Key",
-                		"",
-                		"&eClick para hostear el evento de &2FFA",
-                		"&7&m-----------------------------------",
-                		lastLineFFA).create())
-        		.setItem(16, NONE)
-        		.setItem(17, NONE)
-        		.setItem(18, NONE)
-        		.setItem(19, NONE)
-        		.setItem(20, NONE)
-        		.setItem(21, NONE)
-        		.setItem(22, NONE)
-        		.setItem(23, NONE)
-        		.setItem(24, NONE)
-        		.setItem(25, NONE)
-        		.setItem(26, NONE)
-        		.create());
+		FileConfiguration config = FullPvP.getPlugin().getConfig();
+
+    	for(int i = 1; i <= config.getConfigurationSection("Host-Menu.items").getKeys(true).size() + 1; ++i) {
+            HostCommand.this.inventory.setItem(config.getInt("Host-Menu.items." + i + ".slot"), new ItemStackBuilder(Material.COBBLESTONE).setName(config.getString("Host-Menu.items." + i + ".Name")).addLore((config.getStringList("Host-Menu.items." + i + ".Lore"))).build());
+    	}
+
+		player.openInventory(HostCommand.this.inventory);
+    	
     }
     
     public Location getLocation(final String town, final String corner) {

@@ -113,7 +113,7 @@ public class TournamentRunnable {
                                     TournamentRunnable.this.tournament.rollbackInventory(online2);
                                     TournamentRunnable.this.plugin.getTournamentManager().kickPlayer(online2.getUniqueId());
                                     online2.sendMessage(ColorText.translate("&c&lYou were kicked from the tournament for&7: &fThe event need more players"));
-                                    online2.teleport(Bukkit.getWorld("Mapa").getSpawnLocation());
+                                    online2.teleport(Bukkit.getWorld("World").getSpawnLocation());
                                 }
                             }
                         }

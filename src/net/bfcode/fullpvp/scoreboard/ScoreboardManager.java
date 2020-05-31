@@ -216,7 +216,7 @@ public class ScoreboardManager implements Listener {
 				                    					for(String clanlines : FullPvP.getPlugin().getConfig().getStringList("Scoreboard.Variables.Claims.Clan-info")) {
 				                    						clanlines = clanlines.replace("{name}", ClanHandler.getClan(player))
 				                    						.replace("{members-online}", ClanHandler.getClanMembers(clan) + "")
-				                    						.replace("{max-members}", ClanHandler.getMembers(clan));
+				                    						.replace("{max-members}", ClanHandler.getMinClanSize(clan) + "");
 				                    						lines.add(clanlines);
 				                    					}
 				                    				}
@@ -236,7 +236,7 @@ public class ScoreboardManager implements Listener {
 				                    					for(String clanlines : FullPvP.getPlugin().getConfig().getStringList("Scoreboard.Variables.Claims.Clan-info")) {
 				                    						clanlines = clanlines.replace("{name}", ClanHandler.getClan(player))
 				                    						.replace("{members-online}", ClanHandler.getClanMembers(clan) + "")
-				                    						.replace("{max-members}", ClanHandler.getMembers(clan));
+				                    						.replace("{max-members}", ClanHandler.getMinClanSize(clan) + "");
 				                    						lines.add(clanlines);
 				                    					}
 				                    				}
@@ -281,6 +281,7 @@ public class ScoreboardManager implements Listener {
 			                                    }
 		                            			fightingsumolines = fightingsumolines.replace("{first}", first)
 		                            					.replace("{second}", second);
+		                            			lines.add(fightingsumolines);
 		                            		}
 		                            	} else {
 		                            		for(String selectingsumolines : FullPvP.getPlugin().getConfig().getStringList("Scoreboard.Variables.Tournament.Sumo.Selecting")) {

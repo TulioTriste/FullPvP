@@ -48,6 +48,46 @@ Spawn:
    Combat-Tag: "&cYou can't teleport to spawn if you have &4&lCombat-Tag&c."
    Set-Spawn: "&aSpawn location has been successfully set."
    
+Host-Menu:
+  Title: "Host´s"
+  Slots: 27
+  items:
+    Sumo:
+       Name: "&6&lSumo"
+       Start-Command: "tournament create Sumo 24"
+       Winner-Command: "cr givekey {winner} Event 2"
+       Permission: "fullpvp.tournament.sumo"
+       Material: "1"
+       Slot: 11
+       Lore:
+         - "&7&m-----------------------------------"
+         - "&eDescripción sobre este evento&7:"
+         - " &8* &7Lucha hasta que uno caiga!"
+         - " &8* &7El ultimo que queda en pie gana!"
+         - ""
+         - "&ePremios del evento&7:"
+         - " &8+&f2 &7Event Key"
+         - ""
+         - "&eClick para hostear el evento de &6&lSumo"
+         - "&7&m-----------------------------------"
+    FFA:
+       Name: "&6&lFFA"
+       Start-Command: "tournament create FFA 64"
+       Winner-Command: "cr givekey {winner} Event 2"
+       Permission: "fullpvp.tournament.sumo"
+       Material: "2"
+       Slot: 12
+       Lore:
+         - "&7&m-----------------------------------"
+         - "&eDescripción sobre este evento&7:"
+         - " &8* &7Todos contra todos!"
+         - " &8* &7Se el mejor y se el ultimo en morir!"
+         - ""
+         - "&ePremios del evento&7:"
+         - " &8+&f2 &7Event Key"
+         - ""
+         - "&eClick para hostear el evento de &6&lFFA"
+         - "&7&m-----------------------------------"
 Scoreboard:
    Title: "&6&lFullPvP"
    Variables:

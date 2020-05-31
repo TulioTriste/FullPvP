@@ -79,7 +79,7 @@ public class TournamentManager {
         }
         if (player.isOnline()) {
             tournament.rollbackInventory(player);
-            player.teleport(Bukkit.getWorld("Mapa").getSpawnLocation());
+            player.teleport(Bukkit.getWorld("World").getSpawnLocation());
         }
         if (this.players.size() == 1) {
             final Player winner = Bukkit.getPlayer((UUID)this.players.get(0));
@@ -101,7 +101,7 @@ public class TournamentManager {
             	tournament.rollbackInventory(player);
                 if (this.plugin.getTournamentManager().isInTournament(online.getUniqueId())) {
                     this.players.remove(online.getUniqueId());
-                    online.teleport(Bukkit.getWorld("Mapa").getSpawnLocation());
+                    online.teleport(Bukkit.getWorld("World").getSpawnLocation());
                     tournament.rollbackInventory(player);
                     for (final PotionEffect effects2 : online.getActivePotionEffects()) {
                         online.removePotionEffect(effects2.getType());
