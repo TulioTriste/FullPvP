@@ -73,8 +73,6 @@ import net.bfcode.fullpvp.listener.CombatTagListener;
 import net.bfcode.fullpvp.listener.DeathListener;
 import net.bfcode.fullpvp.listener.EnderpearlListener;
 import net.bfcode.fullpvp.listener.FreezeListener;
-import net.bfcode.fullpvp.listener.GiveawayListener;
-import net.bfcode.fullpvp.listener.GunListener;
 import net.bfcode.fullpvp.listener.HeadLootListener;
 import net.bfcode.fullpvp.listener.PlayerListener;
 import net.bfcode.fullpvp.listener.PotionShopListener;
@@ -221,7 +219,6 @@ public class FullPvP extends JavaPlugin implements Listener {
         manager.registerEvents(new HostCommand(), this);
     	new RepairSignListener(this);
         new ClaimListener(this);
-        new GunListener(this);
         new ChestListener(this);
         new SellShopListener(this);
         new PotionShopListener(this);
@@ -229,7 +226,6 @@ public class FullPvP extends JavaPlugin implements Listener {
         new PlayerListener(this);
         new DTCListener(this);
         new ClanListener(this);
-        new GiveawayListener(this);
         new ArrowListener(this);
         new DeathListener(this);
         new ChatListener(this);
