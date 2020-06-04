@@ -1,9 +1,58 @@
-##################
-#   MEDIA LINKS  #
-##################
-Discord: "&6&lDiscord&7: &fdiscord.gg/your-invite"
-Store: "&6&lStore: &fstore.bfcode.net"
-Teamspeak: "&6&lTeamspeak: &fts.bfcode.net"
-Twitter: "&6&lTwitter: &ftwitter.com/bfcode"
-Website: "&6&lWebsite: &fbfcode.net"
-
+Discord:
+  - "&7&m-------------------------------------------"
+  - "&6&lDiscord&7: &fdiscord.gg/aRTsTHJ"
+  - "&7&m-------------------------------------------"
+Store:
+  - "&7&m-------------------------------------------"
+  - "&6&lStore: &fstore.bfcode.net"
+  - "&7&m-------------------------------------------"
+Teamspeak:
+  - "&7&m-------------------------------------------"
+  - "&6&lTeamspeak: &fts.bfcode.net"
+  - "&7&m-------------------------------------------"
+Twitter:
+  - "&7&m-------------------------------------------"
+  - "&6&lTwitter: &ftwitter.com/bfcode"
+  - "&7&m-------------------------------------------"
+Website:
+  - "&7&m-------------------------------------------"
+  - "&6&lWebsite: &fbfcode.net"
+  - "&7&m-------------------------------------------"
+Broadcast-Prefix: "&7[&6&lFullPvP&7] "
+No-Permission: "&cYou don't have permission to execute this command."
+Host-with-StaffMode: "&cYou are not host event with StaffMode."
+Host-in-noZone: "&cYou are not host event in Zone with PvP"
+ChatClear-message: "&eChat has been cleared by &d{player}&e."
+StaffMode-Enable: "&6&lStaffmode&e enable."
+StaffMode-Disable: "&6&lStaffmode&c disabled."
+StaffMode-Enable-Otherplayer: "&7You have &cdisabled &7{player}'s &e&lStaff Mode"
+StaffMode-Disable-Otherplayer: "&7You have &aenabled &7{player}'s &e&lStaff Mode"
+Destroy-The-Core:
+   Started: "&6&l{dtc} &ehas been &astarted &eby &d{player}&e."
+   Stopped: "&6&l{dtc} &ehas been &cstopped &eby &d{player}&e."
+   Destroyed: "&d{player} &ehas destroyed a piece of &6&l{dtc} &7(&ePoints&7: &f{points}&7)"
+   Destroyed-Core: "&6&l{dtc} &ehas been destroyed by &d{player}&e."
+freeze-message:
+  - "&7&m-------------------------------------"
+  - "&f\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588"
+  - "&f\u2588\u2588\u2588\u2588&4\u2588&f\u2588\u2588\u2588\u2588"
+  - "&f\u2588\u2588\u2588&4\u2588&6\u2588&4\u2588&f\u2588\u2588\u2588     &eHas sido frozeado por un miembro del staff"
+  - "&f\u2588\u2588&4\u2588&6\u2588&0\u2588&6\u2588&4\u2588&f\u2588\u2588        &eSi te desconectas seras &4&lBANEADO"
+  - "&f\u2588&4\u2588&6\u2588&6\u2588&0\u2588&6\u2588&6\u2588&4\u2588&f\u2588   &ePor favor obedece las instrucciones del staff"
+  - "&f\u2588&4\u2588&6\u2588&6\u2588&6\u2588&6\u2588&6\u2588&4\u2588&f\u2588"
+  - "&4\u2588&6\u2588&6\u2588&6\u2588&0\u2588&6\u2588&6\u2588&6\u2588&4\u2588"
+  - "&4\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588"
+  - "&f\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588"
+  - "&7&m-------------------------------------"
+stats-command:
+  - "&7&m--------------------------------"
+  - "&6{player} &eStatistic"
+  - ""
+  - "&8 &eKills&7: &f{kills}"
+  - "&8 &eDeaths&7: &f{deaths}"
+  - "&8 &eMoney&7: &2${balance}"
+  - "&7&m--------------------------------"
+list-command:
+  - ""
+  - "&aActualmente hay &2&l{online} &ajugadores conectados!"
+  - ""

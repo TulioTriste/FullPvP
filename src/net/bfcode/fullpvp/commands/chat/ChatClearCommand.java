@@ -5,20 +5,23 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
+import net.bfcode.fullpvp.configuration.MessagesFile;
 import net.bfcode.fullpvp.utilities.ColorText;
-import net.md_5.bungee.api.ChatColor;
+import net.bfcode.fullpvp.utilities.Utils;
 
 public class ChatClearCommand implements CommandExecutor {
+	
 	public boolean onCommand(final CommandSender sender, final Command command, final String label, final String[] args) {
+		MessagesFile messages = MessagesFile.getConfig();
         if (!sender.hasPermission("fullpvp.command.chatclear")) {
-            sender.sendMessage(ChatColor.RED + "You do not have permission to execute this command.");
+            sender.sendMessage(Utils.NO_PERMISSION);
             return true;
         } else {
-        	for (int i = 0; i < 100; ++i) {
+        	for (int i = 0; i < 150; ++i) {
             	Bukkit.broadcastMessage("");
         	}
     	}
-        Bukkit.broadcastMessage(ColorText.translate("&eChat has been cleared by &d" + sender.getName() + "&e."));
+        Bukkit.broadcastMessage(ColorText.translate(messages.getString("ChatClear-message").replace("{player}", sender.getName())));
 	return true;
 	}
 }

@@ -8,6 +8,7 @@ import java.util.Set;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Player;
@@ -15,26 +16,21 @@ import org.bukkit.potion.PotionEffectType;
 
 import com.google.common.collect.ImmutableSet;
 
-import net.bfcode.fullpvp.commands.BaseCommand;
 import net.bfcode.fullpvp.utilities.BaseConstants;
 import net.bfcode.fullpvp.utilities.BukkitUtils;
-import net.bfcode.fullpvp.utilities.ColorText;
+import net.bfcode.fullpvp.utilities.Utils;
 
 @SuppressWarnings({ "unchecked", "rawtypes" })
-public class HealCommand extends BaseCommand {
+public class HealCommand implements CommandExecutor {
+	
     private static final Set<PotionEffectType> HEALING_REMOVEABLE_POTION_EFFECTS;
-    
-    public HealCommand() {
-        super("heal", "Heals a player.");
-        this.setUsage("/(command) <playerName>");
-    }
     
 	@Override
     public boolean onCommand(final CommandSender sender, final Command command, final String label, final String[] args) {
         Player onlyTarget = null;
         Collection<Player> targets;
         if (!sender.hasPermission("fullpvp.command.heal")) {
-			sender.sendMessage(ColorText.translate("&cYou don't have permission to execute this command."));
+			sender.sendMessage(Utils.NO_PERMISSION);
 			return true;
 		}
         if (args.length > 0 && sender.hasPermission(command.getPermission() + ".others")) {
@@ -42,7 +38,7 @@ public class HealCommand extends BaseCommand {
                 targets = (Collection<Player>)ImmutableSet.copyOf(Bukkit.getOnlinePlayers());
             }
             else {
-                if ((onlyTarget = BukkitUtils.playerWithNameOrUUID(args[0])) == null || !BaseCommand.canSee(sender, onlyTarget)) {
+                if ((onlyTarget = BukkitUtils.playerWithNameOrUUID(args[0])) == null) {
                     sender.sendMessage(String.format(BaseConstants.PLAYER_WITH_NAME_OR_UUID_NOT_FOUND, args[0]));
                     return true;
                 }
@@ -51,9 +47,10 @@ public class HealCommand extends BaseCommand {
         }
         else {
             if (!(sender instanceof Player)) {
-                sender.sendMessage(this.getUsage(label));
+                sender.sendMessage(Utils.MUST_BE_PLAYER);
                 return true;
             }
+            sender.sendMessage(ChatColor.RED + "Usage: /" + label + "(command) <playerName>");
             targets = (Collection<Player>)ImmutableSet.of((onlyTarget = (Player)sender));
         }
         final double maxHealth;
@@ -72,7 +69,6 @@ public class HealCommand extends BaseCommand {
         return true;
     }
     
-    @Override
     public List<String> onTabComplete(final CommandSender sender, final Command command, final String label, final String[] args) {
         return (args.length == 1) ? null : Collections.emptyList();
     }

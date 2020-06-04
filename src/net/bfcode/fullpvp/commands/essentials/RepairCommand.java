@@ -8,18 +8,19 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import net.bfcode.fullpvp.utilities.ColorText;
+import net.bfcode.fullpvp.utilities.Utils;
 
 public class RepairCommand implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (!(sender instanceof Player)) {
-			sender.sendMessage(ColorText.translate("&cThis command is only executed by players."));
+			sender.sendMessage(Utils.MUST_BE_PLAYER);
 			return true;
 		}
 		Player player = (Player) sender;
 		if (!player.hasPermission("fullpvp.command.repair")) {
-			player.sendMessage(ColorText.translate("&cYou don't have permission to execute this command."));
+			player.sendMessage(Utils.NO_PERMISSION);
 			return true;
 		}
 		ItemStack berepaired = player.getItemInHand();

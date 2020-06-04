@@ -10,13 +10,14 @@ import org.bukkit.scheduler.BukkitRunnable;
 import net.bfcode.fullpvp.FullPvP;
 import net.bfcode.fullpvp.kit.event.KitApplyEvent;
 import net.bfcode.fullpvp.tournaments.Tournament;
+import net.bfcode.fullpvp.tournaments.TournamentManager;
 import net.bfcode.fullpvp.tournaments.TournamentState;
 import net.bfcode.fullpvp.tournaments.TournamentType;
 import net.bfcode.fullpvp.tournaments.file.TournamentFile;
 import net.bfcode.fullpvp.utilities.ColorText;
 import net.bfcode.fullpvp.utilities.ItemMaker;
 import net.bfcode.fullpvp.utilities.LocationUtils;
-import net.bfcode.fullpvp.utilities.Messager;
+import net.minecraft.server.v1_8_R3.EntityLiving;
 
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -31,6 +32,8 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.Material;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -75,7 +78,7 @@ public class TournamentListener implements Listener {
         final Player player = event.getPlayer();
         if (this.plugin.getTournamentManager().isInTournament(player) && (event.getMessage().equalsIgnoreCase("/staff") || event.getMessage().equalsIgnoreCase("/mod") || event.getMessage().equalsIgnoreCase("/v") || event.getMessage().equalsIgnoreCase("/vanish") || event.getMessage().equalsIgnoreCase("/hcf:staff") || event.getMessage().equalsIgnoreCase("/hcf:vanish") || event.getMessage().equalsIgnoreCase("/hcf:mod") || event.getMessage().equalsIgnoreCase("/hcf:v") || event.getMessage().equalsIgnoreCase("/f") || event.getMessage().equalsIgnoreCase("hcf:/spawn") || event.getMessage().equalsIgnoreCase("/spawn") || event.getMessage().equalsIgnoreCase("/enderchest") || event.getMessage().equalsIgnoreCase("/ec") || event.getMessage().equalsIgnoreCase("/echest") || event.getMessage().equalsIgnoreCase("/chest") || event.getMessage().equalsIgnoreCase("/pv") || event.getMessage().equalsIgnoreCase("/playervault") || event.getMessage().equalsIgnoreCase("/faction") || event.getMessage().equalsIgnoreCase("/f") || event.getMessage().equalsIgnoreCase("/fac") || event.getMessage().equalsIgnoreCase("/f home") || event.getMessage().equalsIgnoreCase("/fac home") || event.getMessage().equalsIgnoreCase("/faction home") || event.getMessage().equalsIgnoreCase("/kit") || event.getMessage().equalsIgnoreCase("/gkit") || event.getMessage().equalsIgnoreCase("/kits") || event.getMessage().equalsIgnoreCase("/reclaim") || event.getMessage().equalsIgnoreCase("/more") || event.getMessage().equalsIgnoreCase("/feed") || event.getMessage().equalsIgnoreCase("/heal") || event.getMessage().equalsIgnoreCase("/rename") || event.getMessage().equalsIgnoreCase("/reclaim") || event.getMessage().equalsIgnoreCase("/fix") || event.getMessage().equalsIgnoreCase("/repair") || event.getMessage().contains("/ec") || event.getMessage().contains("/enderchest") || event.getMessage().equalsIgnoreCase("/fixall"))) {
             event.setCancelled(true);
-            Messager.player(player, "&cNo puedes usar este comando en el evento.");
+            player.sendMessage(ColorText.translate("&cNo puedes usar este comando en el evento."));
         }
     }
     
@@ -183,9 +186,21 @@ public class TournamentListener implements Listener {
                 public void run() {
                     TournamentListener.this.plugin.getTournamentManager().playerLeft(TournamentListener.this.plugin.getTournamentManager().getTournament(), player, false);
                 }
-            }.runTaskLater((Plugin)this.plugin, 20L);
+            }.runTaskLater(this.plugin, 20L);
         }
         final Tournament tournament = this.plugin.getTournamentManager().getTournament();
+        if(player.getKiller() == null) {
+        	Player first = tournament.getFirstPlayer();
+        	Player second = tournament.getSecondPlayer();
+        	if(FullPvP.getPlugin().getTournamentManager().isInTournament(first)) {
+        		tournament.teleport(first, "Sumo.Spawn");
+        	} else if(FullPvP.getPlugin().getTournamentManager().isInTournament(second)) {
+        		tournament.teleport(second, "Sumo.Spawn");
+        	}
+        }
+        else if(player.getKiller() instanceof Player && plugin.getTournamentManager().isInTournament(player.getKiller())) {
+            tournament.teleport(player.getKiller(), "Sumo.Spawn");	
+        }
         if (this.plugin.getTournamentManager().isInTournament(player) && (tournament.getType() == TournamentType.FFA)) {
             event.getDrops().clear();
         }

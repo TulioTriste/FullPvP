@@ -28,6 +28,7 @@ commands:
    points:
      aliases: [dp, dragonpoints]
    tournament:
+     aliases: [tour]
    host:
      aliases: [event]
    staffmode:
@@ -71,9 +72,6 @@ commands:
    claim:
       description: null
       aliases: [claimset, claimcreate, createclaim]
-   gun:
-      description: Get Hoe Guns
-      aliases: [hoegun, gunhoe]
    headloot:
       description: Give a HeadLoot, to receive a good loot
       aliases: [hl]
@@ -83,6 +81,4 @@ commands:
    dtc:
       description: Destroy The Core Event
       aliases: [destroythecore]
-   clan:
-   giveaway:
-      aliases: [ga]
+   clan: 

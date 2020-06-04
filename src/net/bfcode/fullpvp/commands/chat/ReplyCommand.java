@@ -9,6 +9,7 @@ import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -16,24 +17,20 @@ import org.bukkit.event.Event;
 import com.google.common.collect.Sets;
 
 import net.bfcode.fullpvp.FullPvP;
-import net.bfcode.fullpvp.commands.BaseCommand;
 import net.bfcode.fullpvp.event.PlayerMessageEvent;
 import net.bfcode.fullpvp.utilities.user.BaseUser;
 
-public class ReplyCommand extends BaseCommand {
+public class ReplyCommand implements CommandExecutor {
 	
     private static long VANISH_REPLY_TIMEOUT;
     private FullPvP plugin;
     
     public ReplyCommand(FullPvP plugin) {
-        super("reply", "Replies to the last conversing player.");
-        this.setAliases(new String[] { "r" });
-        this.setUsage("/(command) <message>");
         this.plugin = plugin;
     }
     
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @Override
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player)) {
             sender.sendMessage(ChatColor.RED + "This command is only executable for players.");
@@ -45,14 +42,14 @@ public class ReplyCommand extends BaseCommand {
         UUID lastReplied = baseUser.getLastRepliedTo();
         Player target = ((lastReplied == null) ? null : Bukkit.getPlayer(lastReplied));
         if (args.length < 1) {
-            sender.sendMessage(ChatColor.RED + "Usage: " + this.getUsage(label));
-            if (lastReplied != null && BaseCommand.canSee(sender, target)) {
+            sender.sendMessage(ChatColor.RED + "Usage: /" + label + " <message>");
+            if (lastReplied != null) {
                 sender.sendMessage(ChatColor.RED + "You are in a conversation with " + target.getName() + '.');
             }
             return true;
         }
         long millis = System.currentTimeMillis();
-        if (target == null || (!BaseCommand.canSee(sender, target) && millis - baseUser.getLastReceivedMessageMillis() > ReplyCommand.VANISH_REPLY_TIMEOUT)) {
+        if (target == null || millis - baseUser.getLastReceivedMessageMillis() > ReplyCommand.VANISH_REPLY_TIMEOUT) {
             sender.sendMessage(ChatColor.RED + "There is no player to reply to.");
             return true;
         }
@@ -66,7 +63,6 @@ public class ReplyCommand extends BaseCommand {
         return true;
     }
     
-    @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
         return null;
     }

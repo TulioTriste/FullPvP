@@ -2,35 +2,27 @@ package net.bfcode.fullpvp.commands.essentials;
 
 import org.bukkit.inventory.ItemStack;
 
-import net.bfcode.fullpvp.commands.BaseCommand;
 import net.bfcode.fullpvp.utilities.ColorText;
 import net.bfcode.fullpvp.utilities.Ints;
+import net.bfcode.fullpvp.utilities.Utils;
 
 import org.bukkit.Material;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-public class MoreCommand extends BaseCommand {
-    public MoreCommand() {
-        super("more", "Sets your item to its maximum amount.");
-        this.setUsage("/(command)");
-    }
-    
-    @Override
-    public boolean isPlayerOnlyCommand() {
-        return true;
-    }
+public class MoreCommand implements CommandExecutor {
     
     @Override
     public boolean onCommand(final CommandSender sender, final Command command, final String label, final String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(ChatColor.RED + "This command is only executable for players.");
+            sender.sendMessage(Utils.MUST_BE_PLAYER);
             return true;
         }
         if (!sender.hasPermission("fullpvp.command.more")) {
-			sender.sendMessage(ColorText.translate("&cYou don't have permission to execute this command."));
+			sender.sendMessage(Utils.NO_PERMISSION);
 			return true;
 		}
         final Player player = (Player)sender;

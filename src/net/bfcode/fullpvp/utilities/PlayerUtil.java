@@ -49,6 +49,22 @@ public final class PlayerUtil {
         player.removePotionEffect(PotionEffectType.BLINDNESS);
     }
     
+    public static void startingSumo(final Player player) {
+        player.setWalkSpeed(0.0f);
+        player.setFlySpeed(0.0f);
+        player.setFoodLevel(1);
+        player.setSprinting(false);
+        player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, Integer.MAX_VALUE, 200));
+    }
+    
+    public static void fightingSumo(final Player player) {
+        player.setWalkSpeed(0.2f);
+        player.setFlySpeed(0.1f);
+        player.setFoodLevel(20);
+        player.setSprinting(true);
+        player.removePotionEffect(PotionEffectType.JUMP);
+    }
+    
     public static void clearPlayer(final Player player) {
         player.setHealth(20.0);
         player.setFoodLevel(20);

@@ -7,19 +7,16 @@ import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import net.bfcode.fullpvp.commands.BaseCommand;
 import net.bfcode.fullpvp.utilities.ColorText;
+import net.bfcode.fullpvp.utilities.Utils;
 
-public class RenameCommand extends BaseCommand {
-    public RenameCommand() {
-        super("rename", "Rename your held item.");
-        this.setUsage("/(command) <newItemName>");
-    }
+public class RenameCommand implements CommandExecutor {
     
     @Override
     public boolean onCommand(final CommandSender sender, final Command command, final String label, final String[] args) {
@@ -28,11 +25,11 @@ public class RenameCommand extends BaseCommand {
             return true;
         }
         if (!sender.hasPermission("fullpvp.command.rename")) {
-			sender.sendMessage(ColorText.translate("&cYou don't have permission to execute this command."));
+			sender.sendMessage(Utils.NO_PERMISSION);
 			return true;
 		}
         if (args.length < 1) {
-            sender.sendMessage(this.getUsage(label));
+            sender.sendMessage(ChatColor.RED + "Usage: /" + label + " <newItemName>");
             return true;
         }
         final Player player = (Player)sender;
@@ -68,7 +65,6 @@ public class RenameCommand extends BaseCommand {
         return true;
     }
     
-    @Override
     public List<String> onTabComplete(final CommandSender sender, final Command command, final String label, final String[] args) {
         return Collections.emptyList();
     }

@@ -8,20 +8,16 @@ import java.util.Locale;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import net.bfcode.fullpvp.commands.BaseCommand;
 import net.bfcode.fullpvp.utilities.BaseConstants;
 import net.bfcode.fullpvp.utilities.BukkitUtils;
 import net.bfcode.fullpvp.utilities.ColorText;
+import net.bfcode.fullpvp.utilities.Utils;
 
-public class GamemodeCommand extends BaseCommand {
-    public GamemodeCommand() {
-        super("gamemode", "Sets a gamemode for a player.");
-        this.setAliases(new String[] { "gm" });
-        this.setUsage("/(command) <modeName> [playerName]");
-    }
+public class GamemodeCommand implements CommandExecutor {
     
     @Override
     public boolean onCommand(final CommandSender sender, final Command command, final String label, final String[] args) {
@@ -30,7 +26,7 @@ public class GamemodeCommand extends BaseCommand {
             return true;
         }
         if (args.length < 1) {
-            sender.sendMessage(this.getUsage(label));
+            sender.sendMessage(ChatColor.RED + "Usage: /" + label + " <modeName> [playerName]");
             return true;
         }
         final GameMode mode = this.getGameModeByName(args[0]);
@@ -44,12 +40,12 @@ public class GamemodeCommand extends BaseCommand {
         }
         else {
             if (!(sender instanceof Player)) {
-                sender.sendMessage(this.getUsage(label));
+                sender.sendMessage(Utils.MUST_BE_PLAYER);
                 return true;
             }
             target = (Player)sender;
         }
-        if (target == null || !BaseCommand.canSee(sender, target)) {
+        if (target == null) {
             sender.sendMessage(String.format(BaseConstants.PLAYER_WITH_NAME_OR_UUID_NOT_FOUND, args[1]));
             return true;
         }
@@ -62,7 +58,6 @@ public class GamemodeCommand extends BaseCommand {
         return true;
     }
     
-    @Override
     public List<String> onTabComplete(final CommandSender sender, final Command command, final String label, final String[] args) {
         if (args.length != 1) {
             return Collections.emptyList();

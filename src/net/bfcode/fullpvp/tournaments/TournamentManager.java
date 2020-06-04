@@ -11,8 +11,10 @@ import net.bfcode.fullpvp.FullPvP;
 import net.bfcode.fullpvp.tournaments.runnable.TournamentRunnable;
 import net.bfcode.fullpvp.utilities.ColorText;
 import net.bfcode.fullpvp.utilities.ItemBuilder;
+import net.bfcode.fullpvp.utilities.PlayerUtil;
 
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -108,11 +110,10 @@ public class TournamentManager {
                     }
                 }
             }
-            if (this.getTournament().getType() == TournamentType.SUMO) {
-                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), FullPvP.getPlugin().getConfig().getString("Host-Menu.items.Sumo.Winner-Command").replace("{winner}", winner.getName()));
-            }
-            else if (this.getTournament().getType() == TournamentType.FFA) {
-                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), FullPvP.getPlugin().getConfig().getString("Host-Menu.items.FFA.Winner-Command").replace("{winner}", winner.getName()));
+            
+            ConfigurationSection config = FullPvP.getPlugin().getConfig().getConfigurationSection("Host-Menu.items");
+            for(int i = 1; i <= config.getKeys(false).size(); ++i) {
+            	Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), config.getString("." + i + ".Winner-Command"));
             }
         }
         else if (this.players.size() == 0) {
@@ -126,6 +127,7 @@ public class TournamentManager {
                 runnable.startSumo();
             }
         }
+        PlayerUtil.startingSumo(player);
     }
     
     public void leaveTournament(final Player player) {

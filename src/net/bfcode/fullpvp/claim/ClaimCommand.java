@@ -25,7 +25,7 @@ public class ClaimCommand implements CommandExecutor {
             return true;
         }
         final Player player = (Player)sender;
-        if (!player.hasPermission(Utils.PERMISSION + "claim")) {
+        if (!player.hasPermission("fullpvp.command.claim")) {
             player.sendMessage(Utils.NO_PERMISSION);
             return true;
         }

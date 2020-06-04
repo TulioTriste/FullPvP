@@ -8,7 +8,7 @@ import net.bfcode.fullpvp.FullPvP;
 import net.bfcode.fullpvp.tournaments.Tournament;
 import net.bfcode.fullpvp.utilities.ColorText;
 import net.bfcode.fullpvp.utilities.CommandArgument;
-import net.bfcode.fullpvp.utilities.Messager;
+import net.bfcode.fullpvp.utilities.Utils;
 
 public class TournamentLeaveArgument extends CommandArgument
 {
@@ -17,7 +17,7 @@ public class TournamentLeaveArgument extends CommandArgument
     public TournamentLeaveArgument() {
         super("leave", "Leave from the tournament");
         this.plugin = FullPvP.getPlugin();
-        this.permission = "tournament.default";
+        this.permission = "fullpvp.command.tournament.argument.leave";
     }
     
     public String getUsage(final String label) {
@@ -26,7 +26,7 @@ public class TournamentLeaveArgument extends CommandArgument
     
     public boolean onCommand(final CommandSender sender, final Command command, final String label, final String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(ColorText.translate("&cYou must be player to execute this command."));
+            sender.sendMessage(Utils.NO_PERMISSION);
             return true;
         }
         final Player player = (Player)sender;
@@ -36,7 +36,7 @@ public class TournamentLeaveArgument extends CommandArgument
                 player.sendMessage(ColorText.translate("&cYou are not playing in the tournament."));
             }
             else if (tournament.getHoster().getName().equalsIgnoreCase(player.getName())) {
-                Messager.player(player, "&cYou cannot leave from your tournament!");
+                player.sendMessage(ColorText.translate("&cYou cannot leave from your tournament!"));
             }else{
             	this.plugin.getTournamentManager().leaveTournament(player);
             }

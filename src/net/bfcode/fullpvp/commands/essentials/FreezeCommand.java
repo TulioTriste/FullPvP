@@ -31,12 +31,13 @@ import org.bukkit.plugin.Plugin;
 import gnu.trove.map.TObjectLongMap;
 import gnu.trove.map.hash.TObjectLongHashMap;
 import net.bfcode.fullpvp.FullPvP;
-import net.bfcode.fullpvp.commands.BaseCommand;
+import net.bfcode.fullpvp.configuration.MessagesFile;
 import net.bfcode.fullpvp.event.PlayerFreezeEvent;
 import net.bfcode.fullpvp.utilities.BaseConstants;
 import net.bfcode.fullpvp.utilities.BukkitUtils;
 import net.bfcode.fullpvp.utilities.ColorText;
 import net.bfcode.fullpvp.utilities.PlayerUtil;
+import net.bfcode.fullpvp.utilities.Utils;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -44,6 +45,7 @@ import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 
 public class FreezeCommand implements Listener, Runnable, CommandExecutor {
+	
     private static final String FREEZE_BYPASS = "fullpvp.command.freeze.bypass";
     private final TObjectLongMap<UUID> frozenPlayers = new TObjectLongHashMap<>();
     private final Set<UUID> inventoryUnlock = new HashSet<>();
@@ -63,17 +65,17 @@ public class FreezeCommand implements Listener, Runnable, CommandExecutor {
     
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
     	if (!sender.hasPermission("fullpvp.command.freeze")) {
-			sender.sendMessage(ColorText.translate("&cYou don't have permission to execute this command."));
+			sender.sendMessage(Utils.NO_PERMISSION);
 			return true;
 		}
         if (args.length < 1) {
-            sender.sendMessage(ColorText.translate("&cUsage: /freeze <all|player>"));
+            sender.sendMessage(ColorText.translate("&cUsage: /" + label + " <all|player>"));
         }
         else {
             Long freezeTicks = this.defaultFreezeDuration;
             long millis = System.currentTimeMillis();
             Player target = Bukkit.getServer().getPlayer(args[0]);
-            if (target == null || !BaseCommand.canSee(sender, target)) {
+            if (target == null) {
                 sender.sendMessage(String.format(BaseConstants.PLAYER_WITH_NAME_OR_UUID_NOT_FOUND, args[0]));
                 return true;
             }
@@ -102,17 +104,10 @@ public class FreezeCommand implements Listener, Runnable, CommandExecutor {
                 this.frozenPlayers.put(targetUUID, millis + freezeTicks);
                 String timeString = DurationFormatUtils.formatDurationWords(freezeTicks, true, true);
                 PlayerUtil.denyMovement(target);
-                target.sendMessage(ChatColor.GRAY + ChatColor.STRIKETHROUGH.toString() + BukkitUtils.STRAIGHT_LINE_DEFAULT.substring(0, 37));
-                target.sendMessage(ChatColor.translateAlternateColorCodes('&', "&f\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588"));
-                target.sendMessage(ChatColor.translateAlternateColorCodes('&', "&f\u2588\u2588\u2588\u2588&4\u2588&f\u2588\u2588\u2588\u2588"));
-                target.sendMessage(ChatColor.translateAlternateColorCodes('&', "&f\u2588\u2588\u2588&4\u2588&6\u2588&4\u2588&f\u2588\u2588\u2588     &eHas sido frozeado por un miembro del staff"));
-                target.sendMessage(ChatColor.translateAlternateColorCodes('&', "&f\u2588\u2588&4\u2588&6\u2588&0\u2588&6\u2588&4\u2588&f\u2588\u2588        &eSi te desconectas seras &4&lBANEADO"));
-                target.sendMessage(ChatColor.translateAlternateColorCodes('&', "&f\u2588&4\u2588&6\u2588&6\u2588&0\u2588&6\u2588&6\u2588&4\u2588&f\u2588   &ePor favor obedece las instrucciones del staff"));
-                target.sendMessage(ChatColor.translateAlternateColorCodes('&', "&f\u2588&4\u2588&6\u2588&6\u2588&6\u2588&6\u2588&6\u2588&4\u2588&f\u2588"));
-                target.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4\u2588&6\u2588&6\u2588&6\u2588&0\u2588&6\u2588&6\u2588&6\u2588&4\u2588"));
-                target.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588"));
-                target.sendMessage(ChatColor.translateAlternateColorCodes('&', "&f\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588"));
-                target.sendMessage(ChatColor.GRAY + ChatColor.STRIKETHROUGH.toString() + BukkitUtils.STRAIGHT_LINE_DEFAULT.substring(0, 37));
+                MessagesFile messages = MessagesFile.getConfig();
+                for(String msg : messages.getStringList("freeze-message")) {
+                	target.sendMessage(ColorText.translate(msg));
+                }
                 Command.broadcastCommandMessage(sender, (ChatColor.YELLOW + target.getName() + " is now frozen for " + timeString));
             }
         }
@@ -127,18 +122,9 @@ public class FreezeCommand implements Listener, Runnable, CommandExecutor {
             Player player = Bukkit.getPlayer(uuid);
             if(player != null) {
                 if (i % (10 * 20) == 0) {
-                    player.sendMessage(ChatColor.GRAY + ChatColor.STRIKETHROUGH.toString() + BukkitUtils.STRAIGHT_LINE_DEFAULT.substring(0, 37));
-                    player.sendMessage(ChatColor.GRAY + ChatColor.STRIKETHROUGH.toString() + BukkitUtils.STRAIGHT_LINE_DEFAULT.substring(0, 37));
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&f\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588"));
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&f\u2588\u2588\u2588\u2588&4\u2588&f\u2588\u2588\u2588\u2588"));
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&f\u2588\u2588\u2588&4\u2588&6\u2588&4\u2588&f\u2588\u2588\u2588     &eHas sido frozeado por un miembro del staff"));
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&f\u2588\u2588&4\u2588&6\u2588&0\u2588&6\u2588&4\u2588&f\u2588\u2588        &eSi te desconectas seras &4&lBANEADO"));
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&f\u2588&4\u2588&6\u2588&6\u2588&0\u2588&6\u2588&6\u2588&4\u2588&f\u2588   &ePor favor obedece las instrucciones del staff"));
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&f\u2588&4\u2588&6\u2588&6\u2588&6\u2588&6\u2588&6\u2588&4\u2588&f\u2588"));
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4\u2588&6\u2588&6\u2588&6\u2588&0\u2588&6\u2588&6\u2588&6\u2588&4\u2588"));
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588"));
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&f\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588"));
-                    player.sendMessage(ChatColor.GRAY + ChatColor.STRIKETHROUGH.toString() + BukkitUtils.STRAIGHT_LINE_DEFAULT.substring(0, 37));
+                	for(String msg : MessagesFile.getConfig().getStringList("freeze-message")) {
+                		player.sendMessage(ColorText.translate(msg));
+                	}
                 }
             }
         }

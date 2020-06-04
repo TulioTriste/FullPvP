@@ -15,6 +15,7 @@ import net.bfcode.fullpvp.utilities.ColorText;
 import net.bfcode.fullpvp.utilities.CommandArgument;
 import net.bfcode.fullpvp.utilities.Cooldowns;
 import net.bfcode.fullpvp.utilities.Ints;
+import net.bfcode.fullpvp.utilities.Utils;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 
@@ -27,7 +28,7 @@ public class TournamentCreateArgument extends CommandArgument {
     public TournamentCreateArgument() {
         super("create", "Create a tournament");
         this.plugin = FullPvP.getPlugin();
-        this.permission = "tournament.vip";
+        this.permission = "fullpvp.command.tournament.argument.create";
     }
     
     public String getUsage(final String label) {
@@ -37,7 +38,7 @@ public class TournamentCreateArgument extends CommandArgument {
 	public boolean onCommand(final CommandSender sender, final Command command, final String label, final String[] args) {
         final Player player = (Player)sender;
         if (!(sender instanceof Player)) {
-            sender.sendMessage(ColorText.translate("&cYou must be player to execute this command."));
+            sender.sendMessage(Utils.MUST_BE_PLAYER);
             return true;
         }
         if (Cooldowns.isOnCooldown("TOURNAMENT_COOLDOWN", player) && !player.isOp() && !player.hasPermission("tournament.cooldown.bypass")) {
@@ -79,7 +80,7 @@ public class TournamentCreateArgument extends CommandArgument {
                     Tournament tournament = FullPvP.getPlugin().getTournamentManager().getTournament();
                     TextComponent mensaje = new TextComponent();
                     mensaje.setText(ColorText.translate("&2&l" + type.getName() + " &fhosted by &r" + name + " &7(" + "&a" + tournament.getPlayers().size() + "&7/&a" + tournament.getSize() + "&7)" + " &a!Click to join¡"));
-                    mensaje.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/host join"));
+                    mensaje.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tour join"));
                     online.sendMessage(mensaje);
                 }
                 new TournamentRunnable(this.plugin.getTournamentManager().getTournament()).runAnnounce();

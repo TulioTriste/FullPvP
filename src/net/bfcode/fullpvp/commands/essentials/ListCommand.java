@@ -6,6 +6,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import net.bfcode.fullpvp.configuration.MessagesFile;
 import net.bfcode.fullpvp.utilities.ColorText;
 
 public class ListCommand implements CommandExecutor {
@@ -13,9 +14,9 @@ public class ListCommand implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		Player player = (Player)sender;
-		player.sendMessage("");
-		player.sendMessage(ColorText.translate("&aActualmente hay &2&l" + Bukkit.getOnlinePlayers().size() + " &ajugadores conectados!"));
-		player.sendMessage("");
+		for(String msg : MessagesFile.getConfig().getStringList("list-command")) {
+			player.sendMessage(ColorText.translate(msg).replace("{online}", Bukkit.getOnlinePlayers().size() + ""));
+		}
 		return true;
 	}
 

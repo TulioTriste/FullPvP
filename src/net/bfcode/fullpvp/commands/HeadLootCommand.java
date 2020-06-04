@@ -16,7 +16,7 @@ import org.bukkit.command.CommandExecutor;
 
 public class HeadLootCommand implements CommandExecutor {
 	public boolean onCommand(final CommandSender sender, final Command command, final String label, final String[] args) {
-        if (!sender.hasPermission(Utils.PERMISSION + "headloot")) {
+        if (!sender.hasPermission("fullpvp.command.headloot")) {
             sender.sendMessage(Utils.NO_PERMISSION);
             return true;
         }

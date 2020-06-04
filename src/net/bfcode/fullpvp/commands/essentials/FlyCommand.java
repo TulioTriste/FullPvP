@@ -5,25 +5,21 @@ import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import net.bfcode.fullpvp.commands.BaseCommand;
 import net.bfcode.fullpvp.utilities.BaseConstants;
 import net.bfcode.fullpvp.utilities.BukkitUtils;
-import net.bfcode.fullpvp.utilities.ColorText;
+import net.bfcode.fullpvp.utilities.Utils;
 
-public class FlyCommand extends BaseCommand {
-    public FlyCommand() {
-        super("fly", "Toggles flight mode for a player.");
-        this.setUsage("/(command) <playerName>");
-    }
+public class FlyCommand implements CommandExecutor {
     
     @Override
     public boolean onCommand(final CommandSender sender, final Command command, final String label, final String[] args) {
         Player target;
         if (!sender.hasPermission("fullpvp.command.fly")) {
-			sender.sendMessage(ColorText.translate("&cYou don't have permission to execute this command."));
+			sender.sendMessage(Utils.NO_PERMISSION);
 			return true;
 		}
         if (args.length > 0 && sender.hasPermission("fullpvp.command.fly.others")) {
@@ -31,12 +27,12 @@ public class FlyCommand extends BaseCommand {
         }
         else {
             if (!(sender instanceof Player)) {
-                sender.sendMessage(this.getUsage(label));
+                sender.sendMessage(Utils.MUST_BE_PLAYER);
                 return true;
             }
             target = (Player)sender;
         }
-        if (target == null || !BaseCommand.canSee(sender, target)) {
+        if (target == null) {
             sender.sendMessage(String.format(BaseConstants.PLAYER_WITH_NAME_OR_UUID_NOT_FOUND, args[0]));
             return true;
         }
@@ -49,7 +45,6 @@ public class FlyCommand extends BaseCommand {
         return true;
     }
     
-    @Override
     public List<String> onTabComplete(final CommandSender sender, final Command command, final String label, final String[] args) {
         return (args.length == 1) ? null : Collections.emptyList();
     }

@@ -3,14 +3,17 @@ package net.bfcode.fullpvp.commands.media;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
-import net.bfcode.fullpvp.FullPvP;
+import net.bfcode.fullpvp.configuration.MessagesFile;
 import net.bfcode.fullpvp.utilities.ColorText;
 
 import org.bukkit.command.CommandExecutor;
 
 public class TwitterCommand implements CommandExecutor {
     public boolean onCommand(final CommandSender sender, final Command cmd, final String cmdLabel, final String[] args) {
-    	sender.sendMessage(ColorText.translate(FullPvP.getPlugin().getConfig().getString("Twitter")));
+    	MessagesFile messages = MessagesFile.getConfig();
+    	for(String msg : messages.getStringList("Twitter")) {
+            sender.sendMessage(ColorText.translate(msg));
+    	}
         return true;
     }
 }

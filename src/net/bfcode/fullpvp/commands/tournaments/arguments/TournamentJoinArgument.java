@@ -12,7 +12,7 @@ import net.bfcode.fullpvp.tournaments.Tournament;
 import net.bfcode.fullpvp.tournaments.TournamentState;
 import net.bfcode.fullpvp.utilities.ColorText;
 import net.bfcode.fullpvp.utilities.CommandArgument;
-import net.bfcode.fullpvp.utilities.Messager;
+import net.bfcode.fullpvp.utilities.Utils;
 
 public class TournamentJoinArgument extends CommandArgument
 {
@@ -21,7 +21,7 @@ public class TournamentJoinArgument extends CommandArgument
     public TournamentJoinArgument() {
         super("join", "Join to a tournament");
         this.plugin = FullPvP.getPlugin();
-        this.permission = "tournament.default";
+        this.permission = "fullpvp.command.tournament.argument.join";
     }
     
     public String getUsage(final String label) {
@@ -31,7 +31,7 @@ public class TournamentJoinArgument extends CommandArgument
 	@SuppressWarnings("unused")
 	public boolean onCommand(final CommandSender sender, final Command command, final String label, final String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(ColorText.translate("&cYou must be player to execute this command."));
+            sender.sendMessage(Utils.MUST_BE_PLAYER);
             return true;
         }
         final Player player = (Player)sender;
@@ -43,7 +43,7 @@ public class TournamentJoinArgument extends CommandArgument
 
         final int countdown = this.plugin.getTournamentManager().getTournament().getCooldown();
         if(StaffModeCommand.isMod(player) == true || VanishListener.isVanished(player) ==  true) {
-        	Messager.player(player, "&cYou cannot join with mod mode or vanish!");
+        	player.sendMessage(ColorText.translate("&cYou cannot join with mod mode or vanish!"));
         } else {
             if (tournament != null) {
                 if (this.plugin.getCombatTagListener().hasCooldown(player)) {

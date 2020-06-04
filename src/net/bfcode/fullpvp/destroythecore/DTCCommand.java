@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
 
 import net.bfcode.fullpvp.FullPvP;
+import net.bfcode.fullpvp.configuration.MessagesFile;
 import net.bfcode.fullpvp.utilities.ColorText;
 import net.bfcode.fullpvp.utilities.Ints;
 import net.bfcode.fullpvp.utilities.Utils;
@@ -23,7 +24,8 @@ public class DTCCommand implements CommandExecutor {
             return true;
         }
         Player player = (Player)sender;
-        if (!player.hasPermission(Utils.PERMISSION + "destroythecore")) {
+        MessagesFile message = MessagesFile.getConfig();
+        if (!player.hasPermission("fullpvp.command.destroythecore")) {
             player.sendMessage(Utils.NO_PERMISSION);
             return true;
         }
@@ -95,7 +97,7 @@ public class DTCCommand implements CommandExecutor {
                 return true;
             }
             DTCHandler.setDTCEvent(DTC, true);
-            Bukkit.broadcastMessage(ColorText.translate(FullPvP.getPlugin().getConfig().getString("Destroy-The-Core.Started")
+            Bukkit.broadcastMessage(ColorText.translate(message.getString("Destroy-The-Core.Started")
             		.replace("{player}", player.getName())
             		.replace("{dtc}", DTC)));
         }
@@ -114,7 +116,7 @@ public class DTCCommand implements CommandExecutor {
                 return true;
             }
             DTCHandler.setDTCEvent(DTC, false);
-            Bukkit.broadcastMessage(ColorText.translate(FullPvP.getPlugin().getConfig().getString("Destroy-The-Core.Stopped")
+            Bukkit.broadcastMessage(ColorText.translate(message.getString("Destroy-The-Core.Stopped")
             		.replace("{player}", player.getName())
             		.replace("{dtc}", DTC)));
         }

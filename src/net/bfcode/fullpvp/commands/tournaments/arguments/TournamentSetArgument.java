@@ -9,6 +9,7 @@ import net.bfcode.fullpvp.tournaments.file.TournamentFile;
 import net.bfcode.fullpvp.utilities.ColorText;
 import net.bfcode.fullpvp.utilities.CommandArgument;
 import net.bfcode.fullpvp.utilities.LocationUtils;
+import net.bfcode.fullpvp.utilities.Utils;
 
 public class TournamentSetArgument extends CommandArgument {
     private TournamentFile file; 
@@ -16,7 +17,7 @@ public class TournamentSetArgument extends CommandArgument {
     public TournamentSetArgument() {
         super("set", "Set locations of the tournament");
         this.plugin = FullPvP.getPlugin();
-        this.permission = "tournament.admin";
+        this.permission = "fullpvp.command.tournament.argument.set";
         this.file = TournamentFile.getConfig();
     }
     
@@ -26,7 +27,7 @@ public class TournamentSetArgument extends CommandArgument {
     
     public boolean onCommand(final CommandSender sender, final Command command, final String label, final String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(ColorText.translate("&cYou must be player to execute this command."));
+            sender.sendMessage(Utils.MUST_BE_PLAYER);
             return true;
         }
         final Player player = (Player)sender;

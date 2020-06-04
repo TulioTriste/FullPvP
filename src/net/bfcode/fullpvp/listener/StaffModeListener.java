@@ -1,5 +1,6 @@
 package net.bfcode.fullpvp.listener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -165,7 +166,10 @@ public class StaffModeListener implements Listener {
 
 	@EventHandler
 	public void onRecord(PlayerInteractEvent e) {
-		List<Player> onlinePlayers = JavaUtils.getOnlinePlayers();
+		List<Player> onlinePlayers = new ArrayList<>();
+		for(Player player : Bukkit.getOnlinePlayers()) {
+			onlinePlayers.add(player);
+		}
 		Player p = e.getPlayer();
 		if ((StaffModeCommand.modMode.contains(p)) && (p.getItemInHand().getType() == Material.WATCH)
 				&& (e.getAction().toString().contains("RIGHT"))) {

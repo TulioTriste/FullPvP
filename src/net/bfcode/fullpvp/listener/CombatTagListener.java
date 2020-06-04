@@ -14,7 +14,6 @@ import org.bukkit.plugin.Plugin;
 
 import net.bfcode.fullpvp.FullPvP;
 import net.bfcode.fullpvp.utilities.ColorText;
-import net.bfcode.fullpvp.utilities.Messager;
 
 import java.util.HashMap;
 import org.bukkit.entity.Player;
@@ -139,7 +138,7 @@ public class CombatTagListener implements Listener {
     		for(String commands : FullPvP.getPlugin().getConfig().getStringList("Block-Commands-In-Combat")) {
     			if(event.getMessage().contains(commands)) {
         			event.setCancelled(true);
-        			Messager.player(player, this.fullPvP.getConfig().getString("Combat-Tag.Block-Command"));
+        			player.sendMessage(ColorText.translate(this.fullPvP.getConfig().getString("Combat-Tag.Block-Command")));
         		}
     		}
     	}

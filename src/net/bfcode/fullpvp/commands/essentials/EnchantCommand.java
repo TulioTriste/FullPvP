@@ -14,26 +14,22 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import net.bfcode.fullpvp.commands.BaseCommand;
 import net.bfcode.fullpvp.utilities.BaseConstants;
 import net.bfcode.fullpvp.utilities.BukkitUtils;
 import net.bfcode.fullpvp.utilities.ColorText;
 import net.bfcode.fullpvp.utilities.Ints;
+import net.bfcode.fullpvp.utilities.Utils;
 
-public class EnchantCommand extends BaseCommand implements CommandExecutor {
-    public EnchantCommand() {
-        super("enchant", "Adds enchantment to items.");
-        this.setUsage("/(command) <enchantment> <level> [playerName]");
-    }
+public class EnchantCommand implements CommandExecutor {
     
     @Override
     public boolean onCommand(final CommandSender sender, final Command command, final String label, final String[] args) {
     	if (!sender.hasPermission("fullpvp.command.enchant")) {
-			sender.sendMessage(ColorText.translate("&cYou don't have permission to execute this command."));
+			sender.sendMessage(ColorText.translate(Utils.NO_PERMISSION));
 			return true;
 		}
         if (args.length < 2) {
-            sender.sendMessage(this.getUsage());
+            sender.sendMessage(ChatColor.RED + "/(command) <enchantment> <level> [playerName]");
             return true;
         }
         Player target;
@@ -42,12 +38,12 @@ public class EnchantCommand extends BaseCommand implements CommandExecutor {
         }
         else {
             if (!(sender instanceof Player)) {
-                sender.sendMessage(this.getUsage(label));
+                sender.sendMessage(Utils.MUST_BE_PLAYER);
                 return true;
             }
             target = (Player)sender;
         }
-        if (target == null || !BaseCommand.canSee(sender, target)) {
+        if (target == null) {
             sender.sendMessage(String.format(BaseConstants.PLAYER_WITH_NAME_OR_UUID_NOT_FOUND, args[0]));
             return true;
         }
@@ -87,7 +83,6 @@ public class EnchantCommand extends BaseCommand implements CommandExecutor {
         return true;
     }
     
-    @Override
     public List<String> onTabComplete(final CommandSender sender, final Command command, final String label, final String[] args) {
         switch (args.length) {
             case 1: {

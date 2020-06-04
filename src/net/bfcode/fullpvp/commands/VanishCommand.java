@@ -18,7 +18,7 @@ public class VanishCommand implements CommandExecutor  {
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (cmd.getName().equalsIgnoreCase("vanish")) {
-			if (!sender.hasPermission(Utils.PERMISSION + "vanish")) {
+			if (!sender.hasPermission("fullpvp.command.vanish")) {
 				sender.sendMessage(Utils.NO_PERMISSION);
 				return true;
 			}
@@ -38,7 +38,7 @@ public class VanishCommand implements CommandExecutor  {
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&eYou have turned your vanish &aon&e."));
 				return true;
 			}
-			if (!sender.hasPermission(Utils.PERMISSION + "vanish.others")) {
+			if (!sender.hasPermission("fullpvp.command.vanish.argument.others")) {
 				sender.sendMessage(ChatColor.RED + "No.");
 				return true;
 			}

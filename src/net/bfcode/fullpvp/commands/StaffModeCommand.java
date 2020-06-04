@@ -16,8 +16,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 
+import net.bfcode.fullpvp.configuration.MessagesFile;
 import net.bfcode.fullpvp.listener.VanishListener;
 import net.bfcode.fullpvp.staffmode.StaffItems;
+import net.bfcode.fullpvp.utilities.ColorText;
 import net.bfcode.fullpvp.utilities.Utils;
 
 
@@ -29,10 +31,6 @@ public class StaffModeCommand implements CommandExecutor, Listener {
 	public static HashMap<String, ItemStack[]> armorContents = new HashMap<>();
 	public static HashMap<String, ItemStack[]> inventoryContents = new HashMap<>();
 	
-	public String color(String msg) {
-		return ChatColor.translateAlternateColorCodes('&', msg);
-	}
-
 	static StaffModeCommand instance = new StaffModeCommand();
 
 	public static StaffModeCommand getInstance() {
@@ -59,7 +57,7 @@ public class StaffModeCommand implements CommandExecutor, Listener {
 		p.setAllowFlight(true);
 		p.setGameMode(GameMode.CREATIVE);
 		StaffItems.modItems(p);
-		p.sendMessage("§eStaffMode has been §aenabled.");
+		p.sendMessage(ColorText.translate(MessagesFile.getConfig().getString("StaffMode-Enable")));
 		p.updateInventory();
 		return true;
 	}
@@ -71,14 +69,14 @@ public class StaffModeCommand implements CommandExecutor, Listener {
 		StaffItems.loadInventory(p);
 		p.setAllowFlight(false);
 		VanishListener.getInstance().setVanish(p, false);
-		p.sendMessage("§eStaffMode has been §cdisabled.");
+		p.sendMessage(ColorText.translate(MessagesFile.getConfig().getString("StaffMode-Enable")));
 		p.setGameMode(GameMode.SURVIVAL);
 		p.updateInventory();
 		return true;
 	}
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-			if (!sender.hasPermission(Utils.PERMISSION + "staffmode")) {
+			if (!sender.hasPermission("fullpvp.command.staffmode")) {
 				sender.sendMessage(Utils.NO_PERMISSION);
 				return true;
 			}
@@ -94,8 +92,8 @@ public class StaffModeCommand implements CommandExecutor, Listener {
 				enterMod((Player) sender);
 				return true;
 			}
-			if (!sender.hasPermission(Utils.PERMISSION + "staffmode.others")) {
-				sender.sendMessage(ChatColor.RED + "No.");
+			if (!sender.hasPermission("fullpvp.command.staffmode.argument.others")) {
+				sender.sendMessage(Utils.NO_PERMISSION);
 				return true;
 			}
 			Player t = Bukkit.getPlayer(args[0]);
@@ -105,25 +103,11 @@ public class StaffModeCommand implements CommandExecutor, Listener {
 			}
 			if (modMode.contains(t)) {
 				leaveMod(t);
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7You have &cdisabled &7" + t.getName() + "'s &e&lStaff Mode"));
+				sender.sendMessage(ColorText.translate(MessagesFile.getConfig().getString("StaffMode-Enable-Otherplayer").replace("{player}", t.getName())));
 				return true;
 			}
 			enterMod(t);
-			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7You have &aenabled &7" + t.getName() + "'s &e&lStaff Mode"));
+			sender.sendMessage(ColorText.translate(MessagesFile.getConfig().getString("StaffMode-Disable-Otherplayer").replace("{player}", t.getName())));
 			return true;
 	}
-	
-	/*@SuppressWarnings("deprecation")
-	public static void onDisableMod() {
-		    Player[] arrayOfPlayer;
-		    int j = (arrayOfPlayer = Bukkit.getOnlinePlayers()).length;
-		    for (int i = 0; i < j; i++) {
-		      Player p = arrayOfPlayer[i];
-		      if (Staff.contains(p.getUniqueId())) {
-		        leaveMod(p);
-		        p.sendMessage(ChatColor.RED.toString() + "You have been taken out of staff mode because of a reload.");
-		        teleportList.remove(p);
-		    }
-		}
-	} */
 }

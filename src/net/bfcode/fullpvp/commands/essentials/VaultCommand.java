@@ -5,6 +5,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import net.bfcode.fullpvp.utilities.ColorText;
+import net.bfcode.fullpvp.utilities.Utils;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -14,11 +15,11 @@ public class VaultCommand implements CommandExecutor {
     
     public boolean onCommand(final CommandSender sender, final Command command, final String label, final String[] args) {
     	if (!sender.hasPermission("fullpvp.command.enderchest")) {
-			sender.sendMessage(ColorText.translate("&cYou don't have permission to execute this command."));
+			sender.sendMessage(Utils.NO_PERMISSION);
 			return true;
 		}
         if (!(sender instanceof Player)) {
-            sender.sendMessage(ChatColor.RED + "This command is only executable by players.");
+            sender.sendMessage(Utils.MUST_BE_PLAYER);
             return false;
         }
         Player target;

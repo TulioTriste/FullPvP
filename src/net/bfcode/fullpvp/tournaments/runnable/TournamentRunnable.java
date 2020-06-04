@@ -1,7 +1,9 @@
 package net.bfcode.fullpvp.tournaments.runnable;
 
 import java.util.List;
+import java.util.Random;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
@@ -12,6 +14,7 @@ import net.bfcode.fullpvp.FullPvP;
 import net.bfcode.fullpvp.tournaments.Tournament;
 import net.bfcode.fullpvp.tournaments.TournamentState;
 import net.bfcode.fullpvp.utilities.ColorText;
+import net.bfcode.fullpvp.utilities.PlayerUtil;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 
@@ -50,9 +53,15 @@ public class TournamentRunnable {
                 }
                 if (TournamentRunnable.this.tournament.getTournamentState() == TournamentState.STARTING || TournamentRunnable.this.tournament.getTournamentState() == TournamentState.FIGHTING) {
                     final int countdown = TournamentRunnable.this.tournament.decrementCountdown();
+                    TournamentRunnable.this.searchPlayers();
                     final Player first = TournamentRunnable.this.tournament.getFirstPlayer();
-                    final Player second = TournamentRunnable.this.tournament.getSecondPlayer();
-                    if (countdown == 0) {
+                    final Player second = TournamentRunnable.this.tournament.getSecondPlayer(); 
+                    if(countdown == 5) {
+                        TournamentRunnable.this.tournament.teleport(TournamentRunnable.this.tournament.getFirstPlayer(), "Sumo.First");
+                        TournamentRunnable.this.tournament.teleport(TournamentRunnable.this.tournament.getSecondPlayer(), "Sumo.Second");
+                        PlayerUtil.startingSumo(first);
+                        PlayerUtil.startingSumo(second);
+                    } else if(countdown == 0) {
                         for (final UUID players : TournamentRunnable.this.tournament.getPlayers()) {
                             try {
                                 final Player player = TournamentRunnable.this.getPlayerByUuid(players);
@@ -60,13 +69,13 @@ public class TournamentRunnable {
                             } catch (IllegalArgumentException ex) {
                             }
                         }
-                        TournamentRunnable.this.tournament.teleport(TournamentRunnable.this.tournament.getFirstPlayer(), "Sumo.First");
-                        TournamentRunnable.this.tournament.teleport(TournamentRunnable.this.tournament.getSecondPlayer(), "Sumo.Second");
+                        PlayerUtil.fightingSumo(first);;
+                        PlayerUtil.fightingSumo(second);
                         TournamentRunnable.this.tournament.setTournamentState(TournamentState.FIGHTING);
-                    } else if ((countdown % 5 == 0 || countdown < 5) && countdown > 0) {
+                    }
+                    else if ((countdown % 5 == 0 || countdown < 5) && countdown > 0) {
                         TournamentRunnable.this.tournament.broadcastWithSound(ColorText.translate("&aLa ronda comenzar\u00e1 en " + countdown + " segundos!"), Sound.CLICK);
                         if (countdown == 1) {
-                            TournamentRunnable.this.searchPlayers();
                             first.getInventory().clear();
                             second.getInventory().clear();
                         }
@@ -75,7 +84,7 @@ public class TournamentRunnable {
                     }
                 }
             }
-        }.runTaskTimer((Plugin) this.plugin, 20L, 20L);
+        }.runTaskTimer(this.plugin, 20L, 20L);
     }
 
     public void runAnnounce() {
@@ -100,7 +109,7 @@ public class TournamentRunnable {
                     	String name = FullPvP.getPlugin().getChat().getPlayerPrefix(player) + player.getDisplayName();
                     	TextComponent mensaje = new TextComponent();
                     	mensaje.setText(ColorText.translate("&2&l" + TournamentRunnable.this.tournament.getType().getName() + " &fhosted by &r" + name + " "+ "&fstarting in " + countdown + " second" + ((countdown == 1) ? "" : "s") + " &7(" + "&a" + tournament.getPlayers().size() + "&7/&a" + tournament.getSize() + "&7)" + " &a!Click to join¡"));
-                    	mensaje.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/host join"));
+                    	mensaje.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tour join"));
                     	for (final Player online : Bukkit.getServer().getOnlinePlayers()) {
                     		online.sendMessage(mensaje);
                     	}
@@ -127,7 +136,7 @@ public class TournamentRunnable {
         }.runTaskTimer(this.plugin, 20L, 20L);
     }
 
-    private void searchPlayers() {
+    public void searchPlayers() {
         final List<Player> players = new ArrayList<Player>();
         if (!players.isEmpty()) {
             players.clear();
@@ -137,6 +146,7 @@ public class TournamentRunnable {
                 players.add(online);
             }
         }
+        Collections.shuffle(players);
         if (players.size() > 1) {
             this.tournament.setFirstPlayer(players.get(0));
             this.tournament.setSecondPlayer(players.get(1));

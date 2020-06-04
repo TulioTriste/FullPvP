@@ -18,7 +18,7 @@ public class TournamentStatusArgument extends CommandArgument
     public TournamentStatusArgument() {
         super("status", "Status of a tournament");
         this.plugin = FullPvP.getPlugin();
-        this.permission = "tournament.default";
+        this.permission = "fullpvp.command.tournament.argument.status";
     }
     
     public String getUsage(final String label) {
@@ -27,18 +27,17 @@ public class TournamentStatusArgument extends CommandArgument
     
     public boolean onCommand(final CommandSender sender, final Command command, final String label, final String[] args) {
         final Tournament tournament = this.plugin.getTournamentManager().getTournament();
-        if(tournament.getPlayers().size() == 0) {
+        if(!plugin.getTournamentManager().isCreated()) {
         	sender.sendMessage(ColorText.translate("&cDo not have events running."));
         }
         if(tournament.getTournamentState() == TournamentState.FIGHTING) {
         	sender.sendMessage(ColorText.translate("&7&m----------------------------------------"));
             sender.sendMessage(ColorText.translate("&6Type&7: &f" + WordUtils.capitalizeFully(tournament.getType().name())));
-            sender.sendMessage(ColorText.translate("&6Round&7: &f" + tournament.getCurrentRound()));
             if (tournament.getType() == TournamentType.SUMO) {
+                sender.sendMessage(ColorText.translate("&6Round&7: &f" + tournament.getCurrentRound()));
                 sender.sendMessage(ColorText.translate("&6Current Fight:"));
                 sender.sendMessage(ColorText.translate("   &2" + tournament.getFirstPlayer().getName() + " &avs &2" + tournament.getSecondPlayer().getName()));
             }
-            sender.sendMessage(ColorText.translate("&6Next Round&7: &f" + (tournament.getCurrentRound() + 1)));
             sender.sendMessage(ColorText.translate("&6Players&7: &f" + tournament.getPlayers().size() + "&7/&f" + tournament.getSize()));
             sender.sendMessage(ColorText.translate("&6Hoster&7: &f" + tournament.getHoster().getName()));
         	sender.sendMessage(ColorText.translate("&7&m----------------------------------------"));

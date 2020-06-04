@@ -19,7 +19,7 @@ public class SetSpawnCommand implements CommandExecutor {
             return true;
         }
         final Player player = (Player)sender;
-        if (!player.hasPermission(Utils.PERMISSION + "setspawn")) {
+        if (!player.hasPermission("fullpvp.command.setspawn")) {
             player.sendMessage(Utils.NO_PERMISSION);
             return true;
         }
@@ -31,10 +31,10 @@ public class SetSpawnCommand implements CommandExecutor {
     
     private void setSpawnLocation(final Player player) {
         final LocationFile location = LocationFile.getConfig();
-        location.set("Locations.Spawn.X", (Object)player.getLocation().getBlockX());
-        location.set("Locations.Spawn.Y", (Object)player.getLocation().getBlockY());
-        location.set("Locations.Spawn.Z", (Object)player.getLocation().getBlockZ());
-        location.set("Locations.Spawn.World", (Object)player.getWorld().getName());
+        location.set("Locations.Spawn.X", player.getLocation().getBlockX());
+        location.set("Locations.Spawn.Y", player.getLocation().getBlockY());
+        location.set("Locations.Spawn.Z", player.getLocation().getBlockZ());
+        location.set("Locations.Spawn.World", player.getWorld().getName());
         location.save();
         location.reload();
     }

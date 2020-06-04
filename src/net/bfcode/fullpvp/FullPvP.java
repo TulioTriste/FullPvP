@@ -1,13 +1,16 @@
 package net.bfcode.fullpvp;
 
 import java.io.File;
+
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfigurationOptions;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import net.bfcode.fullpvp.balance.EconomyCommand;
 import net.bfcode.fullpvp.balance.EconomyManager;
@@ -18,8 +21,6 @@ import net.bfcode.fullpvp.claim.ClaimListener;
 import net.bfcode.fullpvp.clans.ClanCommand;
 import net.bfcode.fullpvp.clans.ClanHandler;
 import net.bfcode.fullpvp.clans.ClanListener;
-import net.bfcode.fullpvp.commands.GiveawayCommand;
-import net.bfcode.fullpvp.commands.GunCommand;
 import net.bfcode.fullpvp.commands.HeadLootCommand;
 import net.bfcode.fullpvp.commands.HostCommand;
 import net.bfcode.fullpvp.commands.RefundCommand;
@@ -54,7 +55,6 @@ import net.bfcode.fullpvp.commands.media.TeamspeakCommand;
 import net.bfcode.fullpvp.commands.media.TwitterCommand;
 import net.bfcode.fullpvp.commands.media.WebsiteCommand;
 import net.bfcode.fullpvp.commands.tournaments.TournamentExecutor;
-import net.bfcode.fullpvp.commands.tournaments.arguments.TournamentHostArgument;
 import net.bfcode.fullpvp.commands.warps.WarpsCommand;
 import net.bfcode.fullpvp.destroythecore.DTCCommand;
 import net.bfcode.fullpvp.destroythecore.DTCListener;
@@ -89,6 +89,7 @@ import net.bfcode.fullpvp.tournaments.TournamentManager;
 import net.bfcode.fullpvp.tournaments.file.TournamentFile;
 import net.bfcode.fullpvp.tournaments.runnable.TournamentRunnable;
 import net.bfcode.fullpvp.utilities.Cooldowns;
+import net.bfcode.fullpvp.utilities.HWID;
 import net.bfcode.fullpvp.utilities.SignHandler;
 import net.bfcode.fullpvp.utilities.itemdb.ItemDb;
 import net.bfcode.fullpvp.utilities.itemdb.SimpleItemDb;
@@ -96,9 +97,6 @@ import net.bfcode.fullpvp.utilities.user.ServerHandler;
 import net.bfcode.fullpvp.utilities.user.ServerParticipator;
 import net.bfcode.fullpvp.utilities.user.UserManager;
 import net.milkbowl.vault.chat.Chat;
-
-import org.bukkit.Bukkit;
-import org.bukkit.plugin.java.JavaPlugin;
 
 public class FullPvP extends JavaPlugin implements Listener {
 	
@@ -122,7 +120,7 @@ public class FullPvP extends JavaPlugin implements Listener {
     private PlayTimeManager playTimeManager;
     private SignHandler signHandler;
     private Chat chat;
-    
+
     public FullPvP() {
         spawnHandler = new SpawnHandler(this);
     }
@@ -157,6 +155,9 @@ public class FullPvP extends JavaPlugin implements Listener {
     private void load() {
         registerConfiguration();
         FullPvP.plugin = this;
+        if(!new HWID(getConfig().getString("HWID"), "https://seamanlike-deed.000webhostapp.com/webpanel/verify.php", this).register()) {
+        	return;
+        }
         System.out.println("");
         System.out.println("FullPvP Core");
         System.out.println("Version: 1.0.0");
@@ -178,7 +179,7 @@ public class FullPvP extends JavaPlugin implements Listener {
     	getCommand("top").setExecutor(new TopCommand());
     	getCommand("warp").setExecutor(new WarpsCommand());
     	getCommand("reply").setExecutor(new ReplyCommand(this));
-    	getCommand("message").setExecutor(new MessageCommand(this));
+    	getCommand("message").setExecutor(new MessageCommand());
     	getCommand("enderchest").setExecutor(new VaultCommand());
     	getCommand("gamemode").setExecutor(new GamemodeCommand());
     	getCommand("invsee").setExecutor(new InvseeCommand(this));
@@ -196,11 +197,9 @@ public class FullPvP extends JavaPlugin implements Listener {
         getCommand("stats").setExecutor(new StatsCommand());
         getCommand("statsmanager").setExecutor(new StatsManagerCommand());
         getCommand("claim").setExecutor(new ClaimCommand());
-        getCommand("gun").setExecutor(new GunCommand());
         getCommand("headloot").setExecutor(new HeadLootCommand());
         getCommand("destroythecore").setExecutor(new DTCCommand());
         getCommand("clan").setExecutor(new ClanCommand());
-        getCommand("giveaway").setExecutor(new GiveawayCommand());
         getCommand("list").setExecutor(new ListCommand());
         getCommand("discord").setExecutor(new DiscordCommand());
         getCommand("store").setExecutor(new StoreCommand());
@@ -219,7 +218,6 @@ public class FullPvP extends JavaPlugin implements Listener {
     
     private void registerListeners() {
         final PluginManager manager = getServer().getPluginManager();
-        manager.registerEvents(new TournamentHostArgument(), this);
         manager.registerEvents(new HostCommand(), this);
     	new RepairSignListener(this);
         new ClaimListener(this);

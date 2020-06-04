@@ -9,6 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.event.block.BlockBreakEvent;
 
 import net.bfcode.fullpvp.FullPvP;
+import net.bfcode.fullpvp.configuration.MessagesFile;
 import net.bfcode.fullpvp.utilities.ColorText;
 
 import org.bukkit.Bukkit;
@@ -55,23 +56,24 @@ public class DTCListener implements Listener {
             	block.getLocation().getBlockZ() == this.dtcFile.getInt("DTC." + dtc + ".Z") && 
             	block.getType().equals(Material.OBSIDIAN)) {
                 event.setCancelled(true);
+                MessagesFile messages = MessagesFile.getConfig();
                 DTCHandler.decrementPoints(dtc);
-                Bukkit.broadcastMessage(ColorText.translate(FullPvP.getPlugin().getConfig().getString("Destroy-The-Core.Destroyed")
+                Bukkit.broadcastMessage(ColorText.translate(messages.getString("Destroy-The-Core.Destroyed")
                 		.replace("{player}", player.getName())
                 		.replace("{dtc}", dtc))
                 		.replace("{points}", String.valueOf(DTCHandler.getDTCPoints(dtc))));
                 if (DTCHandler.getDTCPoints(dtc) == 0) {
                     DTCHandler.setDTCEvent(dtc, false);
-                    Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), FullPvP.getPlugin().getConfig().getString("Destroy-The-Core.Reward")
+                    Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), FullPvP.getPlugin().getConfig().getString("DTC-Reward")
                     		.replace("{player}", player.getName()));
-                    Bukkit.broadcastMessage(ColorText.translate(FullPvP.getPlugin().getConfig().getString("Destroy-The-Core.Destroyed-Core")
+                    Bukkit.broadcastMessage(ColorText.translate(messages.getString("Destroy-The-Core.Destroyed-Core")
                     		.replace("{player}", player.getName())
                     		.replace("{dtc}", dtc)));
                 }
             }
             return;
         }
-        if (player.getGameMode().equals((Object)GameMode.CREATIVE) && player.isOp()) {
+        if (player.getGameMode().equals(GameMode.CREATIVE) && player.isOp()) {
             return;
         }
         event.setCancelled(true);

@@ -1,8 +1,8 @@
 HWID: "" 
 
 Starting-Balance: 250
-
 Remove-Armor-Kit: false
+DTC-Reward: "cr givekey {player} DTC 2"
 
 Block-Commands-In-Combat:
   - "/pv"
@@ -11,6 +11,47 @@ Block-Commands-In-Combat:
   - "/ec"
   - "/echest"
   - "/chest"
+  
+Kill-Streak-Rewards:
+  5:
+    - "broadcast &eMensaje de prueba nick: {player} kills: {kills}"
+    - "cr givekey {player} kill 1"
+  10:
+    - "broadcast &eMensaje de prueba nick: {player} kills: {kills}"
+    - "cr givekey {player} kill 1"
+  15:
+    - "broadcast &eMensaje de prueba nick: {player} kills: {kills}"
+    - "cr givekey {player} kill 1"
+  20:
+    - "broadcast &eMensaje de prueba nick: {player} kills: {kills}"
+    - "cr givekey {player} kill 1"
+  25:
+    - "broadcast &eMensaje de prueba nick: {player} kills: {kills}"
+    - "cr givekey {player} kill 1"
+  30:
+    - "broadcast &eMensaje de prueba nick: {player} kills: {kills}"
+    - "cr givekey {player} kill 1"
+  35:
+    - "broadcast &eMensaje de prueba nick: {player} kills: {kills}"
+    - "cr givekey {player} kill 1"
+  40:
+    - "broadcast &eMensaje de prueba nick: {player} kills: {kills}"
+    - "cr givekey {player} kill 1"
+  45:
+    - "broadcast &eMensaje de prueba nick: {player} kills: {kills}"
+    - "cr givekey {player} kill 1"
+  50:
+    - "broadcast &eMensaje de prueba nick: {player} kills: {kills}"
+    - "cr givekey {player} kill 1"
+  55:
+    - "broadcast &eMensaje de prueba nick: {player} kills: {kills}"
+    - "cr givekey {player} kill 1"
+  60:
+    - "broadcast &eMensaje de prueba nick: {player} kills: {kills}"
+    - "cr givekey {player} kill 1"
+  65:
+    - "broadcast &eMensaje de prueba nick: {player} kills: {kills}"
+    - "cr givekey {player} kill 1"
   
 Combat-Tag:
    Time: 45
@@ -32,13 +73,6 @@ Death:
    Player-Message: "&c{killer} &ehas killer you."
    Killer-Message: "&eYou killed &c{player} &eand you have received &a${money}&e."
    
-Destroy-The-Core:
-   Started: "&6&l{dtc} &ehas been &astarted &eby &d{player}&e."
-   Stopped: "&6&l{dtc} &ehas been &cstopped &eby &d{player}&e."
-   Destroyed: "&d{player} &ehas destroyed a piece of &6&l{dtc} &7(&ePoints&7: &f{points}&7)"
-   Destroyed-Core: "&6&l{dtc} &ehas been destroyed by &d{player}&e."
-   Reward: "cr givekey {player} DTC 2"
-   
 Spawn:
    Time: 15
    Teleporting: "&eTeleporting to the spawn in &a{time} &eseconds."
@@ -52,12 +86,12 @@ Host-Menu:
   Title: "Host´s"
   Slots: 27
   items:
-    Sumo:
+    1:
        Name: "&6&lSumo"
-       Start-Command: "tournament create Sumo 24"
+       Start-Command: "tournament create 24 Sumo"
        Winner-Command: "cr givekey {winner} Event 2"
        Permission: "fullpvp.tournament.sumo"
-       Material: "1"
+       Material: "STONE"
        Slot: 11
        Lore:
          - "&7&m-----------------------------------"
@@ -70,12 +104,12 @@ Host-Menu:
          - ""
          - "&eClick para hostear el evento de &6&lSumo"
          - "&7&m-----------------------------------"
-    FFA:
+    2:
        Name: "&6&lFFA"
-       Start-Command: "tournament create FFA 64"
+       Start-Command: "tournament create 64 FFA"
        Winner-Command: "cr givekey {winner} Event 2"
        Permission: "fullpvp.tournament.sumo"
-       Material: "2"
+       Material: "COBBLESTONE"
        Slot: 12
        Lore:
          - "&7&m-----------------------------------"
@@ -88,61 +122,3 @@ Host-Menu:
          - ""
          - "&eClick para hostear el evento de &6&lFFA"
          - "&7&m-----------------------------------"
-Scoreboard:
-   Title: "&6&lFullPvP"
-   Variables:
-     Claims:
-       PvP: #variables: {kills}, {deaths}, {balance}, {clan-info}
-         - " &f\u00BB &eKills&7: &f{kills}"
-         - " &f\u00BB &eDeaths&7: &f{deaths}"
-       noPvP: #variables: {kills}, {deaths}, {balance}, {clan-info}
-         - " &f\u00BB &eKills&7: &f{kills}"
-         - " &f\u00BB &eDeaths&7: &f{deaths}"
-         - " &f\u00BB &eBalance&7: &f{balance}"
-         - "{clan-info}"
-       Clan-info:
-         - "&dClan &7\u00BB &9{name}"
-         - "&dOnline &7\u00BB &f{members-online}/{max-members}"
-     StaffMode:
-       - "&6&lStaffMode"
-       - " &f\u00BB &eVanished&7: {status}"
-       - " &f\u00BB &ePlayers&7: &f{players}"
-     DestroyTheCore:
-       - "&6&lDTC"
-       - " &f\u00BB &ePoints: &f{points-left}"
-       - " &f\u00BB &eCoords: &f{x}, {y}, {z}"
-     Tournament:
-       Title: "&6&l{event} Event"
-       Sumo:
-         Lines:
-           - " &f\u00BB &dPlayers&7: &f{players}/{max-players}"
-           - " &f\u00BB &dStarting&7: &f{countdown}"
-         Waiting:
-           - " &f\u00BB &dStatus&7: &fWaiting..."
-         Fighting:
-           - " &f\u00BB &dStatus&7: &fFighting..."
-           - ""
-           - "&5&l{first} &dVS &5&l{second}"
-         Selecting:
-           - " &f\u00BB &dStatus&7: &fSelecting..."
-       FFA:
-         Lines:
-           - " &f\u00BB &dPlayers&7: &f{players}/{max-players}"
-           - " &f\u00BB &dStarting&7: &f{countdown}"
-         Waiting:
-           - " &f\u00BB &dStatus&7: &fWaiting..."
-         Invicibility: #Variables: {time}
-           - " &f\u00BB &dStatus&7: &fInvincibility..."
-         Fighting:
-           - " &f\u00BB &dStatus&7: &fFighting..."
-   Lines:
-     - "&7&m--------------------------"
-     - "{staffmode}"
-     - "{claims}"
-     - "&4&lCombat&7: &f{combat}"
-     - "&9&lEnderpearl&7: {enderpearl}"
-     - "&a&lSpawn&7: {spawn}"
-     - "{tournament}"
-     - ""
-     - "&e&odiscord.gg/aRTsTHJ"
-     - "&7&m--------------------------"

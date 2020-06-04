@@ -5,6 +5,9 @@ import com.google.common.base.Preconditions;
 import java.util.List;
 import org.bukkit.Bukkit;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
+
+import net.bfcode.fullpvp.configuration.MessagesFile;
+
 import org.bukkit.ChatColor;
 import java.text.DecimalFormat;
 import org.bukkit.entity.Player;
@@ -12,7 +15,6 @@ import org.bukkit.command.CommandSender;
 
 public class Utils
 {
-    public static String PERMISSION;
     public static String NO_PERMISSION;
     public static String MUST_BE_PLAYER;
     
@@ -63,8 +65,8 @@ public class Utils
     }
     
     static {
-        Utils.PERMISSION = "fullpvp.command.";
-        Utils.NO_PERMISSION = ColorText.translate("&cYou do not have permission to execute this command.");
+    	MessagesFile messages = MessagesFile.getConfig();
+        Utils.NO_PERMISSION = ColorText.translate(messages.getString("No-Permission"));
         Utils.MUST_BE_PLAYER = ColorText.translate("&cYou must be player to execute this command.");
     }
 }

@@ -16,7 +16,6 @@ import net.bfcode.fullpvp.utilities.Utils;
 
 public class WarpsCommand implements CommandExecutor {
 	
-	String NO_PERMISSION = "&cYou don't have permission to execute this command.";
 	LocationFile location = LocationFile.getConfig();
 	
     public boolean onCommand(final CommandSender sender, final Command command, final String label, final String[] args) {
@@ -30,7 +29,7 @@ public class WarpsCommand implements CommandExecutor {
         }
         else if (args[0].equalsIgnoreCase("create")) {
         	if (!player.hasPermission("fullpvp.command.warp.argument.create")) {
-        		player.sendMessage(ColorText.translate(NO_PERMISSION));
+        		player.sendMessage(Utils.NO_PERMISSION);
         		return true;
         	}
             if (args.length < 2) {
@@ -57,7 +56,7 @@ public class WarpsCommand implements CommandExecutor {
         }
         else if (args[0].equalsIgnoreCase("delete")) {
         	if (!player.hasPermission("fullpvp.command.warp.argument.delete")) {
-        		player.sendMessage(ColorText.translate(NO_PERMISSION));
+        		player.sendMessage(Utils.NO_PERMISSION);
         		return true;
         	}
         	if (args.length < 2) {

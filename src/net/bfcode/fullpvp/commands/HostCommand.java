@@ -7,6 +7,7 @@ import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -18,23 +19,19 @@ import com.sk89q.worldedit.bukkit.selections.CuboidSelection;
 
 import net.bfcode.fullpvp.FullPvP;
 import net.bfcode.fullpvp.configuration.LocationFile;
+import net.bfcode.fullpvp.configuration.MessagesFile;
 import net.bfcode.fullpvp.listener.VanishListener;
 import net.bfcode.fullpvp.utilities.ColorText;
 import net.bfcode.fullpvp.utilities.ItemMaker;
 import net.bfcode.fullpvp.utilities.ItemStackBuilder;
-import net.bfcode.fullpvp.utilities.Messager;
 
 public class HostCommand implements CommandExecutor, Listener {
 	
-	public Inventory inventory;
+	private FullPvP plugin;
 	private static String hostTitle;
 
     static {
     	hostTitle = ColorText.translate(FullPvP.getPlugin().getConfig().getString("Host-Menu.Title"));
-    }
-    
-    public HostCommand() {
-        this.inventory = Bukkit.createInventory(null, FullPvP.getPlugin().getConfig().getInt("Host-Menu.Slots"), hostTitle);
     }
     
 	public boolean onCommand(final CommandSender sender, final Command command, final String label, final String[] args) {
@@ -43,8 +40,13 @@ public class HostCommand implements CommandExecutor, Listener {
             return true;
         }
         final Player player = (Player)sender;
+        MessagesFile messages = MessagesFile.getConfig();
+        if(player.hasPermission("fullpvp.command.host")) {
+        	player.sendMessage(ColorText.translate(messages.getString("No-Permission")));
+        	return true;
+        }
         if(StaffModeCommand.isMod(player) || VanishListener.isVanished(player)) {
-        	Messager.player(player, "&cNo puedes hostear eventos en staff-mode.");
+        	player.sendMessage(ColorText.translate(messages.getString("Host-with-StaffMode")));
         	return true;
         }
         LocationFile location = LocationFile.getConfig();
@@ -52,7 +54,7 @@ public class HostCommand implements CommandExecutor, Listener {
             final CuboidSelection selection = new CuboidSelection(Bukkit.getWorld(location.getString("Claims." + claim + ".world")), HostCommand.this.getLocation(claim, "cornerA"), HostCommand.this.getLocation(claim, "cornerB"));
             final boolean isPvP = location.getBoolean("Claims." + claim + ".pvp");
             if(selection.contains(player.getLocation()) && !isPvP && !StaffModeCommand.isMod(player)) {
-        		player.sendMessage(ColorText.translate("&cNo puedes hostear Eventos en Zonas con PvP"));
+        		player.sendMessage(ColorText.translate(messages.getString("Host-in-noZone")));
         		return true;
             }
         }
@@ -67,9 +69,11 @@ public class HostCommand implements CommandExecutor, Listener {
         	if(event.getClickedInventory() == null || event.getInventory() != event.getClickedInventory()) {
         		return;
         	}
-        	for(int i = 1; i <= FullPvP.getPlugin().getConfig().getInt("Host-Menu.Slots") + 1; ++i) {
-        		if(event.getRawSlot() == i && player.hasPermission(FullPvP.getPlugin().getConfig().getString("Host-Menu.items." + i + ".Permission"))) {
-        			player.performCommand("/" + FullPvP.getPlugin().getConfig().getString("Host-Menu.items." + i + ".Start-Command"));
+    		ConfigurationSection config = FullPvP.getPlugin().getConfig().getConfigurationSection("Host-Menu.items");
+        	for(int i = 1; i <= config.getKeys(false).size(); ++i) {
+        		int clickslot = config.getInt("." + i + ".Slot");
+        		if(event.getRawSlot() == clickslot && player.hasPermission(FullPvP.getPlugin().getConfig().getString("Host-Menu.items." + i + ".Permission"))) {
+        			player.performCommand(FullPvP.getPlugin().getConfig().getString("Host-Menu.items." + i + ".Start-Command"));
         		}
         	}
             event.setCancelled(true);	
@@ -77,13 +81,14 @@ public class HostCommand implements CommandExecutor, Listener {
     }
     
     public void HostGUI(Player player) {
-		FileConfiguration config = FullPvP.getPlugin().getConfig();
+    	Inventory inventory = Bukkit.createInventory(null, FullPvP.getPlugin().getConfig().getInt("Host-Menu.Slots"), hostTitle);
+		ConfigurationSection config = FullPvP.getPlugin().getConfig().getConfigurationSection("Host-Menu.items");
 
-    	for(int i = 1; i <= config.getConfigurationSection("Host-Menu.items").getKeys(true).size() + 1; ++i) {
-            HostCommand.this.inventory.setItem(config.getInt("Host-Menu.items." + i + ".slot"), new ItemStackBuilder(Material.COBBLESTONE).setName(config.getString("Host-Menu.items." + i + ".Name")).addLore((config.getStringList("Host-Menu.items." + i + ".Lore"))).build());
+    	for(int i = 1; i <= config.getKeys(false).size(); ++i) {
+            inventory.setItem(config.getInt("." + i + ".Slot"), new ItemStackBuilder(Material.valueOf(config.getString("." + i + ".Material"))).setName(ColorText.translate(config.getString("." + i + ".Name"))).addLore((config.getStringList("." + i + ".Lore"))).build());
     	}
 
-		player.openInventory(HostCommand.this.inventory);
+		player.openInventory(inventory);
     	
     }
     

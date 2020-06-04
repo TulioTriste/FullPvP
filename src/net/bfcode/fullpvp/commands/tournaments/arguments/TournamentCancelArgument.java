@@ -9,6 +9,7 @@ import net.bfcode.fullpvp.FullPvP;
 import net.bfcode.fullpvp.tournaments.Tournament;
 import net.bfcode.fullpvp.utilities.ColorText;
 import net.bfcode.fullpvp.utilities.CommandArgument;
+import net.bfcode.fullpvp.utilities.Utils;
 
 public class TournamentCancelArgument extends CommandArgument {
 	
@@ -17,7 +18,7 @@ public class TournamentCancelArgument extends CommandArgument {
     public TournamentCancelArgument() {
         super("cancel", "Cancel the current tournament");
         this.plugin = FullPvP.getPlugin();
-        this.permission = "tournament.default";
+        this.permission = "fullpvp.command.tournament.argument.cancel";
     }
     
     public String getUsage(final String label) {
@@ -26,7 +27,7 @@ public class TournamentCancelArgument extends CommandArgument {
     
 	public boolean onCommand(final CommandSender sender, final Command command, final String label, final String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(ColorText.translate("&cYou must be player to execute this command."));
+            sender.sendMessage(Utils.MUST_BE_PLAYER);
             return true;
         }
         final Player player = (Player)sender;
@@ -50,7 +51,7 @@ public class TournamentCancelArgument extends CommandArgument {
                         tournament.rollbackInventory(online);
                         this.plugin.getTournamentManager().kickPlayer(online.getUniqueId());
                         online.sendMessage(ColorText.translate("&c&lYou were kicked from the tournament for&7: &fCancelled"));
-                        online.teleport(Bukkit.getWorld("Mapa").getSpawnLocation());
+                        online.teleport(Bukkit.getWorld("World").getSpawnLocation());
                     }
                 }
             }

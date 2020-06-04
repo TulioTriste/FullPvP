@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import net.bfcode.fullpvp.utilities.ColorText;
+import net.bfcode.fullpvp.utilities.Utils;
 
 public class RefundCommand implements CommandExecutor {
 	
@@ -22,7 +23,7 @@ public class RefundCommand implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		final Player p = (Player)sender;
 		if (!p.hasPermission("fullpvp.command.refund")) {
-			p.sendMessage(ColorText.translate("&cYou don't have permission."));
+			p.sendMessage(Utils.NO_PERMISSION);
 			return true;
 		}
         if (args.length < 1) {

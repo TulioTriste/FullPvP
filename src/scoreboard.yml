@@ -1,0 +1,63 @@
+Scoreboard:
+   Title: "&6&lFullPvP"
+   Variables:
+     Freeze:
+       - "&e&lYou are now Freeze"
+       - "&cPlease join Discord"
+       - "&7discord.gg/aRTsTHJ"
+     Claims:
+       noPvP: #variables: {kills}, {deaths}, {balance}, {clan-info}
+         - " &f\u00BB &eKills&7: &f{kills}"
+         - " &f\u00BB &eDeaths&7: &f{deaths}"
+         - " &f\u00BB &eBalance&7: &f{balance}"
+         - "{clan-info}"
+       noZone: #variables: {kills}, {deaths}, {balance}, {clan-info}
+         - " &f\u00BB &eKills&7: &f{kills}"
+         - " &f\u00BB &eDeaths&7: &f{deaths}"
+       Clan-info:
+         - "      &eClan &7\u00BB &9{name}"
+         - "      &eOnline &7\u00BB &f{members-online}/{max-members}"
+     StaffMode:
+       - "&6&lStaffMode"
+       - " &f\u00BB &eVanished&7: {status}"
+       - " &f\u00BB &ePlayers&7: &f{players}"
+     DestroyTheCore:
+       - "&6&lDTC"
+       - " &f\u00BB &ePoints: &f{points-left}"
+       - " &f\u00BB &eCoords: &f{x}, {y}, {z}"
+     Tournament:
+       Title: "&6&l{event} Event"
+       Sumo:
+         Lines:
+           - " &f\u00BB &ePlayers&7: &f{players}/{max-players}"
+           - " &f\u00BB &eStarting&7: &f{countdown}"
+         Waiting:
+           - " &f\u00BB &eStatus&7: &fWaiting..."
+         Fighting:
+           - " &f\u00BB &eStatus&7: &fFighting..."
+           - ""
+           - "&5&l{first} &dVS &5&l{second}"
+         Selecting:
+           - " &f\u00BB &eStatus&7: &fSelecting..."
+       FFA:
+         Lines:
+           - " &f\u00BB &ePlayers&7: &f{players}/{max-players}"
+           - " &f\u00BB &eStarting&7: &f{countdown}"
+         Waiting:
+           - " &f\u00BB &eStatus&7: &fWaiting..."
+         Invicibility: #Variables: {time}
+           - " &f\u00BB &eInvincibility&7: &f{time}s"
+         Fighting:
+           - " &f\u00BB &eStatus&7: &fFighting..."
+   Lines:
+     - "&7&m--------------------------"
+     - "{staffmode}"
+     - "{claims}"
+     - "{freeze}"
+     - "&4&lCombat&7: &f{combat}"
+     - "&9&lEnderpearl&7: {enderpearl}"
+     - "&a&lSpawn&7: {spawn}"
+     - "{tournament}"
+     - ""
+     - "&e&odiscord.gg/aRTsTHJ"
+     - "&7&m--------------------------"

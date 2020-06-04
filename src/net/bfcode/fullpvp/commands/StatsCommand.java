@@ -5,6 +5,7 @@ import org.bukkit.Statistic;
 import org.bukkit.entity.Player;
 
 import net.bfcode.fullpvp.FullPvP;
+import net.bfcode.fullpvp.configuration.MessagesFile;
 import net.bfcode.fullpvp.utilities.ColorText;
 import net.bfcode.fullpvp.utilities.Utils;
 
@@ -40,12 +41,13 @@ public class StatsCommand implements CommandExecutor
     }
     
     private void getPlayerStats(final Player player, final Player target) {
-        player.sendMessage(ColorText.translate("&7&m--------------------------------"));
-        player.sendMessage(ColorText.translate("&6" + target.getName() + " &eStatistic"));
-        player.sendMessage("");
-        player.sendMessage(ColorText.translate("&8 &eKills&7: &f" + target.getStatistic(Statistic.PLAYER_KILLS)));
-        player.sendMessage(ColorText.translate("&8 &eDeaths&7: &f" + target.getStatistic(Statistic.DEATHS)));
-        player.sendMessage(ColorText.translate("&8 &eMoney&7: &2$" + FullPvP.getPlugin().getEconomyManager().getBalance(target.getUniqueId())));
-        player.sendMessage(ColorText.translate("&7&m--------------------------------"));
+    	MessagesFile message = MessagesFile.getConfig();
+    	for(String msg : message.getStringList("stats-command")) {
+    		player.sendMessage(ColorText.translate(msg
+    				.replace("{player}", target.getName())
+    				.replace("{kills}", target.getStatistic(Statistic.PLAYER_KILLS) + "")
+    				.replace("{deaths}", target.getStatistic(Statistic.DEATHS) + "")
+    				.replace("{balance}", FullPvP.getPlugin().getEconomyManager().getBalance(target.getUniqueId()) + "")));
+    	}
     }
 }

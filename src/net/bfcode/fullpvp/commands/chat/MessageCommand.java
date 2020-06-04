@@ -8,23 +8,16 @@ import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
-import net.bfcode.fullpvp.FullPvP;
-import net.bfcode.fullpvp.commands.BaseCommand;
 import net.bfcode.fullpvp.event.PlayerMessageEvent;
 import net.bfcode.fullpvp.utilities.BaseConstants;
 import net.bfcode.fullpvp.utilities.BukkitUtils;
 
-public class MessageCommand extends BaseCommand {
-	
-	public MessageCommand(FullPvP plugin) {
-        super("message", "Sends a message to a recipient(s).");
-        this.setAliases(new String[] { "msg", "m", "whisper", "w", "tell" });
-        this.setUsage("/(command) <playerName> <message>");
-    }
+public class MessageCommand implements CommandExecutor {
     
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -33,12 +26,12 @@ public class MessageCommand extends BaseCommand {
             return true;
         }
         if (args.length < 2) {
-            sender.sendMessage(ChatColor.RED + "Usage: " + this.getUsage(label));
+            sender.sendMessage(ChatColor.RED + "Usage: /" + label + " <playerName> <message>");
             return true;
         }
         Player player = (Player)sender;
         Player target = BukkitUtils.playerWithNameOrUUID(args[0]);
-        if (target == null || !BaseCommand.canSee(sender, target)) {
+        if (target == null) {
             sender.sendMessage(String.format(BaseConstants.PLAYER_WITH_NAME_OR_UUID_NOT_FOUND, args[0]));
             return true;
         }
@@ -52,7 +45,6 @@ public class MessageCommand extends BaseCommand {
         return true;
     }
     
-    @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
         return null;
     }

@@ -21,7 +21,7 @@ public class SpawnCommand implements CommandExecutor {
             return true;
         }
         final Player player = (Player)sender;
-        if (!player.hasPermission(Utils.PERMISSION + "spawn")) {
+        if (!player.hasPermission("fullpvp.command.spawn")) {
             player.sendMessage(Utils.NO_PERMISSION);
             return true;
         }

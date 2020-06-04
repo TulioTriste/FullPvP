@@ -9,6 +9,7 @@ import java.util.Map;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -19,41 +20,33 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
 import net.bfcode.fullpvp.FullPvP;
-import net.bfcode.fullpvp.commands.BaseCommand;
 import net.bfcode.fullpvp.staffmode.StaffPriority;
 import net.bfcode.fullpvp.utilities.BaseConstants;
 import net.bfcode.fullpvp.utilities.BukkitUtils;
 import net.bfcode.fullpvp.utilities.ColorText;
+import net.bfcode.fullpvp.utilities.Utils;
 
-public class InvseeCommand extends BaseCommand implements Listener {
+public class InvseeCommand implements CommandExecutor, Listener {
 	
     private final InventoryType[] types;
     private final Map<InventoryType, Inventory> inventories;
     
     public InvseeCommand(final FullPvP plugin) {
-        super("invsee", "View the inventory of a player.");
         this.types = new InventoryType[] { InventoryType.BREWING, InventoryType.CHEST, InventoryType.DISPENSER, InventoryType.ENCHANTING, InventoryType.FURNACE, InventoryType.HOPPER, InventoryType.PLAYER, InventoryType.WORKBENCH };
         this.inventories = new EnumMap<InventoryType, Inventory>(InventoryType.class);
-        this.setAliases(new String[] { "inventorysee", "inventory", "inv" });
-        this.setUsage("/(command) <playerName>");
-        Bukkit.getPluginManager().registerEvents((Listener)this, (Plugin)plugin);
-    }
-    
-    @Override
-    public boolean isPlayerOnlyCommand() {
-        return true;
+        Bukkit.getPluginManager().registerEvents(this, plugin);
     }
     
     public boolean onCommand(final CommandSender sender, final Command command, final String label, final String[] args) {
     	if (!sender.hasPermission("fullpvp.command.invsee")) {
-			sender.sendMessage(ColorText.translate("&cYou don't have permission to execute this command."));
+			sender.sendMessage(Utils.NO_PERMISSION);
 			return true;
 		}
+        if (args.length < 1) {
+            sender.sendMessage(ChatColor.RED + "Usage: /" + label + " <playerName>");
+            return true;
+        }
         if (!(sender instanceof Player)) {
-            if (args.length < 1) {
-                sender.sendMessage(this.getUsage(label));
-                return true;
-            }
             final Player target = BukkitUtils.playerWithNameOrUUID(args[0]);
             if (target == null) {
                 sender.sendMessage(String.format(BaseConstants.PLAYER_WITH_NAME_OR_UUID_NOT_FOUND, args[0]));
@@ -68,10 +61,6 @@ public class InvseeCommand extends BaseCommand implements Listener {
             return true;
         }
         else {
-            if (args.length < 1) {
-                sender.sendMessage(this.getUsage(label));
-                return true;
-            }
             final Player player = (Player)sender;
             Inventory inventory = null;
             final InventoryType[] types = this.types;
@@ -98,7 +87,7 @@ public class InvseeCommand extends BaseCommand implements Listener {
                     sender.sendMessage(ChatColor.RED + "You cannot check the inventory of yourself.");
                     return true;
                 }
-                if (target2 == null || !BaseCommand.canSee(sender, target2)) {
+                if (target2 == null) {
                     sender.sendMessage(String.format(BaseConstants.PLAYER_WITH_NAME_OR_UUID_NOT_FOUND, args[0]));
                     return true;
                 }

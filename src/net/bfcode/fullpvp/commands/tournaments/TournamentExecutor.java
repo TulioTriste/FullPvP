@@ -2,7 +2,6 @@ package net.bfcode.fullpvp.commands.tournaments;
 
 import net.bfcode.fullpvp.commands.tournaments.arguments.TournamentCancelArgument;
 import net.bfcode.fullpvp.commands.tournaments.arguments.TournamentCreateArgument;
-import net.bfcode.fullpvp.commands.tournaments.arguments.TournamentHostArgument;
 import net.bfcode.fullpvp.commands.tournaments.arguments.TournamentJoinArgument;
 import net.bfcode.fullpvp.commands.tournaments.arguments.TournamentLeaveArgument;
 import net.bfcode.fullpvp.commands.tournaments.arguments.TournamentSetArgument;
@@ -20,7 +19,6 @@ public class TournamentExecutor extends ArgumentExecutor {
         this.addArgument((CommandArgument)new TournamentJoinArgument());
         this.addArgument((CommandArgument)new TournamentLeaveArgument());
         this.addArgument((CommandArgument)new TournamentSetArgument());
-        this.addArgument((CommandArgument)new TournamentHostArgument());
 	}
 
 }

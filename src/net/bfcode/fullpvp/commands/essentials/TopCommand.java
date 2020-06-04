@@ -7,33 +7,25 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
-import net.bfcode.fullpvp.commands.BaseCommand;
 import net.bfcode.fullpvp.utilities.BukkitUtils;
 import net.bfcode.fullpvp.utilities.ColorText;
+import net.bfcode.fullpvp.utilities.Utils;
 
-public class TopCommand extends BaseCommand {
-    public TopCommand() {
-        super("top", "Teleports to the highest safe spot.");
-        this.setUsage("/(command)");
-    }
-    
-    @Override
-    public boolean isPlayerOnlyCommand() {
-        return true;
-    }
+public class TopCommand implements CommandExecutor {
     
     @Override
     public boolean onCommand(final CommandSender sender, final Command command, final String label, final String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(ChatColor.RED + "This command is only executable for players.");
+            sender.sendMessage(Utils.MUST_BE_PLAYER);
             return true;
         }
         if (!sender.hasPermission("fullpvp.command.top")) {
-			sender.sendMessage(ColorText.translate("&cYou don't have permission to execute this command."));
+			sender.sendMessage(Utils.NO_PERMISSION);
 			return true;
 		}
         final Player player = (Player)sender;
