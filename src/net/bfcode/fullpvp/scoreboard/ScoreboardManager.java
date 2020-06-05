@@ -23,6 +23,7 @@ import net.bfcode.fullpvp.utilities.Utils;
 
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Statistic;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -103,7 +104,7 @@ public class ScoreboardManager implements Listener {
         for (final Player other : Bukkit.getServer().getOnlinePlayers()) {
             if (other != player && this.getScoreboardFor(other) != null) {
                 final Scoreboard scoreboard = this.getScoreboardFor(other).getScoreBoard();
-                final Team otherteam = this.getTeam(scoreboard, "other", ColorText.translate(FullPvP.getPlugin().getChat().getPlayerSuffix(player) + "&e"));
+                final Team otherteam = this.getTeam(scoreboard, "other", ColorText.translate(FullPvP.getPlugin().getChat().getPlayerSuffix(player) + ChatColor.valueOf(plugin.getConfig().getString("NameTags.enemy"))));
                 otherteam.addEntry(player.getName());
             }
         }
@@ -117,9 +118,9 @@ public class ScoreboardManager implements Listener {
         this.unregister(scoreboard, "player");
         this.unregister(scoreboard, "other");
         this.unregister(scoreboard, "staff");
-        final Team playerteam = this.getTeam(scoreboard, "player", ColorText.translate(FullPvP.getPlugin().getChat().getPlayerSuffix(player) + "&a"));
-        final Team otherteam = this.getTeam(scoreboard, "other", ColorText.translate(FullPvP.getPlugin().getChat().getPlayerSuffix(player) + "&e"));
-        final Team staffteam = this.getTeam(scoreboard, "staffmode", ColorText.translate(FullPvP.getPlugin().getChat().getPlayerSuffix(player) + "&b"));
+        final Team playerteam = this.getTeam(scoreboard, "player", ColorText.translate(FullPvP.getPlugin().getChat().getPlayerSuffix(player) + ChatColor.valueOf(plugin.getConfig().getString("NameTags.members"))));
+        final Team otherteam = this.getTeam(scoreboard, "other", ColorText.translate(FullPvP.getPlugin().getChat().getPlayerSuffix(player) + ChatColor.valueOf(plugin.getConfig().getString("NameTags.enemy"))));
+        final Team staffteam = this.getTeam(scoreboard, "staffmode", ColorText.translate(FullPvP.getPlugin().getChat().getPlayerSuffix(player) + ChatColor.valueOf(plugin.getConfig().getString("NameTags.staff"))));
         for (final Player other : Bukkit.getServer().getOnlinePlayers()) {
             if (ClanHandler.areMember(other, player, ClanHandler.getClan(player)) && !StaffModeCommand.isMod(player)) {
                 playerteam.addEntry(other.getName());

@@ -92,8 +92,8 @@ public class Tournament {
     
     public void giveItemWait(final Player player) {
         player.getInventory().setItem(8, new ItemBuilder(Material.NETHER_STAR)
-        		.displayName(ColorText.translate("&cSalir del Evento"))
-        		.lore(new String[] { ColorText.translate("&7Click derecho para salir!") }).build());
+        		.displayName(ColorText.translate("&cLeave Event"))
+        		.lore(new String[] { ColorText.translate("&7Righ Click to leave!") }).build());
     }
     
     public void broadcast(final String message) {

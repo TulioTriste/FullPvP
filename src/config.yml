@@ -82,6 +82,11 @@ Spawn:
    Combat-Tag: "&cYou can't teleport to spawn if you have &4&lCombat-Tag&c."
    Set-Spawn: "&aSpawn location has been successfully set."
    
+NameTags:
+  members: GREEN
+  enemy: RED
+  staff: AQUA
+   
 Host-Menu:
   Title: "Host´s"
   Slots: 27
