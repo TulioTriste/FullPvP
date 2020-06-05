@@ -25,12 +25,12 @@ public class SpawnCommand implements CommandExecutor {
             player.sendMessage(Utils.NO_PERMISSION);
             return true;
         }
-        if (FullPvP.getPlugin().getSpawnHandler().getSpawnTasks().containsKey(player.getUniqueId())) {
-            player.sendMessage(ColorText.translate(FullPvP.getPlugin().getConfig().getString("Spawn.Already-Teleporting")));
+        if (FullPvP.getInstance().getSpawnHandler().getSpawnTasks().containsKey(player.getUniqueId())) {
+            player.sendMessage(ColorText.translate(FullPvP.getInstance().getConfig().getString("Spawn.Already-Teleporting")));
             return true;
         }
-        if (FullPvP.getPlugin().getCombatTagListener().hasCooldown(player)) {
-            player.sendMessage(ColorText.translate(FullPvP.getPlugin().getConfig().getString("Spawn.Combat-Tag")));
+        if (FullPvP.getInstance().getCombatTagListener().hasCooldown(player)) {
+            player.sendMessage(ColorText.translate(FullPvP.getInstance().getConfig().getString("Spawn.Combat-Tag")));
             return true;
         }
         if (player.hasPermission("rank.staff")) {
@@ -41,12 +41,12 @@ public class SpawnCommand implements CommandExecutor {
             String world = locations.getString("Locations.Spawn.World");
             Location location = new Location(Bukkit.getWorld(world), (double)x, (double)y, (double)z);
             player.teleport(location);
-            FullPvP.getPlugin().getSpawnHandler().removeSpawn(player);
+            FullPvP.getInstance().getSpawnHandler().removeSpawn(player);
         	return true;
         } else {
-        	FullPvP.getPlugin().getSpawnHandler().createSpawn(player);
-            player.sendMessage(ColorText.translate(FullPvP.getPlugin().getConfig().getString("Spawn.Teleporting"))
-            		.replace("{time}", String.valueOf(FullPvP.getPlugin().getConfig().getInt("Spawn.Time"))));
+        	FullPvP.getInstance().getSpawnHandler().createSpawn(player);
+            player.sendMessage(ColorText.translate(FullPvP.getInstance().getConfig().getString("Spawn.Teleporting"))
+            		.replace("{time}", String.valueOf(FullPvP.getInstance().getConfig().getInt("Spawn.Time"))));
             return true;
         }
     }

@@ -42,7 +42,7 @@ public class RepairSignListener implements Listener {
     final int repair_all_reab = 2400;
 	
     public RepairSignListener() {
-        Bukkit.getPluginManager().registerEvents(this, FullPvP.getPlugin());
+        Bukkit.getPluginManager().registerEvents(this, FullPvP.getInstance());
     }
 
     @EventHandler
@@ -91,7 +91,7 @@ public class RepairSignListener implements Listener {
                 		.setItem(11, item_hand)
                 		.setItem(12, new ItemMaker(Material.STAINED_GLASS_PANE).data((short)7).create())
                 		.setItem(13, new ItemMaker(Material.SKULL_ITEM).data((short)3)
-                				.displayName("&6Your Information").lore("&7\u25CF &eMoney: &f$" + FullPvP.getPlugin().getEconomyManager().getBalance(player.getUniqueId())).create())
+                				.displayName("&6Your Information").lore("&7\u25CF &eMoney: &f$" + FullPvP.getInstance().getEconomyManager().getBalance(player.getUniqueId())).create())
                 		.setItem(14, new ItemMaker(Material.STAINED_GLASS_PANE).data((short)7).create())
                 		.setItem(15, new ItemMaker(Material.ANVIL).displayName
                 				("&6Click to repair all items.").lore
@@ -125,7 +125,7 @@ public class RepairSignListener implements Listener {
         		return;
         	}
             event.setCancelled(true);
-            final int balance = FullPvP.getPlugin().getEconomyManager().getBalance(player.getUniqueId());
+            final int balance = FullPvP.getInstance().getEconomyManager().getBalance(player.getUniqueId());
             if (slot == 11) {
                 if (player.hasPermission(crystal_permission)) {
                 	if (balance < repair_crystal) {
@@ -133,7 +133,7 @@ public class RepairSignListener implements Listener {
                         player.sendMessage(ColorText.translate("&cYou don't have enough money to repair this item."));
                         return;
                     }
-                	FullPvP.getPlugin().getEconomyManager().setBalance(player.getUniqueId(), balance - repair_crystal);
+                	FullPvP.getInstance().getEconomyManager().setBalance(player.getUniqueId(), balance - repair_crystal);
                     player.getItemInHand().setDurability((short)0);
                     player.closeInventory();
                     player.sendMessage(ColorText.translate("&aYour item has been repaired successfully."));
@@ -145,7 +145,7 @@ public class RepairSignListener implements Listener {
                         player.sendMessage(ColorText.translate("&cYou don't have enough money to repair this item."));
                         return;
                     }
-                	FullPvP.getPlugin().getEconomyManager().setBalance(player.getUniqueId(), balance - repair_esmerald);
+                	FullPvP.getInstance().getEconomyManager().setBalance(player.getUniqueId(), balance - repair_esmerald);
                     player.getItemInHand().setDurability((short)0);
                     player.closeInventory();
                     player.sendMessage(ColorText.translate("&aYour item has been repaired successfully."));
@@ -157,7 +157,7 @@ public class RepairSignListener implements Listener {
                         player.sendMessage(ColorText.translate("&cYou don't have enough money to repair this item."));
                         return;
                     }
-                	FullPvP.getPlugin().getEconomyManager().setBalance(player.getUniqueId(), balance - repair_mysthic);
+                	FullPvP.getInstance().getEconomyManager().setBalance(player.getUniqueId(), balance - repair_mysthic);
                     player.getItemInHand().setDurability((short)0);
                     player.closeInventory();
                     player.sendMessage(ColorText.translate("&aYour item has been repaired successfully."));
@@ -169,7 +169,7 @@ public class RepairSignListener implements Listener {
                         player.sendMessage(ColorText.translate("&cYou don't have enough money to repair this item."));
                         return;
                     }
-                	FullPvP.getPlugin().getEconomyManager().setBalance(player.getUniqueId(), balance - repair_legend);
+                	FullPvP.getInstance().getEconomyManager().setBalance(player.getUniqueId(), balance - repair_legend);
                     player.getItemInHand().setDurability((short)0);
                     player.closeInventory();
                     player.sendMessage(ColorText.translate("&aYour item has been repaired successfully."));
@@ -181,7 +181,7 @@ public class RepairSignListener implements Listener {
                         player.sendMessage(ColorText.translate("&cYou don't have enough money to repair this item."));
                         return;
                     }
-                	FullPvP.getPlugin().getEconomyManager().setBalance(player.getUniqueId(), balance - repair_reab);
+                	FullPvP.getInstance().getEconomyManager().setBalance(player.getUniqueId(), balance - repair_reab);
                     player.getItemInHand().setDurability((short)0);
                     player.closeInventory();
                     player.sendMessage(ColorText.translate("&aYour item has been repaired successfully."));
@@ -193,7 +193,7 @@ public class RepairSignListener implements Listener {
                         player.sendMessage(ColorText.translate("&cYou don't have enough money to repair this item."));
                         return;
                     }
-                	FullPvP.getPlugin().getEconomyManager().setBalance(player.getUniqueId(), balance - repair_user);
+                	FullPvP.getInstance().getEconomyManager().setBalance(player.getUniqueId(), balance - repair_user);
                     player.getItemInHand().setDurability((short)0);
                     player.closeInventory();
                     player.sendMessage(ColorText.translate("&aYour item has been repaired successfully."));
@@ -215,7 +215,7 @@ public class RepairSignListener implements Listener {
                       ItemStack i = arrayOfItemStack[ix];
                       repair(i);
                     }
-            		FullPvP.getPlugin().getEconomyManager().setBalance(player.getUniqueId(), balance - repair_all_crystal);
+            		FullPvP.getInstance().getEconomyManager().setBalance(player.getUniqueId(), balance - repair_all_crystal);
                     player.closeInventory();
                     player.sendMessage(ColorText.translate("&aAll item has been repaired successfully."));
                     player.playSound(player.getLocation(), Sound.ANVIL_USE, 1.0f, 1.0f);
@@ -233,7 +233,7 @@ public class RepairSignListener implements Listener {
                       ItemStack i = arrayOfItemStack[ix];
                       repair(i);
                     }
-            		FullPvP.getPlugin().getEconomyManager().setBalance(player.getUniqueId(), balance - repair_all_esmerald);
+            		FullPvP.getInstance().getEconomyManager().setBalance(player.getUniqueId(), balance - repair_all_esmerald);
                     player.closeInventory();
                     player.sendMessage(ColorText.translate("&aAll item has been repaired successfully."));
                     player.playSound(player.getLocation(), Sound.ANVIL_USE, 1.0f, 1.0f);
@@ -251,7 +251,7 @@ public class RepairSignListener implements Listener {
                       ItemStack i = arrayOfItemStack[ix];
                       repair(i);
                     }
-            		FullPvP.getPlugin().getEconomyManager().setBalance(player.getUniqueId(), balance - repair_all_mysthic);
+            		FullPvP.getInstance().getEconomyManager().setBalance(player.getUniqueId(), balance - repair_all_mysthic);
                     player.closeInventory();
                     player.sendMessage(ColorText.translate("&aAll item has been repaired successfully."));
                     player.playSound(player.getLocation(), Sound.ANVIL_USE, 1.0f, 1.0f);
@@ -269,7 +269,7 @@ public class RepairSignListener implements Listener {
                       ItemStack i = arrayOfItemStack[ix];
                       repair(i);
                     }
-            		FullPvP.getPlugin().getEconomyManager().setBalance(player.getUniqueId(), balance - repair_all_legend);
+            		FullPvP.getInstance().getEconomyManager().setBalance(player.getUniqueId(), balance - repair_all_legend);
                     player.closeInventory();
                     player.sendMessage(ColorText.translate("&aAll item has been repaired successfully."));
                     player.playSound(player.getLocation(), Sound.ANVIL_USE, 1.0f, 1.0f);
@@ -287,7 +287,7 @@ public class RepairSignListener implements Listener {
                       ItemStack i = arrayOfItemStack[ix];
                       repair(i);
                     }
-            		FullPvP.getPlugin().getEconomyManager().setBalance(player.getUniqueId(), balance - repair_all_reab);
+            		FullPvP.getInstance().getEconomyManager().setBalance(player.getUniqueId(), balance - repair_all_reab);
                     player.closeInventory();
                     player.sendMessage(ColorText.translate("&aAll item has been repaired successfully."));
                     player.playSound(player.getLocation(), Sound.ANVIL_USE, 1.0f, 1.0f);
@@ -306,7 +306,7 @@ public class RepairSignListener implements Listener {
                       ItemStack i = arrayOfItemStack[ix];
                       repair(i);
                     }
-            		FullPvP.getPlugin().getEconomyManager().setBalance(player.getUniqueId(), balance - repair_all_user);
+            		FullPvP.getInstance().getEconomyManager().setBalance(player.getUniqueId(), balance - repair_all_user);
                     player.closeInventory();
                     player.sendMessage(ColorText.translate("&aAll item has been repaired successfully."));
                     player.playSound(player.getLocation(), Sound.ANVIL_USE, 1.0f, 1.0f);

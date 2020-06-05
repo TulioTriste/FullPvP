@@ -26,7 +26,7 @@ public class TournamentRunnable {
     private Tournament tournament;
 
     public TournamentRunnable(final Tournament tournament) {
-        this.plugin = FullPvP.getPlugin();
+        this.plugin = FullPvP.getInstance();
         this.tournament = tournament;
     }
 
@@ -103,11 +103,11 @@ public class TournamentRunnable {
                         Bukkit.broadcastMessage(ColorText.translate("&2&l" + TournamentRunnable.this.tournament.getType().getName() + " &fhas started with " + TournamentRunnable.this.tournament.getPlayers().size() + " players."));
                     }
                     else if ((countdown % 10 == 0 || countdown < 5) && countdown > 0) {
-                    	Tournament tournament = FullPvP.getPlugin().getTournamentManager().getTournament();
+                    	Tournament tournament = FullPvP.getInstance().getTournamentManager().getTournament();
                     	Player player = TournamentRunnable.this.tournament.getHoster();
-                    	String name = FullPvP.getPlugin().getChat().getPlayerPrefix(player) + player.getDisplayName();
+                    	String name = FullPvP.getInstance().getChat().getPlayerPrefix(player) + player.getDisplayName();
                     	TextComponent mensaje = new TextComponent();
-                    	mensaje.setText(ColorText.translate("&2&l" + TournamentRunnable.this.tournament.getType().getName() + " &fhosted by &r" + name + " "+ "&fstarting in " + countdown + " second" + ((countdown == 1) ? "" : "s") + " &7(" + "&a" + tournament.getPlayers().size() + "&7/&a" + tournament.getSize() + "&7)" + " &a!Click to join¡"));
+                    	mensaje.setText(ColorText.translate("&2&l" + TournamentRunnable.this.tournament.getType().getName() + " &fhosted by &r" + name + " "+ "&fstarting in " + countdown + " second" + ((countdown == 1) ? "" : "s") + " &7(" + "&a" + tournament.getPlayers().size() + "&7/&a" + tournament.getSize() + "&7)" + " &a!Click to joinï¿½"));
                     	mensaje.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tour join"));
                     	for (final Player online : Bukkit.getServer().getOnlinePlayers()) {
                     		online.sendMessage(mensaje);

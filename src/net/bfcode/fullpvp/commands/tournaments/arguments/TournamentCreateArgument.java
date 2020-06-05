@@ -27,7 +27,7 @@ public class TournamentCreateArgument extends CommandArgument {
     
     public TournamentCreateArgument() {
         super("create", "Create a tournament");
-        this.plugin = FullPvP.getPlugin();
+        this.plugin = FullPvP.getInstance();
         this.permission = "fullpvp.command.tournament.argument.create";
     }
     
@@ -76,8 +76,8 @@ public class TournamentCreateArgument extends CommandArgument {
                 this.plugin.getTournamentManager().createTournament(player, size, type, player);
                 player.performCommand("tournament join");
                 for (final Player online : Bukkit.getServer().getOnlinePlayers()) {
-                	String name = FullPvP.getPlugin().getChat().getPlayerPrefix(player) + player.getDisplayName();
-                    Tournament tournament = FullPvP.getPlugin().getTournamentManager().getTournament();
+                	String name = FullPvP.getInstance().getChat().getPlayerPrefix(player) + player.getDisplayName();
+                    Tournament tournament = FullPvP.getInstance().getTournamentManager().getTournament();
                     TextComponent mensaje = new TextComponent();
                     mensaje.setText(ColorText.translate("&2&l" + type.getName() + " &fhosted by &r" + name + " &7(" + "&a" + tournament.getPlayers().size() + "&7/&a" + tournament.getSize() + "&7)" + " &a!Click to join¡"));
                     mensaje.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tour join"));

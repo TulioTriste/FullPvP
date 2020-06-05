@@ -80,7 +80,7 @@ public class ManagedFile
             return lines;
         }
         catch (IOException ex) {
-            FullPvP.getPlugin().getLogger().log(Level.SEVERE, ex.getMessage(), ex);
+            FullPvP.getInstance().getLogger().log(Level.SEVERE, ex.getMessage(), ex);
             return Collections.emptyList();
         }
     }

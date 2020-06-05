@@ -21,7 +21,7 @@ public class TournamentFile extends YamlConfiguration {
     }
     
     private Plugin main() {
-        return FullPvP.getPlugin();
+        return FullPvP.getInstance();
     }
     
     public TournamentFile() {

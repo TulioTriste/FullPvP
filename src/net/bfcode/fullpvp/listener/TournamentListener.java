@@ -51,7 +51,7 @@ public class TournamentListener implements Listener {
     
     public TournamentListener(final FullPvP plugin) {
     	Bukkit.getPluginManager().registerEvents(this, plugin);
-        this.plugin = FullPvP.getPlugin();
+        this.plugin = FullPvP.getInstance();
     }
     
     @EventHandler
@@ -192,9 +192,9 @@ public class TournamentListener implements Listener {
         if(player.getKiller() == null) {
         	Player first = tournament.getFirstPlayer();
         	Player second = tournament.getSecondPlayer();
-        	if(FullPvP.getPlugin().getTournamentManager().isInTournament(first)) {
+        	if(FullPvP.getInstance().getTournamentManager().isInTournament(first)) {
         		tournament.teleport(first, "Sumo.Spawn");
-        	} else if(FullPvP.getPlugin().getTournamentManager().isInTournament(second)) {
+        	} else if(FullPvP.getInstance().getTournamentManager().isInTournament(second)) {
         		tournament.teleport(second, "Sumo.Spawn");
         	}
         }
@@ -257,7 +257,7 @@ public class TournamentListener implements Listener {
 			return;
 		}
     	if(event.getCurrentItem().getType().equals(Material.DIAMOND_BOOTS) || event.getCurrentItem().getType().equals(Material.DIAMOND_LEGGINGS) || event.getCurrentItem().getType().equals(Material.DIAMOND_CHESTPLATE) || event.getCurrentItem().getType().equals(Material.DIAMOND_HELMET)) {
-    		player.sendMessage(ColorText.translate("&eNo puedes mover estos items en tú inventario."));
+    		player.sendMessage(ColorText.translate("&eNo puedes mover estos items en tï¿½ inventario."));
     		event.setCancelled(true);
     	}
     }

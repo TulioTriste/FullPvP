@@ -30,7 +30,7 @@ public class StatsCommand implements CommandExecutor
                 player.sendMessage(Utils.PLAYER_NOT_FOUND);
                 return true;
             }
-            Bukkit.getScheduler().runTaskAsynchronously(FullPvP.getPlugin(), new Runnable() {
+            Bukkit.getScheduler().runTaskAsynchronously(FullPvP.getInstance(), new Runnable() {
                 @Override
                 public void run() {
                     StatsCommand.this.getPlayerStats(player, target);
@@ -47,7 +47,7 @@ public class StatsCommand implements CommandExecutor
     				.replace("{player}", target.getName())
     				.replace("{kills}", target.getStatistic(Statistic.PLAYER_KILLS) + "")
     				.replace("{deaths}", target.getStatistic(Statistic.DEATHS) + "")
-    				.replace("{balance}", FullPvP.getPlugin().getEconomyManager().getBalance(target.getUniqueId()) + "")));
+    				.replace("{balance}", FullPvP.getInstance().getEconomyManager().getBalance(target.getUniqueId()) + "")));
     	}
     }
 }

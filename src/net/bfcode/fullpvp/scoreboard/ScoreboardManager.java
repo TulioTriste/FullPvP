@@ -43,7 +43,7 @@ public class ScoreboardManager implements Listener {
     private Configuration config;
     
     public ScoreboardManager() {
-        this.plugin = FullPvP.getPlugin();
+        this.plugin = FullPvP.getInstance();
         this.config = (Configuration)this.plugin.getConfig();
         this.helper = new WeakHashMap<Player, ScoreboardAPI>();
     }
@@ -104,7 +104,7 @@ public class ScoreboardManager implements Listener {
         for (final Player other : Bukkit.getServer().getOnlinePlayers()) {
             if (other != player && this.getScoreboardFor(other) != null) {
                 final Scoreboard scoreboard = this.getScoreboardFor(other).getScoreBoard();
-                final Team otherteam = this.getTeam(scoreboard, "other", ColorText.translate(FullPvP.getPlugin().getChat().getPlayerSuffix(player) + ChatColor.valueOf(plugin.getConfig().getString("NameTags.enemy"))));
+                final Team otherteam = this.getTeam(scoreboard, "other", ColorText.translate(FullPvP.getInstance().getChat().getPlayerSuffix(player) + ChatColor.valueOf(plugin.getConfig().getString("NameTags.enemy"))));
                 otherteam.addEntry(player.getName());
             }
         }
@@ -118,9 +118,9 @@ public class ScoreboardManager implements Listener {
         this.unregister(scoreboard, "player");
         this.unregister(scoreboard, "other");
         this.unregister(scoreboard, "staff");
-        final Team playerteam = this.getTeam(scoreboard, "player", ColorText.translate(FullPvP.getPlugin().getChat().getPlayerSuffix(player) + ChatColor.valueOf(plugin.getConfig().getString("NameTags.members"))));
-        final Team otherteam = this.getTeam(scoreboard, "other", ColorText.translate(FullPvP.getPlugin().getChat().getPlayerSuffix(player) + ChatColor.valueOf(plugin.getConfig().getString("NameTags.enemy"))));
-        final Team staffteam = this.getTeam(scoreboard, "staffmode", ColorText.translate(FullPvP.getPlugin().getChat().getPlayerSuffix(player) + ChatColor.valueOf(plugin.getConfig().getString("NameTags.staff"))));
+        final Team playerteam = this.getTeam(scoreboard, "player", ColorText.translate(FullPvP.getInstance().getChat().getPlayerSuffix(player) + ChatColor.valueOf(plugin.getConfig().getString("NameTags.members"))));
+        final Team otherteam = this.getTeam(scoreboard, "other", ColorText.translate(FullPvP.getInstance().getChat().getPlayerSuffix(player) + ChatColor.valueOf(plugin.getConfig().getString("NameTags.enemy"))));
+        final Team staffteam = this.getTeam(scoreboard, "staffmode", ColorText.translate(FullPvP.getInstance().getChat().getPlayerSuffix(player) + ChatColor.valueOf(plugin.getConfig().getString("NameTags.staff"))));
         for (final Player other : Bukkit.getServer().getOnlinePlayers()) {
             if (ClanHandler.areMember(other, player, ClanHandler.getClan(player)) && !StaffModeCommand.isMod(player)) {
                 playerteam.addEntry(other.getName());
@@ -139,7 +139,7 @@ public class ScoreboardManager implements Listener {
                 for (final Player player : Bukkit.getServer().getOnlinePlayers()) {
                     if (ScoreboardManager.this.helper.containsKey(player)) {
 	                    ScoreboardAPI lines = ScoreboardManager.this.getScoreboardFor(player);
-	                    TournamentManager tournamentManager = FullPvP.getPlugin().getTournamentManager();
+	                    TournamentManager tournamentManager = FullPvP.getInstance().getTournamentManager();
 	                    ScoreBoardFile config = ScoreBoardFile.getConfig();
 	                    LocationFile location = LocationFile.getConfig();
 	                    lines.clear();
@@ -147,8 +147,8 @@ public class ScoreboardManager implements Listener {
 	                    	
 	                    	if(string.contains("{combat}")) {
 	                    		
-	                    		if(FullPvP.getPlugin().getCombatTagListener().hasCooldown(player)) {
-	                    			lines.add(string.replace("{combat}", Utils.formatLongMin(FullPvP.getPlugin().getCombatTagListener().getMillisecondsLeft(player))));
+	                    		if(FullPvP.getInstance().getCombatTagListener().hasCooldown(player)) {
+	                    			lines.add(string.replace("{combat}", Utils.formatLongMin(FullPvP.getInstance().getCombatTagListener().getMillisecondsLeft(player))));
 	                    		}
 	                    		
 	                    		continue;
@@ -156,8 +156,8 @@ public class ScoreboardManager implements Listener {
 	                    	
 	                    	if(string.contains("{enderpearl}")) {
 	                    		
-	                    		if(FullPvP.getPlugin().getEnderpearlListener().hasCooldown(player)) {
-	                    			lines.add(string.replace("{enderpearl}", Utils.formatLongMin(FullPvP.getPlugin().getEnderpearlListener().getMillisecondsLeft(player))));
+	                    		if(FullPvP.getInstance().getEnderpearlListener().hasCooldown(player)) {
+	                    			lines.add(string.replace("{enderpearl}", Utils.formatLongMin(FullPvP.getInstance().getEnderpearlListener().getMillisecondsLeft(player))));
 	                    		}
 	                    		
 	                    		continue;
@@ -165,8 +165,8 @@ public class ScoreboardManager implements Listener {
 	                    	
 	                    	if(string.contains("{spawn}")) {
 	                    		
-	                    		if(FullPvP.getPlugin().getSpawnHandler().isActive(player)) {
-	                    			lines.add(string.replace("{spawn}", Utils.formatLongMin(FullPvP.getPlugin().getSpawnHandler().getMillisecondsLeft(player))));
+	                    		if(FullPvP.getInstance().getSpawnHandler().isActive(player)) {
+	                    			lines.add(string.replace("{spawn}", Utils.formatLongMin(FullPvP.getInstance().getSpawnHandler().getMillisecondsLeft(player))));
 	                    		}
 	                    		
 	                    		continue;
@@ -222,7 +222,7 @@ public class ScoreboardManager implements Listener {
 			                        }
 			                        if(selection.contains(player.getLocation())) {
 			                    		for(String noPvP : config.getStringList("Scoreboard.Variables.Claims.noPvP")) {
-			                    			noPvP = noPvP.replace("{balance}", FullPvP.getPlugin().getEconomyManager().getBalance(player.getUniqueId()) + "")
+			                    			noPvP = noPvP.replace("{balance}", FullPvP.getInstance().getEconomyManager().getBalance(player.getUniqueId()) + "")
 			                    			.replace("{kills}", player.getStatistic(Statistic.PLAYER_KILLS) + "")
 			                    			.replace("{deaths}", player.getStatistic(Statistic.DEATHS) + "");
 			                    			if(noPvP.contains("{clan-info}")) {
@@ -241,7 +241,7 @@ public class ScoreboardManager implements Listener {
 			                    		}
 			                		} else {
 			                			for(String nozone : config.getStringList("Scoreboard.Variables.Claims.noZone")) {
-			                				nozone = nozone.replace("{balance}", FullPvP.getPlugin().getEconomyManager().getBalance(player.getUniqueId()) + "")
+			                				nozone = nozone.replace("{balance}", FullPvP.getInstance().getEconomyManager().getBalance(player.getUniqueId()) + "")
 					                    			.replace("{kills}", player.getStatistic(Statistic.PLAYER_KILLS) + "")
 					                    			.replace("{deaths}", player.getStatistic(Statistic.DEATHS) + "");
 			                    			if(nozone.contains("{clan-info}")) {
@@ -265,7 +265,7 @@ public class ScoreboardManager implements Listener {
 	                    	
 	                    	if(string.contains("{tournament}")) {
 			                    if (tournamentManager.isInTournament(player) && !StaffModeCommand.isMod(player)) {
-		                			Tournament tournament = FullPvP.getPlugin().getTournamentManager().getTournament();
+		                			Tournament tournament = FullPvP.getInstance().getTournamentManager().getTournament();
 		                			int announceCountdown = tournament.getDesecrentAnn();
 		                			lines.add(config.getString("Scoreboard.Variables.Tournament.Title")
 		                					.replace("{event}", tournament.getType().getName()));
@@ -341,7 +341,7 @@ public class ScoreboardManager implements Listener {
                     }
                 }
             }
-        }.runTaskTimer(FullPvP.getPlugin(), 2L, 2L);
+        }.runTaskTimer(FullPvP.getInstance(), 2L, 2L);
     }
     
     public Location getLocation(final String town, final String corner) {

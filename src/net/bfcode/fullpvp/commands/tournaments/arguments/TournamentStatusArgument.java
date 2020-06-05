@@ -17,7 +17,7 @@ public class TournamentStatusArgument extends CommandArgument
     
     public TournamentStatusArgument() {
         super("status", "Status of a tournament");
-        this.plugin = FullPvP.getPlugin();
+        this.plugin = FullPvP.getInstance();
         this.permission = "fullpvp.command.tournament.argument.status";
     }
     

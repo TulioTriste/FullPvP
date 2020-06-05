@@ -111,7 +111,7 @@ public class CombatTagListener implements Listener {
         if (event.isCancelled()) {
             return;
         }
-        if(FullPvP.getPlugin().getTournamentManager().isInTournament(event.getEntity().getUniqueId())) {
+        if(FullPvP.getInstance().getTournamentManager().isInTournament(event.getEntity().getUniqueId())) {
         	return;
         }
         final Player localDamager = this.getPlayer(event.getDamager());
@@ -135,7 +135,7 @@ public class CombatTagListener implements Listener {
     public void onCommand(PlayerCommandPreprocessEvent event) {
     	Player player = event.getPlayer();
     	if(this.hasCooldown(player)) {
-    		for(String commands : FullPvP.getPlugin().getConfig().getStringList("Block-Commands-In-Combat")) {
+    		for(String commands : FullPvP.getInstance().getConfig().getStringList("Block-Commands-In-Combat")) {
     			if(event.getMessage().contains(commands)) {
         			event.setCancelled(true);
         			player.sendMessage(ColorText.translate(this.fullPvP.getConfig().getString("Combat-Tag.Block-Command")));

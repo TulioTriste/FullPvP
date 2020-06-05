@@ -16,7 +16,7 @@ public class TournamentSetArgument extends CommandArgument {
     
     public TournamentSetArgument() {
         super("set", "Set locations of the tournament");
-        this.plugin = FullPvP.getPlugin();
+        this.plugin = FullPvP.getInstance();
         this.permission = "fullpvp.command.tournament.argument.set";
         this.file = TournamentFile.getConfig();
     }

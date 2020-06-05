@@ -64,7 +64,7 @@ public class DTCListener implements Listener {
                 		.replace("{points}", String.valueOf(DTCHandler.getDTCPoints(dtc))));
                 if (DTCHandler.getDTCPoints(dtc) == 0) {
                     DTCHandler.setDTCEvent(dtc, false);
-                    Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), FullPvP.getPlugin().getConfig().getString("DTC-Reward")
+                    Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), FullPvP.getInstance().getConfig().getString("DTC-Reward")
                     		.replace("{player}", player.getName()));
                     Bukkit.broadcastMessage(ColorText.translate(messages.getString("Destroy-The-Core.Destroyed-Core")
                     		.replace("{player}", player.getName())

@@ -30,11 +30,11 @@ public class HostCommand implements CommandExecutor, Listener {
 	private static String hostTitle;
 
 	public HostCommand() {
-        FullPvP.getPlugin().getServer().getPluginManager().registerEvents(this, FullPvP.getPlugin());
+        FullPvP.getInstance().getServer().getPluginManager().registerEvents(this, FullPvP.getInstance());
     }
 
     static {
-    	hostTitle = ColorText.translate(FullPvP.getPlugin().getConfig().getString("Host-Menu.Title"));
+    	hostTitle = ColorText.translate(FullPvP.getInstance().getConfig().getString("Host-Menu.Title"));
     }
     
 	public boolean onCommand(final CommandSender sender, final Command command, final String label, final String[] args) {
@@ -72,11 +72,11 @@ public class HostCommand implements CommandExecutor, Listener {
         	if(event.getClickedInventory() == null || event.getInventory() != event.getClickedInventory()) {
         		return;
         	}
-    		ConfigurationSection config = FullPvP.getPlugin().getConfig().getConfigurationSection("Host-Menu.items");
+    		ConfigurationSection config = FullPvP.getInstance().getConfig().getConfigurationSection("Host-Menu.items");
         	for(int i = 1; i <= config.getKeys(false).size(); ++i) {
         		int clickslot = config.getInt("." + i + ".Slot");
-        		if(event.getRawSlot() == clickslot && player.hasPermission(FullPvP.getPlugin().getConfig().getString("Host-Menu.items." + i + ".Permission"))) {
-        			player.performCommand(FullPvP.getPlugin().getConfig().getString("Host-Menu.items." + i + ".Start-Command"));
+        		if(event.getRawSlot() == clickslot && player.hasPermission(FullPvP.getInstance().getConfig().getString("Host-Menu.items." + i + ".Permission"))) {
+        			player.performCommand(FullPvP.getInstance().getConfig().getString("Host-Menu.items." + i + ".Start-Command"));
         		}
         	}
             event.setCancelled(true);	
@@ -84,8 +84,8 @@ public class HostCommand implements CommandExecutor, Listener {
     }
     
     public void HostGUI(Player player) {
-    	Inventory inventory = Bukkit.createInventory(null, FullPvP.getPlugin().getConfig().getInt("Host-Menu.Slots"), hostTitle);
-		ConfigurationSection config = FullPvP.getPlugin().getConfig().getConfigurationSection("Host-Menu.items");
+    	Inventory inventory = Bukkit.createInventory(null, FullPvP.getInstance().getConfig().getInt("Host-Menu.Slots"), hostTitle);
+		ConfigurationSection config = FullPvP.getInstance().getConfig().getConfigurationSection("Host-Menu.items");
 
     	for(int i = 1; i <= config.getKeys(false).size(); ++i) {
             inventory.setItem(config.getInt("." + i + ".Slot"), new ItemStackBuilder(Material.valueOf(config.getString("." + i + ".Material"))).setName(ColorText.translate(config.getString("." + i + ".Name"))).addLore((config.getStringList("." + i + ".Lore"))).build());

@@ -33,7 +33,7 @@ public class TournamentManager {
     private boolean created;
     
     public TournamentManager() {
-        this.plugin = FullPvP.getPlugin();
+        this.plugin = FullPvP.getInstance();
         this.matches = new HashMap<UUID, Integer>();
         this.players = new ArrayList<UUID>();
         this.created = false;
@@ -116,7 +116,7 @@ public class TournamentManager {
                 }
             }
             
-            ConfigurationSection config = FullPvP.getPlugin().getConfig().getConfigurationSection("Host-Menu.items");
+            ConfigurationSection config = FullPvP.getInstance().getConfig().getConfigurationSection("Host-Menu.items");
             for(int i = 1; i <= config.getKeys(false).size(); ++i) {
             	Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), config.getString("." + i + ".Winner-Command"));
             }

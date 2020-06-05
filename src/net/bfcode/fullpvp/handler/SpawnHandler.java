@@ -45,7 +45,7 @@ public class SpawnHandler extends Handler implements Listener {
     }
     
     public void applyWarmup(final Player player) {
-        this.warmup.put(player.getUniqueId(), System.currentTimeMillis() + FullPvP.getPlugin().getConfig().getInt("Spawn.Time") * 1000);
+        this.warmup.put(player.getUniqueId(), System.currentTimeMillis() + FullPvP.getInstance().getConfig().getInt("Spawn.Time") * 1000);
     }
     
     public boolean isActive(final Player player) {
@@ -61,7 +61,7 @@ public class SpawnHandler extends Handler implements Listener {
     
     public void createSpawn(final Player player) {
         final SpawnTask SpawnTask = new SpawnTask(player);
-        SpawnTask.runTaskLater((Plugin)FullPvP.getPlugin(), (long)(FullPvP.getPlugin().getConfig().getInt("Spawn.Time") * 20));
+        SpawnTask.runTaskLater((Plugin)FullPvP.getInstance(), (long)(FullPvP.getInstance().getConfig().getInt("Spawn.Time") * 20));
         this.applyWarmup(player);
         this.spawnTasks.put(player.getUniqueId(), SpawnTask);
     }
@@ -88,7 +88,7 @@ public class SpawnHandler extends Handler implements Listener {
         if (this.spawnTasks.containsKey(player.getUniqueId()) && (from.getBlockX() != to.getBlockX() || from.getBlockZ() != to.getBlockZ())) {
             this.spawnTasks.get(player.getUniqueId()).cancel();
             this.spawnTasks.remove(player.getUniqueId());
-            player.sendMessage(ColorText.translate(FullPvP.getPlugin().getConfig().getString("Spawn.Teleport-Cancelled")));
+            player.sendMessage(ColorText.translate(FullPvP.getInstance().getConfig().getString("Spawn.Teleport-Cancelled")));
         }
     }
     
@@ -100,7 +100,7 @@ public class SpawnHandler extends Handler implements Listener {
             if (this.spawnTasks.containsKey(player.getUniqueId())) {
                 this.spawnTasks.get(player.getUniqueId()).cancel();
                 this.spawnTasks.remove(player.getUniqueId());
-                player.sendMessage(ColorText.translate(FullPvP.getPlugin().getConfig().getString("Spawn.Teleport-Cancelled")));
+                player.sendMessage(ColorText.translate(FullPvP.getInstance().getConfig().getString("Spawn.Teleport-Cancelled")));
             }
         }
     }
@@ -130,7 +130,7 @@ public class SpawnHandler extends Handler implements Listener {
             this.player = player;
         }
         public void run() {
-            this.player.setMetadata("SpawnCommand", (MetadataValue)new FixedMetadataValue(FullPvP.getPlugin(), Boolean.TRUE));
+            this.player.setMetadata("SpawnCommand", (MetadataValue)new FixedMetadataValue(FullPvP.getInstance(), Boolean.TRUE));
             final LocationFile locations = LocationFile.getConfig();
             final int x = locations.getInt("Locations.Spawn.X");
             final int y = locations.getInt("Locations.Spawn.Y");
@@ -138,10 +138,10 @@ public class SpawnHandler extends Handler implements Listener {
             final String world = locations.getString("Locations.Spawn.World");
             final Location location = new Location(Bukkit.getWorld(world), (double)x, (double)y, (double)z);
             this.player.teleport(location);
-            this.player.sendMessage(ColorText.translate(FullPvP.getPlugin().getConfig().getString("Spawn.Teleported")));
+            this.player.sendMessage(ColorText.translate(FullPvP.getInstance().getConfig().getString("Spawn.Teleported")));
             SpawnHandler.this.spawnTasks.remove(this.player.getUniqueId());
-            if (FullPvP.getPlugin().getConfig().getBoolean("Spawn.Sound.Enabled")) {
-                String sound = FullPvP.getPlugin().getConfig().getString("Spawn.Sound.Type");
+            if (FullPvP.getInstance().getConfig().getBoolean("Spawn.Sound.Enabled")) {
+                String sound = FullPvP.getInstance().getConfig().getString("Spawn.Sound.Type");
                 if (sound == null) {
                     return;
                 }

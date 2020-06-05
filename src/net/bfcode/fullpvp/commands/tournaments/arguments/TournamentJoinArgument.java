@@ -20,7 +20,7 @@ public class TournamentJoinArgument extends CommandArgument
     
     public TournamentJoinArgument() {
         super("join", "Join to a tournament");
-        this.plugin = FullPvP.getPlugin();
+        this.plugin = FullPvP.getInstance();
         this.permission = "fullpvp.command.tournament.argument.join";
     }
     

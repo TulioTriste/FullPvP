@@ -182,7 +182,7 @@ public class BaseUser extends ServerParticipator
     }
 
     public void update(){
-        FullPvP plugin = FullPvP.getPlugin();
+        FullPvP plugin = FullPvP.getInstance();
         if (plugin == null) {
             return;
         }
@@ -271,7 +271,7 @@ public class BaseUser extends ServerParticipator
             return;
         }
         this.glintEnabled = glintEnabled;
-        if (FullPvP.getPlugin().getServerHandler().useProtocolLib) {
+        if (FullPvP.getInstance().getServerHandler().useProtocolLib) {
             final int viewDistance = Bukkit.getViewDistance();
             final PlayerConnection connection = ((CraftPlayer)player).getHandle().playerConnection;
             for (final Entity entity : player.getNearbyEntities(viewDistance, viewDistance, viewDistance)) {

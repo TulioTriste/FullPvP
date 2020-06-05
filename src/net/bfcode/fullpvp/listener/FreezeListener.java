@@ -49,7 +49,7 @@ public class FreezeListener implements Listener {
 	}
 	
 	public void enable() {
-		FullPvP.getPlugin().getServer().getPluginManager().registerEvents(this, FullPvP.getPlugin());
+		FullPvP.getInstance().getServer().getPluginManager().registerEvents(this, FullPvP.getInstance());
 	}
 	
 	public void disable() {
@@ -84,7 +84,7 @@ public class FreezeListener implements Listener {
 	public void addFreeze(Player player, Player target) {
 		this.freezedPlayers.add(target.getUniqueId());
 		FreezeTask task = new FreezeTask(target);
-		task.runTaskTimer(FullPvP.getPlugin(), 100L, 100L);
+		task.runTaskTimer(FullPvP.getInstance(), 100L, 100L);
 		this.freezeTasks.put(target.getUniqueId(), task);
 		
 		Message.sendMessage(ColorText.translate("&f" + target.getName() + " &ehas been freezed by &f" + player.getName() + "&e."), "rank.staff");
@@ -92,7 +92,7 @@ public class FreezeListener implements Listener {
 	
 	public void addPortalFreeze(Player target) {
 		FreezeTask task = new FreezeTask(target);
-		task.runTaskTimer(FullPvP.getPlugin(), 100L, 100L);
+		task.runTaskTimer(FullPvP.getInstance(), 100L, 100L);
 		this.freezeTasks.put(target.getUniqueId(), task);
 	}
 	
@@ -106,7 +106,7 @@ public class FreezeListener implements Listener {
 	public void setFrozen(Player player) {
 		this.freezedPlayers.add(player.getUniqueId());
 		FreezeTask task = new FreezeTask(player);
-		task.runTaskTimer(FullPvP.getPlugin(), 100L, 100L);
+		task.runTaskTimer(FullPvP.getInstance(), 100L, 100L);
 		this.freezeTasks.put(player.getUniqueId(), task);
 	}
 	
@@ -172,7 +172,7 @@ public class FreezeListener implements Listener {
     public void onCommand(Player player, Player target, final CommandSender sender, final Command command, final String label, final String[] args) {
 		this.freezedPlayers.add(target.getUniqueId());
 		FreezeTask task = new FreezeTask(target);
-		task.runTaskTimer(FullPvP.getPlugin(), 100L, 100L);
+		task.runTaskTimer(FullPvP.getInstance(), 100L, 100L);
 		this.freezeTasks.put(target.getUniqueId(), task);
         if (target.hasPermission("utilities.player.staff")) {
             sender.sendMessage(ColorText.translate("&cYou may not freeze to " + target.getName() + "."));
@@ -209,7 +209,7 @@ public class FreezeListener implements Listener {
     public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event) {
     	Player player = event.getPlayer();
     	if(this.getFreezedPlayers().contains(player.getUniqueId())) {
-    		for(String command : FullPvP.getPlugin().getConfig().getStringList("freeze-disabled-commands")) {
+    		for(String command : FullPvP.getInstance().getConfig().getStringList("freeze-disabled-commands")) {
     			if(event.getMessage().toLowerCase().startsWith("/" + command.toLowerCase())) {
     				event.setCancelled(true);
     				player.sendMessage(ColorText.translate("&cYou cannot use this command while frozen."));

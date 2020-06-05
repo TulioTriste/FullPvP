@@ -55,7 +55,7 @@ public class SellShopListener implements Listener {
                 		.setItem(11, PANEL)
                 		.setItem(12, PANEL)
                 		.setItem(13, new ItemMaker(Material.SKULL_ITEM).data((short)3)
-                				.displayName("&6Your Information").lore("&7\u25CF &eMoney: &f$" + FullPvP.getPlugin().getEconomyManager().getBalance(player.getUniqueId())).create())
+                				.displayName("&6Your Information").lore("&7\u25CF &eMoney: &f$" + FullPvP.getInstance().getEconomyManager().getBalance(player.getUniqueId())).create())
                 		.setItem(14, PANEL)
                 		.setItem(15, PANEL)
                 		.setItem(16, PANEL)
@@ -74,7 +74,7 @@ public class SellShopListener implements Listener {
         		return;
         	}
             event.setCancelled(true);
-            final int balance = FullPvP.getPlugin().getEconomyManager().getBalance(player.getUniqueId());
+            final int balance = FullPvP.getInstance().getEconomyManager().getBalance(player.getUniqueId());
             if (slot == 35) {
                 player.closeInventory();
             }
@@ -166,7 +166,7 @@ public class SellShopListener implements Listener {
             			if (inv[i].getType() == Material.EMERALD_BLOCK && inv[i].getAmount() >= item.getAmount()) {
             				ItemStack MATERIAL = new ItemMaker(Material.EMERALD_BLOCK, 4).create();
             				player.getInventory().removeItem(new ItemStack[] { MATERIAL } );
-            				FullPvP.getPlugin().getEconomyManager().setBalance(player.getUniqueId(), balance + user);
+            				FullPvP.getInstance().getEconomyManager().setBalance(player.getUniqueId(), balance + user);
             				player.sendMessage(ColorText.translate("&eYou've received &2$" + user + " &emoney."));
                             player.playSound(player.getLocation(), Sound.LEVEL_UP, 1.0f, 1.0f);
             				return;	
@@ -191,7 +191,7 @@ public class SellShopListener implements Listener {
 		        			if (inv[i].getType() == Material.EMERALD_BLOCK && inv[i].getAmount() >= item.getAmount()) {
 		        				ItemStack MATERIAL = new ItemMaker(Material.EMERALD_BLOCK, 4).create();
 		        				player.getInventory().removeItem(new ItemStack[] { MATERIAL } );
-		        				FullPvP.getPlugin().getEconomyManager().setBalance(player.getUniqueId(), balance + crystal);
+		        				FullPvP.getInstance().getEconomyManager().setBalance(player.getUniqueId(), balance + crystal);
 		        				player.sendMessage(ColorText.translate("&eYou've received &2$" + crystal + " &emoney."));
 		                        player.playSound(player.getLocation(), Sound.LEVEL_UP, 1.0f, 1.0f);
 		        				return;	
@@ -221,7 +221,7 @@ public class SellShopListener implements Listener {
 		        			if (inv[i].getType() == Material.EMERALD_BLOCK && inv[i].getAmount() >= item.getAmount()) {
 		        				ItemStack MATERIAL = new ItemMaker(Material.EMERALD_BLOCK, 4).create();
 		        				player.getInventory().removeItem(new ItemStack[] { MATERIAL } );
-		        				FullPvP.getPlugin().getEconomyManager().setBalance(player.getUniqueId(), balance + esmerald);
+		        				FullPvP.getInstance().getEconomyManager().setBalance(player.getUniqueId(), balance + esmerald);
 		        				player.sendMessage(ColorText.translate("&eYou've received &2$" + esmerald + " &emoney."));
 		                        player.playSound(player.getLocation(), Sound.LEVEL_UP, 1.0f, 1.0f);
 		        				return;	
@@ -251,7 +251,7 @@ public class SellShopListener implements Listener {
 		        			if (inv[i].getType() == Material.EMERALD_BLOCK && inv[i].getAmount() >= item.getAmount()) {
 		        				ItemStack MATERIAL = new ItemMaker(Material.EMERALD_BLOCK, 4).create();
 		        				player.getInventory().removeItem(new ItemStack[] { MATERIAL } );
-		        				FullPvP.getPlugin().getEconomyManager().setBalance(player.getUniqueId(), balance + mysthic);
+		        				FullPvP.getInstance().getEconomyManager().setBalance(player.getUniqueId(), balance + mysthic);
 		        				player.sendMessage(ColorText.translate("&eYou've received &2$" + mysthic + " &emoney."));
 		                        player.playSound(player.getLocation(), Sound.LEVEL_UP, 1.0f, 1.0f);
 		        				return;	
@@ -281,7 +281,7 @@ public class SellShopListener implements Listener {
 		        			if (inv[i].getType() == Material.EMERALD_BLOCK && inv[i].getAmount() >= item.getAmount()) {
 		        				ItemStack MATERIAL = new ItemMaker(Material.EMERALD_BLOCK, 4).create();
 		        				player.getInventory().removeItem(new ItemStack[] { MATERIAL } );
-		        				FullPvP.getPlugin().getEconomyManager().setBalance(player.getUniqueId(), balance + legend);
+		        				FullPvP.getInstance().getEconomyManager().setBalance(player.getUniqueId(), balance + legend);
 		        				player.sendMessage(ColorText.translate("&eYou've received &2$" + legend + " &emoney."));
 		                        player.playSound(player.getLocation(), Sound.LEVEL_UP, 1.0f, 1.0f);
 		        				return;	
@@ -311,7 +311,7 @@ public class SellShopListener implements Listener {
 		        			if (inv[i].getType() == Material.EMERALD_BLOCK && inv[i].getAmount() >= item.getAmount()) {
 		        				ItemStack MATERIAL = new ItemMaker(Material.EMERALD_BLOCK, 4).create();
 		        				player.getInventory().removeItem(new ItemStack[] { MATERIAL } );
-		        				FullPvP.getPlugin().getEconomyManager().setBalance(player.getUniqueId(), balance + reab);
+		        				FullPvP.getInstance().getEconomyManager().setBalance(player.getUniqueId(), balance + reab);
 		        				player.sendMessage(ColorText.translate("&eYou've received &2$" + reab + " &emoney."));
 		                        player.playSound(player.getLocation(), Sound.LEVEL_UP, 1.0f, 1.0f);
 		        				return;	

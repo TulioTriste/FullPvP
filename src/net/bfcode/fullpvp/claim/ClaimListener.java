@@ -85,7 +85,7 @@ public class ClaimListener implements Listener {
             final boolean isPvP = this.location.getBoolean("Claims." + claim + ".pvp");
             if(event.getCause().equals(TeleportCause.ENDER_PEARL)) {
 	            if(!selection.contains(event.getFrom()) && selection.contains(event.getTo()) && !isPvP) {
-	            	FullPvP.getPlugin().getEnderpearlListener().removeCooldown(event.getPlayer());
+	            	FullPvP.getInstance().getEnderpearlListener().removeCooldown(event.getPlayer());
 	                event.getPlayer().getInventory().addItem(new ItemStack[] { new ItemStack(Material.ENDER_PEARL) });
 	            	event.setCancelled(true);
 	            	event.getPlayer().sendMessage(ColorText.translate("&cNo puedes perlear a una zona sin PvP!"));

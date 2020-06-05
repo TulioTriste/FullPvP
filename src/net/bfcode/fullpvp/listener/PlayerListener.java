@@ -28,12 +28,12 @@ public class PlayerListener implements Listener {
         	if(this.plugin.getTournamentManager().isInTournament(player)) {
         		return;
         	}
-        	FullPvP.getPlugin().getEconomyManager().addBalance(player.getKiller().getUniqueId(), FullPvP.getPlugin().getConfig().getInt("Death.Money"));
-        	player.sendMessage(ColorText.translate(FullPvP.getPlugin().getConfig().getString("Death.Player-Message")
+        	FullPvP.getInstance().getEconomyManager().addBalance(player.getKiller().getUniqueId(), FullPvP.getInstance().getConfig().getInt("Death.Money"));
+        	player.sendMessage(ColorText.translate(FullPvP.getInstance().getConfig().getString("Death.Player-Message")
         			.replace("{killer}", player.getKiller().getName())));
-    		player.getKiller().sendMessage(ColorText.translate(FullPvP.getPlugin().getConfig().getString("Death.Killer-Message")
+    		player.getKiller().sendMessage(ColorText.translate(FullPvP.getInstance().getConfig().getString("Death.Killer-Message")
     				.replace("{player}", player.getName())
-    				.replace("{money}", String.valueOf(FullPvP.getPlugin().getConfig().getInt("Death.Money")))));
+    				.replace("{money}", String.valueOf(FullPvP.getInstance().getConfig().getInt("Death.Money")))));
         }
     }
     

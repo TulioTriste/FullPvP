@@ -23,7 +23,7 @@ public class VanishListener implements Listener {
 	static VanishListener instance = new VanishListener();
 
 	public VanishListener() {
-		Bukkit.getPluginManager().registerEvents(this, FullPvP.getPlugin());
+		Bukkit.getPluginManager().registerEvents(this, FullPvP.getInstance());
 	}
 
 	public static VanishListener getInstance() {

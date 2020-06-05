@@ -2,13 +2,13 @@ package net.bfcode.fullpvp;
 
 import java.io.File;
 
-import net.bfcode.fullpvp.configuration.LocationFile;
+import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfigurationOptions;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
-import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -97,8 +97,11 @@ import net.bfcode.fullpvp.utilities.user.ServerParticipator;
 import net.bfcode.fullpvp.utilities.user.UserManager;
 import net.milkbowl.vault.chat.Chat;
 
+@Setter
+@Getter
 public class FullPvP extends JavaPlugin implements Listener {
-	
+
+    @Getter
     public static FullPvP instance;
     private static FullPvP plugin;
     private EconomyManager economyManager;
@@ -304,73 +307,5 @@ public class FullPvP extends JavaPlugin implements Listener {
         catch (Exception exception) {
             exception.printStackTrace();
         }
-    }
-    
-    public SpawnHandler getSpawnHandler() {
-    	return spawnHandler; 
-    }
-    
-    public EnderpearlListener getEnderpearlListener() {
-    	return enderpearlListener; 
-    }
-    
-    public CombatTagListener getCombatTagListener() {
-    	return combatTagListener; 
-    }
-    
-    public static FullPvP getPlugin() {
-    	return FullPvP.plugin; 
-    }
-    
-    public static FullPvP getInstance() {
-    	return FullPvP.instance; 
-    }
-    
-    public ClanHandler getClanHandler() {
-    	return clanHandler; 
-    }
-
-    public TournamentManager getTournamentManager() {
-    	return tournamentManager; 
-    }
-    
-    public TournamentFile getTournamentFile() {
-    	return tournamentFile; 
-    }
-    
-    public TournamentRunnable getTournamentRunnable() {
-    	return tournamentRunnable; 
-    }
-    
-    public EconomyManager getEconomyManager() {
-    	return economyManager; 
-    }
-    
-    public FreezeListener getFreezeListener() {
-    	return freezeListener; 
-    }
-    
-    public KitManager getKitManager() {
-    	return kitManager; 
-    }
-    
-    public ServerHandler getServerHandler() {
-    	return serverHandler; 
-    }
-    
-    public UserManager getUserManager() {
-    	return userManager; 
-    }
-    
-    public ItemDb getItemDb() {
-    	return itemDb; 
-    }
-    
-    public PlayTimeManager getPlayTimeManager() {
-    	return playTimeManager; 
-    }
-    
-    public SignHandler getSignHandler() {
-    	return signHandler; 
     }
 }

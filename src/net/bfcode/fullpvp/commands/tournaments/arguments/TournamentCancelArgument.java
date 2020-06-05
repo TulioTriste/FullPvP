@@ -17,7 +17,7 @@ public class TournamentCancelArgument extends CommandArgument {
     
     public TournamentCancelArgument() {
         super("cancel", "Cancel the current tournament");
-        this.plugin = FullPvP.getPlugin();
+        this.plugin = FullPvP.getInstance();
         this.permission = "fullpvp.command.tournament.argument.cancel";
     }
     

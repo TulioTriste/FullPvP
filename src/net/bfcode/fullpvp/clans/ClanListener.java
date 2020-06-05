@@ -19,7 +19,7 @@ public class ClanListener implements Listener {
     
     @EventHandler
     public void onEntityDamage(final EntityDamageByEntityEvent event) {
-    	TournamentManager tournamentManager = FullPvP.getPlugin().getTournamentManager();
+    	TournamentManager tournamentManager = FullPvP.getInstance().getTournamentManager();
     	Player player = (Player) event.getEntity();
         if (event.getDamager() instanceof Player && event.getEntity() instanceof Player && ClanHandler.isMember((Player)event.getEntity(), ClanHandler.getClan((Player)event.getDamager()))) {
         	if (tournamentManager.isInTournament(player.getUniqueId())) {

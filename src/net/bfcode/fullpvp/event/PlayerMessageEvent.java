@@ -58,16 +58,16 @@ public class PlayerMessageEvent extends Event implements Cancellable {
     public void send() {
         Preconditions.checkNotNull(this.sender, "The sender cannot be null");
         Preconditions.checkNotNull(this.recipient, "The recipient cannot be null");
-        final BaseUser sendingUser = FullPvP.getPlugin().getUserManager().getUser(this.sender.getUniqueId());
-        final BaseUser recipientUser = (FullPvP.getPlugin().getUserManager().getUser(this.recipient.getUniqueId()));
+        final BaseUser sendingUser = FullPvP.getInstance().getUserManager().getUser(this.sender.getUniqueId());
+        final BaseUser recipientUser = (FullPvP.getInstance().getUserManager().getUser(this.recipient.getUniqueId()));
         sendingUser.setLastRepliedTo(recipientUser.getUniqueId());
         recipientUser.setLastRepliedTo(sendingUser.getUniqueId());
         final long millis = System.currentTimeMillis();
         recipientUser.setLastReceivedMessageMillis(millis);
-        final String rank = ChatColor.translateAlternateColorCodes('&', "&f" + FullPvP.getPlugin().getChat().getPlayerPrefix(sender));
+        final String rank = ChatColor.translateAlternateColorCodes('&', "&f" + FullPvP.getInstance().getChat().getPlayerPrefix(sender));
         final String displayName = rank + this.sender.getDisplayName();
         
-        final String rank2 = ChatColor.translateAlternateColorCodes('&', "&f" + FullPvP.getPlugin().getChat().getPlayerPrefix(recipient));
+        final String rank2 = ChatColor.translateAlternateColorCodes('&', "&f" + FullPvP.getInstance().getChat().getPlayerPrefix(recipient));
         final String displayName2 = rank2 + this.recipient.getDisplayName();
         final String[] array = new String[] { "kys", "nigger", "kill", "cunt", "hack", "phase", "aura", "killaura", "forceop", "exploit", "theboys", "antikb", "grief", "worldedit" };
         for (final String strings : array) {

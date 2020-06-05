@@ -38,7 +38,7 @@ public class Tournament {
     private long protection;
     
     public Tournament(final int size, final TournamentType type, final Player player) {
-        this.plugin = FullPvP.getPlugin();
+        this.plugin = FullPvP.getInstance();
         this.players = new HashSet<UUID>();
         this.playerArmor = new HashMap<Player, ItemStack[]>();
         this.playerInventory = new HashMap<Player, ItemStack[]>();

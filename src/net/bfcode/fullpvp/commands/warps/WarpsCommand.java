@@ -79,7 +79,7 @@ public class WarpsCommand implements CommandExecutor {
                 player.sendMessage(ColorText.translate("&cUsage: /warp tp <warpName>"));
                 return true;
             }
-        	if (FullPvP.getPlugin().getCombatTagListener().hasCooldown(player)) {
+        	if (FullPvP.getInstance().getCombatTagListener().hasCooldown(player)) {
                 player.sendMessage(ColorText.translate("&cYou can't teleport to this warp if you have &4&lCombat Tag&c."));
                 return true;
             }

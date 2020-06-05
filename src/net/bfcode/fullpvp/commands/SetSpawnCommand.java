@@ -24,7 +24,7 @@ public class SetSpawnCommand implements CommandExecutor {
             return true;
         }
         this.setSpawnLocation(player);
-        player.sendMessage(ColorText.translate(FullPvP.getPlugin().getConfig().getString("Spawn.Set-Spawn")));
+        player.sendMessage(ColorText.translate(FullPvP.getInstance().getConfig().getString("Spawn.Set-Spawn")));
         player.playSound(player.getLocation(), Sound.EXPLODE, 1.0f, 1.0f);
         return true;
     }

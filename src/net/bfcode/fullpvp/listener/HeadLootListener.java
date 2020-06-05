@@ -39,7 +39,7 @@ public class HeadLootListener implements Listener
             if (player.getItemInHand().getType() == Material.PAPER && player.getItemInHand().getItemMeta().getDisplayName().equalsIgnoreCase(ColorText.translate("&eMoney &7[$35K]")) && player.getItemInHand().getItemMeta().hasLore()) {
                 this.decrementItemInHand(player);
                 player.updateInventory();
-                FullPvP.getPlugin().getEconomyManager().setBalance(player.getUniqueId(), FullPvP.getPlugin().getEconomyManager().getBalance(player.getUniqueId()) + 35000);
+                FullPvP.getInstance().getEconomyManager().setBalance(player.getUniqueId(), FullPvP.getInstance().getEconomyManager().getBalance(player.getUniqueId()) + 35000);
                 player.sendMessage(ColorText.translate("&aYou have received 35K of money."));
                 return;
             }

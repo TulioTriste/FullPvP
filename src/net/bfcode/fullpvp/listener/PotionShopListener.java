@@ -46,7 +46,7 @@ public class PotionShopListener implements Listener {
                 		.setItem(11, PANEL)
                 		.setItem(12, PANEL)
                 		.setItem(13, new ItemMaker(Material.SKULL_ITEM).data((short)3)
-                				.displayName("&6Your Information").lore("&7\u25CF &eMoney: &f$" + FullPvP.getPlugin().getEconomyManager().getBalance(player.getUniqueId())).create())
+                				.displayName("&6Your Information").lore("&7\u25CF &eMoney: &f$" + FullPvP.getInstance().getEconomyManager().getBalance(player.getUniqueId())).create())
                 		.setItem(14, PANEL)
                 		.setItem(15, PANEL)
                 		.setItem(16, PANEL)
@@ -66,7 +66,7 @@ public class PotionShopListener implements Listener {
         		return;
         	}
             event.setCancelled(true);
-            final int balance = FullPvP.getPlugin().getEconomyManager().getBalance(player.getUniqueId());
+            final int balance = FullPvP.getInstance().getEconomyManager().getBalance(player.getUniqueId());
             if (slot == 35) {
                 player.closeInventory();
             }
@@ -80,7 +80,7 @@ public class PotionShopListener implements Listener {
                     player.sendMessage(ColorText.translate(inventoryFull));
                     return;
                 }
-                FullPvP.getPlugin().getEconomyManager().setBalance(player.getUniqueId(), balance - 150);
+                FullPvP.getInstance().getEconomyManager().setBalance(player.getUniqueId(), balance - 150);
                 player.getInventory().addItem(new ItemStack[] { new ItemMaker(Material.POTION).data((short)16421).create() });
                 player.sendMessage(ColorText.translate("&eYou have purchased an &dInstant Health Potion&e."));
                 player.playSound(player.getLocation(), Sound.LEVEL_UP, 1.0f, 1.0f);
@@ -95,7 +95,7 @@ public class PotionShopListener implements Listener {
                     player.sendMessage(ColorText.translate(inventoryFull));
                     return;
                 }
-                FullPvP.getPlugin().getEconomyManager().setBalance(player.getUniqueId(), balance - 200);
+                FullPvP.getInstance().getEconomyManager().setBalance(player.getUniqueId(), balance - 200);
                 player.getInventory().addItem(new ItemStack[] { new ItemMaker(Material.POTION).data((short)8258).create() });
                 player.sendMessage(ColorText.translate("&eYou have purchased an &bSpeed Potion&e."));
                 player.playSound(player.getLocation(), Sound.LEVEL_UP, 1.0f, 1.0f);
@@ -110,7 +110,7 @@ public class PotionShopListener implements Listener {
                     player.sendMessage(ColorText.translate(inventoryFull));
                     return;
                 }
-                FullPvP.getPlugin().getEconomyManager().setBalance(player.getUniqueId(), balance - 450);
+                FullPvP.getInstance().getEconomyManager().setBalance(player.getUniqueId(), balance - 450);
                 player.getInventory().addItem(new ItemStack[] { new ItemMaker(Material.POTION).data((short)8226).create() });
                 player.sendMessage(ColorText.translate("&eYou have purchased an &bSpeed Potion&e."));
                 player.playSound(player.getLocation(), Sound.LEVEL_UP, 1.0f, 1.0f);
@@ -125,7 +125,7 @@ public class PotionShopListener implements Listener {
                     player.sendMessage(ColorText.translate(inventoryFull));
                     return;
                 }
-                FullPvP.getPlugin().getEconomyManager().setBalance(player.getUniqueId(), balance - 150);
+                FullPvP.getInstance().getEconomyManager().setBalance(player.getUniqueId(), balance - 150);
                 player.getInventory().addItem(new ItemStack[] { new ItemMaker(Material.POTION).data((short)8257).create() });
                 player.sendMessage(ColorText.translate("&eYou have purchased an &dRegeneration Potion&e."));
                 player.playSound(player.getLocation(), Sound.LEVEL_UP, 1.0f, 1.0f);
@@ -140,7 +140,7 @@ public class PotionShopListener implements Listener {
                     player.sendMessage(ColorText.translate(inventoryFull));
                     return;
                 }
-                FullPvP.getPlugin().getEconomyManager().setBalance(player.getUniqueId(), balance - 200);
+                FullPvP.getInstance().getEconomyManager().setBalance(player.getUniqueId(), balance - 200);
                 player.getInventory().addItem(new ItemStack[] { new ItemMaker(Material.POTION).data((short)8259).create() });
                 player.sendMessage(ColorText.translate("&eYou have purchased an &6FireResistance Potion&e."));
                 player.playSound(player.getLocation(), Sound.LEVEL_UP, 1.0f, 1.0f);
@@ -150,7 +150,7 @@ public class PotionShopListener implements Listener {
                     player.sendMessage(message);
                     return;
                 }
-                FullPvP.getPlugin().getEconomyManager().setBalance(player.getUniqueId(), balance - 200);
+                FullPvP.getInstance().getEconomyManager().setBalance(player.getUniqueId(), balance - 200);
                 player.getInventory().addItem(new ItemStack[] { new ItemMaker(Material.POTION).data((short)8265).create() });
                 player.sendMessage(ColorText.translate("&eYou have purchased an &cStrenght Potion&e."));
                 player.playSound(player.getLocation(), Sound.LEVEL_UP, 1.0f, 1.0f);
@@ -165,7 +165,7 @@ public class PotionShopListener implements Listener {
                     player.sendMessage(ColorText.translate(inventoryFull));
                     return;
                 }
-                FullPvP.getPlugin().getEconomyManager().setBalance(player.getUniqueId(), balance - 450);
+                FullPvP.getInstance().getEconomyManager().setBalance(player.getUniqueId(), balance - 450);
                 player.getInventory().addItem(new ItemStack[] { new ItemMaker(Material.POTION).data((short)8233).create() });
                 player.sendMessage(ColorText.translate("&eYou have purchased an &cStrenght Potion&e."));
                 player.playSound(player.getLocation(), Sound.LEVEL_UP, 1.0f, 1.0f);

@@ -16,7 +16,7 @@ public class TournamentLeaveArgument extends CommandArgument
     
     public TournamentLeaveArgument() {
         super("leave", "Leave from the tournament");
-        this.plugin = FullPvP.getPlugin();
+        this.plugin = FullPvP.getInstance();
         this.permission = "fullpvp.command.tournament.argument.leave";
     }
     

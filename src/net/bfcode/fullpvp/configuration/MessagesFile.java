@@ -20,7 +20,7 @@ public class MessagesFile extends YamlConfiguration {
     }
     
     private Plugin main() {
-        return (Plugin)FullPvP.getPlugin();
+        return (Plugin)FullPvP.getInstance();
     }
     
     public MessagesFile() {

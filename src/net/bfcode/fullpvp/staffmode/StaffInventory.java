@@ -19,7 +19,7 @@ import net.bfcode.fullpvp.FullPvP;
 import net.bfcode.fullpvp.utilities.TimeUtils;
 
 public class StaffInventory {
-	private final static FullPvP plugin = FullPvP.getPlugin();
+	private final static FullPvP plugin = FullPvP.getInstance();
 
 	public static String translate(String input) {
 		return ChatColor.translateAlternateColorCodes('&', input);

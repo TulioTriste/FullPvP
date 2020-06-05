@@ -44,7 +44,7 @@ public class ItemData implements ConfigurationSerializable {
     
     @SuppressWarnings("deprecation")
 	public static ItemData fromItemName(final String string) {
-        final ItemStack stack = FullPvP.getPlugin().getItemDb().getItem(string);
+        final ItemStack stack = FullPvP.getInstance().getItemDb().getItem(string);
         return new ItemData(stack.getType(), stack.getData().getData());
     }
     
@@ -80,7 +80,7 @@ public class ItemData implements ConfigurationSerializable {
     }
     
     public String getItemName() {
-        return FullPvP.getPlugin().getItemDb().getName(new ItemStack(this.material, 1, this.itemData));
+        return FullPvP.getInstance().getItemDb().getName(new ItemStack(this.material, 1, this.itemData));
     }
     
     @Override
