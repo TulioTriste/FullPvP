@@ -52,8 +52,7 @@ public class HostCommand implements CommandExecutor, Listener {
         LocationFile location = LocationFile.getConfig();
         for (final String claim : location.getConfigurationSection("Claims").getKeys(false)) {
             final CuboidSelection selection = new CuboidSelection(Bukkit.getWorld(location.getString("Claims." + claim + ".world")), HostCommand.this.getLocation(claim, "cornerA"), HostCommand.this.getLocation(claim, "cornerB"));
-            final boolean isPvP = location.getBoolean("Claims." + claim + ".pvp");
-            if(selection.contains(player.getLocation()) && !isPvP && !StaffModeCommand.isMod(player)) {
+            if(!selection.contains(player.getLocation())) {
         		player.sendMessage(ColorText.translate(messages.getString("Host-in-noZone")));
         		return true;
             }

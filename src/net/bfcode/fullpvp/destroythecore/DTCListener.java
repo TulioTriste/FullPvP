@@ -78,6 +78,5 @@ public class DTCListener implements Listener {
         if (player.getGameMode().equals(GameMode.CREATIVE) && player.isOp()) {
             return;
         }
-        event.setCancelled(true);
     }
 }

@@ -1,9 +1,8 @@
 package net.bfcode.fullpvp.listener;
 
 import org.bukkit.World;
-import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.Location;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.entity.Player;
@@ -14,15 +13,11 @@ import com.sk89q.worldedit.bukkit.selections.CuboidSelection;
 import net.bfcode.fullpvp.FullPvP;
 import net.bfcode.fullpvp.configuration.LocationFile;
 import net.bfcode.fullpvp.utilities.ColorText;
-import net.bfcode.fullpvp.utilities.InventoryMaker;
-import net.bfcode.fullpvp.utilities.ItemMaker;
-
+import net.bfcode.fullpvp.utilities.ItemBuilder;
 import org.bukkit.Material;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,29 +43,19 @@ public class ChestListener implements Listener {
                 if (!isPvP && selection.contains(event.getClickedBlock().getLocation())) {
                     event.setCancelled(true);
                     
-                    Inventory inventory = Bukkit.createInventory(null, 45, "&e" + player.getName() + " Chest");
+                    Inventory inventory = Bukkit.createInventory(null, 45, ColorText.translate("&e" + player.getName() + " Chest"));
 
             		List<String> test = new ArrayList<>(FullPvP.getInstance().getConfig().getConfigurationSection("Spawn-Chest-Refill").getKeys(false));
             		
                     for(int i = 0; i < test.size(); ++i) {
                     	String name = test.get(i);
                     	int n = Integer.parseInt(name);
-                    	inventory.setItem(n -1, new ItemMaker(Material.valueOf(FullPvP.getInstance().getConfig().getString("Spawn-Chest-Refill." + n + ".Material").toUpperCase())).create());
+                    	FileConfiguration config = FullPvP.getInstance().getConfig();
+                    	inventory.setItem(n -1, new ItemBuilder(Material.valueOf(config.getString("Spawn-Chest-Refill." + n + ".Material").toUpperCase()), config.getInt("Spawn-Chest-Refill." + n + ".Amount")).data((short) config.getInt("Spawn-Chest-Refill." + n + ".Value")).build());
                     }
                     
                     player.openInventory(inventory);
-/*                    player.openInventory(new InventoryMaker(null, 5, "&e" + player.getName() + " Chest")
-                    		.setItem(4, new ItemMaker(Material.LEATHER_HELMET).create())
-                    		.setItem(13, new ItemMaker(Material.CHAINMAIL_CHESTPLATE).create())
-                    		.setItem(22, new ItemMaker(Material.LEATHER_LEGGINGS).create())
-                    		.setItem(31, new ItemMaker(Material.GOLD_BOOTS).create())
-                    		.setItem(20, new ItemMaker(Material.STONE_SWORD).create())
-                    		.setItem(30, new ItemMaker(Material.SNOW_BALL, 8).create())
-                    		.setItem(24, new ItemMaker(Material.COOKED_BEEF, 8).create())
-                    		.setItem(32, new ItemMaker(Material.SNOW_BALL, 8).create())
-                    		.setItem(36, new ItemMaker(Material.ANVIL).displayName("&cUpgrade Chest").lore("&7Click here to upgrade your chest.").create())
-                    		.setItem(44, new ItemMaker(Material.DIAMOND_PICKAXE).create())
-                    		.create());*/
+
                     player.playSound(player.getLocation(), Sound.CHEST_OPEN, 1.0f, 1.0f);
                 }
             }
@@ -82,19 +67,6 @@ public class ChestListener implements Listener {
         final Player player = (Player)event.getPlayer();
         if (event.getInventory().getName().equals(ColorText.translate("&e" + player.getName() + " Chest"))) {
             player.playSound(player.getLocation(), Sound.CHEST_CLOSE, 1.0f, 1.0f);
-        }
-    }
-    
-    @EventHandler
-    public void onInventoryClick(final InventoryClickEvent event) {
-        final Player player = (Player)event.getWhoClicked();
-        final int slot = event.getSlot();
-        if (event.getInventory().getName().equals(ColorText.translate("&e" + player.getName() + " Chest"))) {
-            if(slot == 36) {
-            	event.setCancelled(true);
-            	player.sendMessage(ColorText.translate("&cThis feature coming soon."));
-            	return;
-            }
         }
     }
     

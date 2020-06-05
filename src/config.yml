@@ -54,8 +54,49 @@ Kill-Streak-Rewards:
     - "cr givekey {player} kill 1"
   
 Spawn-Chest-Refill:
-  1:
+  '5':
     Material: LEATHER_HELMET
+    Amount: 1
+    Value: 0
+  '13':
+    Material: DIAMOND_SWORD
+    Amount: 1
+    Value: 0
+  '14':
+    Material: IRON_CHESTPLATE
+    Amount: 1
+  '15':
+    Material: FISHING_ROD
+    Amount: 1
+    Value: 0
+  '23':
+    Material: LEATHER_LEGGINGS
+    Amount: 1
+    Value: 0
+  '31':
+    Material: SNOW_BALL
+    Amount: 8
+    Value: 0
+  '32':
+    Material: IRON_BOOTS
+    Amount: 1
+    Value: 0
+  '33':
+    Material: SNOW_BALL
+    Amount: 8
+    Value: 0
+  '39':
+    Material: COOKED_BEEF
+    Amount: 16
+    Value: 0
+  '43':
+    Material: COOKED_BEEF
+    Amount: 16
+    Value: 0
+  '41':
+    Material: POTION
+    Amount: 1
+    Value: 16453
   
 Combat-Tag:
    Time: 45

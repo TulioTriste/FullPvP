@@ -218,6 +218,9 @@ public class ScoreboardManager implements Listener {
 			                        if(StaffModeCommand.isMod(player)) {
 			                        	continue;
 			                        }
+			                        if(FreezeCommand.isFrozen(player.getUniqueId())) {
+			                        	continue;
+			                        }
 			                        if(selection.contains(player.getLocation())) {
 			                    		for(String noPvP : config.getStringList("Scoreboard.Variables.Claims.noPvP")) {
 			                    			noPvP = noPvP.replace("{balance}", FullPvP.getInstance().getEconomyManager().getBalance(player.getUniqueId()) + "")

@@ -25,13 +25,13 @@ public class ItemBuilder
     }
     
     public ItemBuilder(final ItemStack stack) {
-        Preconditions.checkNotNull((Object)stack, (Object)"ItemStack cannot be null");
+        Preconditions.checkNotNull(stack, "ItemStack cannot be null");
         this.stack = stack;
     }
     
     public ItemBuilder(final Material material, final int amount, final byte data) {
-        Preconditions.checkNotNull((Object)material, (Object)"Material cannot be null");
-        Preconditions.checkArgument(amount > 0, (Object)"Amount must be positive");
+        Preconditions.checkNotNull(material, "Material cannot be null");
+        Preconditions.checkArgument(amount > 0, "Amount must be positive");
         this.stack = new ItemStack(material, amount, (short)data);
     }
     
@@ -55,12 +55,11 @@ public class ItemBuilder
         return this;
     }
     
-    @SuppressWarnings({ "rawtypes", "unchecked" })
 	public ItemBuilder lore(final String... lore) {
         if (this.meta == null) {
             this.meta = this.stack.getItemMeta();
         }
-        this.meta.setLore((List)Arrays.asList(lore));
+        this.meta.setLore(Arrays.asList(lore));
         return this;
     }
     
