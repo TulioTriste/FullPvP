@@ -1,16 +1,15 @@
 package net.bfcode.fullpvp.tournaments.runnable;
 
 import java.util.List;
-import java.util.Random;
 import java.util.ArrayList;
 import java.util.Collections;
 
 import org.bukkit.Bukkit;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.Sound;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import net.bfcode.fullpvp.FullPvP;
+import net.bfcode.fullpvp.configuration.MessagesFile;
 import net.bfcode.fullpvp.tournaments.Tournament;
 import net.bfcode.fullpvp.tournaments.TournamentState;
 import net.bfcode.fullpvp.utilities.ColorText;
@@ -65,7 +64,7 @@ public class TournamentRunnable {
                         for (final UUID players : TournamentRunnable.this.tournament.getPlayers()) {
                             try {
                                 final Player player = TournamentRunnable.this.getPlayerByUuid(players);
-                                player.sendMessage(ColorText.translate("&aComenzando la pelea! &7(&2&l" + first.getName() + " &acontra &2&l" + second.getName() + "&7)"));
+                                player.sendMessage(ColorText.translate(MessagesFile.getConfig().getString("Tournament-messages.Sumo.Starting-Fight").replace("{first}", first.getName()).replace("{second}", second.getName())));
                             } catch (IllegalArgumentException ex) {
                             }
                         }
@@ -74,7 +73,7 @@ public class TournamentRunnable {
                         TournamentRunnable.this.tournament.setTournamentState(TournamentState.FIGHTING);
                     }
                     else if ((countdown % 5 == 0 || countdown < 5) && countdown > 0) {
-                        TournamentRunnable.this.tournament.broadcastWithSound(ColorText.translate("&aLa ronda comenzar\u00e1 en " + countdown + " segundos!"), Sound.CLICK);
+                        TournamentRunnable.this.tournament.broadcastWithSound(ColorText.translate(MessagesFile.getConfig().getString("Tournament-messages.Sumo.Starting-Round").replace("{countdown}", countdown + "")), Sound.CLICK);
                         if (countdown == 1) {
                             first.getInventory().clear();
                             second.getInventory().clear();

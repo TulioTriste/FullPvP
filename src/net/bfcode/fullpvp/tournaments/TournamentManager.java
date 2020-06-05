@@ -8,6 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.potion.PotionEffect;
 
 import net.bfcode.fullpvp.FullPvP;
+import net.bfcode.fullpvp.configuration.MessagesFile;
 import net.bfcode.fullpvp.tournaments.runnable.TournamentRunnable;
 import net.bfcode.fullpvp.utilities.ColorText;
 import net.bfcode.fullpvp.utilities.ItemBuilder;
@@ -54,18 +55,21 @@ public class TournamentManager {
         final Tournament tournament = new Tournament(size, type, player);
         this.tournament = tournament;
         final TournamentRunnable runnable = new TournamentRunnable(tournament);
+        MessagesFile messages = MessagesFile.getConfig();
         if (type == TournamentType.SUMO) {
             runnable.startSumo();
         }
-        commandSender.sendMessage(ColorText.translate("&aEvento creado correctamente!"));
-        commandSender.sendMessage(ColorText.translate("&7Jugadores Maximos: &f" + size));
-        commandSender.sendMessage(ColorText.translate("&7Tipo de Evento: &f" + type));
+        for(String msg : messages.getStringList("Tournament.Created-Event")) {
+        	commandSender.sendMessage(ColorText.translate(msg
+        			.replace("{max-players}", size + "")
+        			.replace("{type}", type + "")));
+        }
         this.created = true;
     }
     
 	public void playerLeft(final Tournament tournament, final Player player, final boolean message) {
         if (message) {
-            player.sendMessage(ColorText.translate("&cYou left the tournament."));
+            player.sendMessage(ColorText.translate(MessagesFile.getConfig().getString("Tournament.Player-Leave-Event")));
             tournament.rollbackInventory(player);
         }
         this.players.remove(player.getUniqueId());
@@ -77,7 +81,10 @@ public class TournamentManager {
         }
         tournament.removePlayer(player.getUniqueId());
         if (message) {
-            tournament.broadcast(ColorText.translate("&a" + player.getDisplayName() + " &chas left the tournament. &7(" + tournament.getPlayers().size() + '/' + tournament.getSize() + ')'));
+            tournament.broadcast(ColorText.translate(MessagesFile.getConfig().getString("Tournament.Leave-Event")
+            		.replace("{player}", player.getName())
+            		.replace("{players}", tournament.getPlayers().size() + "")
+            		.replace("{size}", tournament.getSize() + "")));
         }
         if (player.isOnline()) {
             tournament.rollbackInventory(player);
@@ -86,11 +93,9 @@ public class TournamentManager {
         if (this.players.size() == 1) {
             final Player winner = Bukkit.getPlayer((UUID)this.players.get(0));
             for (final Player online : Bukkit.getServer().getOnlinePlayers()) {
-                online.sendMessage(new String[2]);
-                online.sendMessage(ColorText.translate("&2[Winner] &f" + winner.getDisplayName()));
-                online.sendMessage(ColorText.translate("&2[Winner] &f" + winner.getDisplayName()));
-                online.sendMessage(ColorText.translate("&2[Winner] &f" + winner.getDisplayName()));
-                online.sendMessage(new String[2]);
+            	for(String msg : MessagesFile.getConfig().getStringList("Tournament.Winner-Event")) {
+            		online.sendMessage(msg.replace("{winner}", winner.getName()));
+            	}
                 online.playSound(online.getLocation(), Sound.ENDERDRAGON_GROWL, 2.0f, 2.0f);
                 this.plugin.getCombatTagListener().removeCooldown(winner);
                 tournament.rollbackInventory(winner);
@@ -145,13 +150,16 @@ public class TournamentManager {
         for (final PotionEffect effects : player.getActivePotionEffects()) {
             player.removePotionEffect(effects.getType());
         }
-        tournament.broadcast(ColorText.translate("&a" + player.getDisplayName() + " &aha entrado el evento. &7(" + tournament.getPlayers().size() + '/' + tournament.getSize() + ')'));
+            tournament.broadcast(ColorText.translate(MessagesFile.getConfig().getString("Tournament.Joined-Event")
+            		.replace("{player}", player.getName())
+            		.replace("{players", tournament.getPlayers().size() + "")
+            		.replace("{size}", tournament.getSize() + "")));
     }
     
     public void joinTournament(final Player player) {
         final Tournament tournament = this.tournament;
         if (this.players.size() >= tournament.getSize()) {
-            player.sendMessage(ColorText.translate("&cEste evento ya est\u00e1 lleno!"));
+            player.sendMessage(ColorText.translate(MessagesFile.getConfig().getString("Tournament.Event-Full")));
         }
         else {
             this.playerJoined(tournament, player);

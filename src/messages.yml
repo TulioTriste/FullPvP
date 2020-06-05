@@ -32,6 +32,26 @@ Destroy-The-Core:
    Stopped: "&6&l{dtc} &ehas been &cstopped &eby &d{player}&e."
    Destroyed: "&d{player} &ehas destroyed a piece of &6&l{dtc} &7(&ePoints&7: &f{points}&7)"
    Destroyed-Core: "&6&l{dtc} &ehas been destroyed by &d{player}&e."
+Tournament-messages:
+  Event-Full: "&cThis event is full!"
+  Player-Leave-Event: "&cYou left the tournament."
+  Joined-Event: "&a{player} &aha entrado el evento. &7({players}/{size})"
+  Leave-Event: "&a{player} &chas left the tournament. &7({players}/{size})"
+  Created-Event:
+    - "&aSuccessfully created Event!"
+    - "&7Jugadores Maximos: &f{max-players}"
+    - "&7Tipo de Evento: &f{type}"
+  Winner-Event:
+    - ""
+    - ""
+    - "&7[&6&lWinner&7] &e{winner}"
+    - "&7[&6&lWinner&7] &e{winner}"
+    - "&7[&6&lWinner&7] &e{winner}"
+    - ""
+    - ""
+  Sumo:
+    Starting-Fight: "&aStarting fight! &7(&2&l{first} &avs &2&l{second}&7)"
+    Starting-Round: "&aThe round starting in {countdown} seconds!"
 freeze-message:
   - "&7&m-------------------------------------"
   - "&f\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588"
