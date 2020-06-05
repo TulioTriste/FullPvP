@@ -53,6 +53,10 @@ Kill-Streak-Rewards:
     - "broadcast &eMensaje de prueba nick: {player} kills: {kills}"
     - "cr givekey {player} kill 1"
   
+Spawn-Chest-Refill:
+  1:
+    Material: LEATHER_HELMET
+  
 Combat-Tag:
    Time: 45
    Message: "&eYou are now spawn-tagged for &c{time} &eseconds."

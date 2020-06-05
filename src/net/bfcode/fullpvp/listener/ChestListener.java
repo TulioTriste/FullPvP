@@ -1,6 +1,7 @@
 package net.bfcode.fullpvp.listener;
 
 import org.bukkit.World;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.Location;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
@@ -19,7 +20,11 @@ import net.bfcode.fullpvp.utilities.ItemMaker;
 import org.bukkit.Material;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
+import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
@@ -42,7 +47,19 @@ public class ChestListener implements Listener {
                 final boolean isPvP = this.location.getBoolean("Claims." + claim + ".pvp");
                 if (!isPvP && selection.contains(event.getClickedBlock().getLocation())) {
                     event.setCancelled(true);
-                    player.openInventory(new InventoryMaker(null, 5, "&e" + player.getName() + " Chest")
+                    
+                    Inventory inventory = Bukkit.createInventory(null, 45, "&e" + player.getName() + " Chest");
+
+            		List<String> test = new ArrayList<>(FullPvP.getInstance().getConfig().getConfigurationSection("Spawn-Chest-Refill").getKeys(false));
+            		
+                    for(int i = 0; i < test.size(); ++i) {
+                    	String name = test.get(i);
+                    	int n = Integer.parseInt(name);
+                    	inventory.setItem(n -1, new ItemMaker(Material.valueOf(FullPvP.getInstance().getConfig().getString("Spawn-Chest-Refill." + n + ".Material").toUpperCase())).create());
+                    }
+                    
+                    player.openInventory(inventory);
+/*                    player.openInventory(new InventoryMaker(null, 5, "&e" + player.getName() + " Chest")
                     		.setItem(4, new ItemMaker(Material.LEATHER_HELMET).create())
                     		.setItem(13, new ItemMaker(Material.CHAINMAIL_CHESTPLATE).create())
                     		.setItem(22, new ItemMaker(Material.LEATHER_LEGGINGS).create())
@@ -53,7 +70,7 @@ public class ChestListener implements Listener {
                     		.setItem(32, new ItemMaker(Material.SNOW_BALL, 8).create())
                     		.setItem(36, new ItemMaker(Material.ANVIL).displayName("&cUpgrade Chest").lore("&7Click here to upgrade your chest.").create())
                     		.setItem(44, new ItemMaker(Material.DIAMOND_PICKAXE).create())
-                    		.create());
+                    		.create());*/
                     player.playSound(player.getLocation(), Sound.CHEST_OPEN, 1.0f, 1.0f);
                 }
             }
