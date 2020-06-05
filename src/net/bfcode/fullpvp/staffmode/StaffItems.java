@@ -1,5 +1,6 @@
 package net.bfcode.fullpvp.staffmode;
 
+import net.bfcode.fullpvp.utilities.ColorText;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -31,12 +32,12 @@ public class StaffItems {
 		ItemMeta onlineMeta = online.getItemMeta();
 		
 
-		compassMeta.setDisplayName("§eTeleporter");
-		bookMeta.setDisplayName("§eInventory");
-		eggMeta.setDisplayName("§eRandom TP");
-		vanishMeta.setDisplayName("§eVanish: §aOn");
-		freezeMeta.setDisplayName("§eFreeze");
-		onlineMeta.setDisplayName("§eTop");
+		compassMeta.setDisplayName(ColorText.translate("&6Teleporter"));
+		bookMeta.setDisplayName(ColorText.translate("&6Inventory"));
+		eggMeta.setDisplayName(ColorText.translate("&6Random TP"));
+		vanishMeta.setDisplayName(ColorText.translate("&6Vanish: &aEnabled"));
+		freezeMeta.setDisplayName(ColorText.translate("&6Freeze"));
+		onlineMeta.setDisplayName(ColorText.translate("&6Top"));
 
 		compass.setItemMeta(compassMeta);
 		book.setItemMeta(bookMeta);

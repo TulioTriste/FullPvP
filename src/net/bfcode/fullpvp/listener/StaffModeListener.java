@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 
+import net.bfcode.fullpvp.utilities.ColorText;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -74,7 +75,7 @@ public class StaffModeListener implements Listener {
 			if (event.getPlayer().getGameMode() != GameMode.CREATIVE) {
 				if (StaffModeCommand.modMode.contains(event.getPlayer())) {
 					event.getPlayer().setGameMode(GameMode.CREATIVE);
-					event.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', "&cYou may not switch gamemodes whilst in Staff Mode."));
+					event.getPlayer().sendMessage(ColorText.translate("&cYou may not switch gamemodes whilst in Staff Mode."));
 				}
 			}
 		}
@@ -200,24 +201,25 @@ public class StaffModeListener implements Listener {
 				|| (e.getAction() == Action.LEFT_CLICK_BLOCK)) {
 			return;
 		}
-		if ((StaffModeCommand.modMode.contains(p)) && (p.getItemInHand().getItemMeta().getDisplayName().equalsIgnoreCase("§eVanish: §aOn")) && (e.getAction().toString().contains("RIGHT"))) {
+		if ((StaffModeCommand.modMode.contains(p)) && (p.getItemInHand().getItemMeta().getDisplayName().equals(ColorText.translate("&6Vanish: &aEnabled"))) &&
+				(e.getAction().toString().contains("RIGHT"))) {
 			VanishListener.getInstance().setVanish(p, false);
 			p.sendMessage(ChatColor.YELLOW.toString() + "You have toggled your vanish " + ChatColor.RED + "off" + ChatColor.YELLOW + ".");
 			ItemStack carpet = new ItemStack(351, 1, (short) 8);
 			ItemMeta carpetMeta = carpet.getItemMeta();
-			carpetMeta.setDisplayName("§eVanish: §cOff");
+			carpetMeta.setDisplayName(ColorText.translate("&6Vanish: &cDisable"));
 			carpet.setItemMeta(carpetMeta);
 
 			p.getInventory().setItemInHand(carpet);
 
 		} else if ((StaffModeCommand.modMode.contains(p))
-				&& (p.getItemInHand().getItemMeta().getDisplayName().equalsIgnoreCase("§eVanish: §cOff"))
+				&& (p.getItemInHand().getItemMeta().getDisplayName().equals(ColorText.translate("&6Vanish: &cDisable")))
 				&& (e.getAction().toString().contains("RIGHT"))) {
 			VanishListener.getInstance().setVanish(p, true);
 			p.sendMessage(ChatColor.YELLOW.toString() + "You have toggled your vanish " + ChatColor.GREEN + "on" + ChatColor.YELLOW + ".");
 			ItemStack carpet = new ItemStack(351, 1, (short) 10);
 			ItemMeta carpetMeta = carpet.getItemMeta();
-			carpetMeta.setDisplayName("§eVanish: §aOn");
+			carpetMeta.setDisplayName(ColorText.translate("&6Vanish: &aEnabled"));
 			carpet.setItemMeta(carpetMeta);
 
 			p.getInventory().setItemInHand(carpet);

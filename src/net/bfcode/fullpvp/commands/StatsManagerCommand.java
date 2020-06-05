@@ -31,7 +31,7 @@ public class StatsManagerCommand implements CommandExecutor
             if (args[1].equalsIgnoreCase("add")) {
                 final Player target = Bukkit.getPlayer(args[2]);
                 if (!Utils.isOnline((CommandSender)player, target)) {
-                    Utils.PLAYER_NOT_FOUND((CommandSender)player, args[2]);
+                    player.sendMessage(Utils.PLAYER_NOT_FOUND);
                     return true;
                 }
                 final Integer amount = Ints.tryParse(args[3]);
@@ -49,7 +49,7 @@ public class StatsManagerCommand implements CommandExecutor
             else if (args[1].equalsIgnoreCase("remove")) {
                 final Player target = Bukkit.getPlayer(args[2]);
                 if (!Utils.isOnline((CommandSender)player, target)) {
-                    Utils.PLAYER_NOT_FOUND((CommandSender)player, args[2]);
+                    player.sendMessage(Utils.PLAYER_NOT_FOUND);
                     return true;
                 }
                 final Integer amount = Ints.tryParse(args[3]);
@@ -76,7 +76,7 @@ public class StatsManagerCommand implements CommandExecutor
             if (args[1].equalsIgnoreCase("add")) {
                 final Player target = Bukkit.getPlayer(args[2]);
                 if (!Utils.isOnline((CommandSender)player, target)) {
-                    Utils.PLAYER_NOT_FOUND((CommandSender)player, args[2]);
+                    player.sendMessage(Utils.PLAYER_NOT_FOUND);
                     return true;
                 }
                 final Integer amount = Ints.tryParse(args[3]);
@@ -94,7 +94,7 @@ public class StatsManagerCommand implements CommandExecutor
             else if (args[1].equalsIgnoreCase("remove")) {
                 final Player target = Bukkit.getPlayer(args[2]);
                 if (!Utils.isOnline((CommandSender)player, target)) {
-                    Utils.PLAYER_NOT_FOUND((CommandSender)player, args[2]);
+                    player.sendMessage(Utils.PLAYER_NOT_FOUND);
                     return true;
                 }
                 final Integer amount = Ints.tryParse(args[3]);

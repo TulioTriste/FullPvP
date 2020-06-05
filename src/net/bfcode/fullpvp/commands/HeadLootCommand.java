@@ -30,7 +30,7 @@ public class HeadLootCommand implements CommandExecutor {
             }
             final Player target = Bukkit.getPlayer(args[1]);
             if (!Utils.isOnline(sender, target)) {
-                Utils.PLAYER_NOT_FOUND(sender, args[1]);
+                sender.sendMessage(Utils.PLAYER_NOT_FOUND);
                 return true;
             }
             final Integer amount = Ints.tryParse(args[2]);

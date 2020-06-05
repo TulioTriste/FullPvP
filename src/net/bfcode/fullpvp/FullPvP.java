@@ -2,6 +2,7 @@ package net.bfcode.fullpvp;
 
 import java.io.File;
 
+import net.bfcode.fullpvp.configuration.LocationFile;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfigurationOptions;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
@@ -151,21 +152,21 @@ public class FullPvP extends JavaPlugin implements Listener {
     }
     
     private void load() {
-        registerConfiguration();
         FullPvP.plugin = this;
         if(!new HWID(getConfig().getString("HWID"), "https://seamanlike-deed.000webhostapp.com/webpanel/verify.php", this).register()) {
         	return;
         }
+        loadVault();
+        registerConfiguration();
+        registerCommands();
+        registerListeners();
+        registerScoreboard();
+        registerHandlers();
         System.out.println("");
         System.out.println("FullPvP Core");
         System.out.println("Version: 1.0.0");
         System.out.println("Author: TulioTriste & Risas");
         System.out.println("");
-        registerCommands();
-        registerListeners();
-        registerScoreboard();
-        registerHandlers();
-        loadVault();
         Cooldowns.createCooldown("TOURNAMENT_COOLDOWN");
     }
     
@@ -215,9 +216,8 @@ public class FullPvP extends JavaPlugin implements Listener {
     }
     
     private void registerListeners() {
-        final PluginManager manager = getServer().getPluginManager();
-        manager.registerEvents(new HostCommand(), this);
-    	new RepairSignListener(this);
+        new HostCommand();
+    	new RepairSignListener();
         new ClaimListener(this);
         new ChestListener(this);
         new SellShopListener(this);

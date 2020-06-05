@@ -27,7 +27,7 @@ public class StatsCommand implements CommandExecutor
         else {
             final Player target = Bukkit.getPlayer(args[0]);
             if (!Utils.isOnline((CommandSender)player, target)) {
-                Utils.PLAYER_NOT_FOUND((CommandSender)player, args[0]);
+                player.sendMessage(Utils.PLAYER_NOT_FOUND);
                 return true;
             }
             Bukkit.getScheduler().runTaskAsynchronously(FullPvP.getPlugin(), new Runnable() {

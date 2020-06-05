@@ -128,9 +128,9 @@ public class ClaimListener implements Listener {
     public Location getLocation(final String town, final String corner) {
         final LocationFile location = this.location;
         final World world = Bukkit.getWorld((String)LocationFile.getConfig().get("Claims." + town + ".world"));
-        final double x = location.getDouble("Claims." + town + "." + corner + ".x");
-        final double y = location.getDouble("Claims." + town + "." + corner + ".y");
-        final double z = location.getDouble("Claims." + town + "." + corner + ".z");
+        final int x = location.getInt("Claims." + town + "." + corner + ".x");
+        final int y = location.getInt("Claims." + town + "." + corner + ".y");
+        final int z = location.getInt("Claims." + town + "." + corner + ".z");
         return new Location(world, x, y, z);
     }
 }

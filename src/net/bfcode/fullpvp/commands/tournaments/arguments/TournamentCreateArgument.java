@@ -42,7 +42,7 @@ public class TournamentCreateArgument extends CommandArgument {
             return true;
         }
         if (Cooldowns.isOnCooldown("TOURNAMENT_COOLDOWN", player) && !player.isOp() && !player.hasPermission("tournament.cooldown.bypass")) {
-            player.sendMessage("§cYou cannot do this for another §l" + (Cooldowns.getCooldownForPlayerInt("TOURNAMENT_COOLDOWN", player) / 60) + " §cminutes.");
+            player.sendMessage(ColorText.translate("&cYou cannot do this for another &l" + (Cooldowns.getCooldownForPlayerInt("TOURNAMENT_COOLDOWN", player) / 60) + " &cminutes."));
             return true;
         }
         if(StaffModeCommand.isMod(player) || VanishListener.isVanished(player)) {

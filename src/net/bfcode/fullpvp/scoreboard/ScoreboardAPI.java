@@ -11,8 +11,8 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import java.util.List;
 
-public class ScoreboardAPI
-{
+public class ScoreboardAPI {
+
     private List<ScoreboardText> list;
     private Scoreboard scoreBoard;
     private Objective objective;

@@ -8,8 +8,8 @@ import org.bukkit.Material;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.ItemStack;
 
-@SuppressWarnings({"unchecked", "rawtypes"})
 public class ItemMaker {
+
     private ItemStack stack;
     private ItemMeta meta;
     
@@ -22,14 +22,14 @@ public class ItemMaker {
     }
     
     public ItemMaker(final ItemStack stack) {
-        Preconditions.checkNotNull((Object)stack, (Object)"ItemStack not found.");
+        Preconditions.checkNotNull(stack, "ItemStack not found.");
         this.stack = stack;
     }
     
     public ItemMaker(final Material material, final int amount, final byte data) {
-        Preconditions.checkNotNull((Object)material, (Object)"Material not found.");
-        Preconditions.checkArgument(amount > 0, (Object)"Amount must be positive");
-        this.stack = new ItemStack(material, amount, (short)data);
+        Preconditions.checkNotNull(material, "Material not found.");
+        Preconditions.checkArgument(amount > 0, "Amount must be positive");
+        this.stack = new ItemStack(material, amount, data);
     }
     
     public ItemMaker displayName(final String name) {
@@ -41,29 +41,20 @@ public class ItemMaker {
     }
     
     public ItemMaker lore(final String... strings) {
-        final List<String> loreArray = new ArrayList<String>();
+        final List<String> loreArray = new ArrayList<>();
         for (final String loreBit : strings) {
             loreArray.add(loreBit.replace("&", "§"));
         }
-        this.meta.setLore((List)loreArray);
+        this.meta.setLore(loreArray);
         return this;
     }
     
 	public ItemMaker lore(final List<String> strings) {
-        final List<String> loreArray = new ArrayList<String>();
+        final List<String> loreArray = new ArrayList<>();
         for (final String loreBit : strings) {
             loreArray.add(ColorText.translate(loreBit));
         }
-        this.meta.setLore((List)loreArray);
-        return this;
-    }
-    
-    public ItemMaker addlore(final String... strings) {
-        final List<String> loreArray = new ArrayList<String>();
-        for (final String loreBit : strings) {
-            loreArray.add(loreBit.replace("&", "§"));
-        }
-        this.meta.setLore((List)loreArray);
+        this.meta.setLore(loreArray);
         return this;
     }
     

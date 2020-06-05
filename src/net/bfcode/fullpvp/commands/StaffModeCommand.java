@@ -98,7 +98,7 @@ public class StaffModeCommand implements CommandExecutor, Listener {
 			}
 			Player t = Bukkit.getPlayer(args[0]);
 			if (t == null) {
-				sender.sendMessage("§cPlayer not found.");
+				sender.sendMessage(Utils.PLAYER_NOT_FOUND);
 				return true;
 			}
 			if (modMode.contains(t)) {

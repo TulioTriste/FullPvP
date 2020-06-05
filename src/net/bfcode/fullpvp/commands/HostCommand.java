@@ -26,9 +26,12 @@ import net.bfcode.fullpvp.utilities.ItemMaker;
 import net.bfcode.fullpvp.utilities.ItemStackBuilder;
 
 public class HostCommand implements CommandExecutor, Listener {
-	
-	private FullPvP plugin;
+
 	private static String hostTitle;
+
+	public HostCommand() {
+        FullPvP.getPlugin().getServer().getPluginManager().registerEvents(this, FullPvP.getPlugin());
+    }
 
     static {
     	hostTitle = ColorText.translate(FullPvP.getPlugin().getConfig().getString("Host-Menu.Title"));
@@ -41,7 +44,7 @@ public class HostCommand implements CommandExecutor, Listener {
         }
         final Player player = (Player)sender;
         MessagesFile messages = MessagesFile.getConfig();
-        if(player.hasPermission("fullpvp.command.host")) {
+        if(!player.hasPermission("fullpvp.command.host")) {
         	player.sendMessage(ColorText.translate(messages.getString("No-Permission")));
         	return true;
         }

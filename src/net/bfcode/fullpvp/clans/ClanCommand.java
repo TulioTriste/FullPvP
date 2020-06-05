@@ -125,7 +125,7 @@ public class ClanCommand implements CommandExecutor {
             }
             final Player target = Bukkit.getPlayer(args[1]);
             if (!Utils.isOnline(player, target)) {
-                Utils.PLAYER_NOT_FOUND(player, args[1]);
+                sender.sendMessage(Utils.PLAYER_NOT_FOUND);
                 return true;
             }
             if (!ClanHandler.hasClan(player)) {
@@ -162,7 +162,7 @@ public class ClanCommand implements CommandExecutor {
             }
             final Player target = Bukkit.getPlayer(args[1]);
             if (!Utils.isOnline(player, target)) {
-                Utils.PLAYER_NOT_FOUND(player, args[1]);
+                player.sendMessage(Utils.PLAYER_NOT_FOUND);
                 return true;
             }
             if (!ClanHandler.hasClan(player)) {
@@ -238,7 +238,7 @@ public class ClanCommand implements CommandExecutor {
             }
             final Player target = Bukkit.getPlayer(args[1]);
             if (!Utils.isOnline(player, target)) {
-                Utils.PLAYER_NOT_FOUND(player, args[1]);
+                player.sendMessage(Utils.PLAYER_NOT_FOUND);
                 return true;
             }
             if (!ClanHandler.hasClan(player)) {

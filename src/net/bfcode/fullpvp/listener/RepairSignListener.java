@@ -41,8 +41,8 @@ public class RepairSignListener implements Listener {
     final int repair_all_legend = 2800;
     final int repair_all_reab = 2400;
 	
-    public RepairSignListener(final FullPvP plugin) {
-        Bukkit.getPluginManager().registerEvents((Listener)this, (Plugin)plugin);
+    public RepairSignListener() {
+        Bukkit.getPluginManager().registerEvents(this, FullPvP.getPlugin());
     }
 
     @EventHandler

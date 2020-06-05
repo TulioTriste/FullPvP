@@ -13,17 +13,14 @@ import java.text.DecimalFormat;
 import org.bukkit.entity.Player;
 import org.bukkit.command.CommandSender;
 
-public class Utils
-{
+public class Utils {
+
     public static String NO_PERMISSION;
     public static String MUST_BE_PLAYER;
+    public static String PLAYER_NOT_FOUND;
     
     public static boolean isOnline(final CommandSender sender, final Player player) {
         return player != null && (!(sender instanceof Player) || ((Player)sender).canSee(player));
-    }
-    
-    public static void PLAYER_NOT_FOUND(final CommandSender sender, final String player) {
-        sender.sendMessage(ColorText.translate("&6Player '&7" + player + "&6' is currently offline."));
     }
     
     public static String formatLongMin(final long time) {
@@ -68,5 +65,6 @@ public class Utils
     	MessagesFile messages = MessagesFile.getConfig();
         Utils.NO_PERMISSION = ColorText.translate(messages.getString("No-Permission"));
         Utils.MUST_BE_PLAYER = ColorText.translate("&cYou must be player to execute this command.");
+        Utils.PLAYER_NOT_FOUND = ColorText.translate("&cPlayer not found.");
     }
 }

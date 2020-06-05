@@ -3,6 +3,7 @@ package net.bfcode.fullpvp.claim;
 import java.util.Set;
 import com.sk89q.worldedit.bukkit.selections.Selection;
 
+import net.bfcode.fullpvp.FullPvP;
 import net.bfcode.fullpvp.configuration.LocationFile;
 import net.bfcode.fullpvp.utilities.ColorText;
 import net.bfcode.fullpvp.utilities.Utils;
@@ -13,12 +14,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.CommandExecutor;
 
 public class ClaimCommand implements CommandExecutor {
-    LocationFile location;
-    
-    public ClaimCommand() {
-        this.location = LocationFile.getConfig();
-    }
-    
+
+    private LocationFile locationFile = LocationFile.getConfig();
+
     public boolean onCommand(final CommandSender sender, final Command command, final String label, final String[] args) {
         if (!(sender instanceof Player)) {
             sender.sendMessage(Utils.MUST_BE_PLAYER);
@@ -30,11 +28,11 @@ public class ClaimCommand implements CommandExecutor {
             return true;
         }
         if (args.length < 1) {
-            this.getUsage(player);
+            this.getUsage(sender, label);
         }
         else if (args[0].equalsIgnoreCase("pvp")) {
             if (args.length < 2) {
-                this.getUsage(sender);
+                this.getUsage(sender, label);
                 return true;
             }
             final StringBuilder x = new StringBuilder();
@@ -42,7 +40,7 @@ public class ClaimCommand implements CommandExecutor {
                 x.append(String.valueOf(String.valueOf(args[i])) + " ");
             }
             final String town = x.toString().trim();
-            if (this.location.getConfigurationSection("Claims." + town) != null) {
+            if (this.locationFile.getConfigurationSection("Claims." + town) != null) {
                 player.sendMessage(ColorText.translate("&cThis claim is already created!"));
                 return true;
             }
@@ -51,22 +49,21 @@ public class ClaimCommand implements CommandExecutor {
                 player.sendMessage(ColorText.translate("&cYou must make a WorldEdit selection."));
                 return true;
             }
-            this.location.set("Claims." + town + ".world", sel.getMaximumPoint().getWorld().getName());
-            this.location.set("Claims." + town + ".pvp", true);
-            this.location.set("Claims." + town + ".cornerA.x", sel.getMaximumPoint().getX());
-            final LocationFile location = this.location;
-            LocationFile.getConfig().set("Claims." + town + ".cornerA.y", sel.getMaximumPoint().getY());
-            LocationFile.getConfig().set("Claims." + town + ".cornerA.z", sel.getMaximumPoint().getZ());
-            LocationFile.getConfig().set("Claims." + town + ".cornerB.x", sel.getMinimumPoint().getX());
-            LocationFile.getConfig().set("Claims." + town + ".cornerB.y", sel.getMinimumPoint().getY());
-            LocationFile.getConfig().set("Claims." + town + ".cornerB.z", sel.getMinimumPoint().getZ());
-            location.save();
-            location.reload();
+            this.locationFile.set("Claims." + town + ".world", sel.getMaximumPoint().getWorld().getName());
+            this.locationFile.set("Claims." + town + ".pvp", true);
+            this.locationFile.set("Claims." + town + ".cornerA.x", sel.getMaximumPoint().getX());
+            this.locationFile.set("Claims." + town + ".cornerA.y", sel.getMaximumPoint().getY());
+            this.locationFile.set("Claims." + town + ".cornerA.z", sel.getMaximumPoint().getZ());
+            this.locationFile.set("Claims." + town + ".cornerB.x", sel.getMinimumPoint().getX());
+            this.locationFile.set("Claims." + town + ".cornerB.y", sel.getMinimumPoint().getY());
+            this.locationFile.set("Claims." + town + ".cornerB.z", sel.getMinimumPoint().getZ());
+            this.locationFile.save();
+            this.locationFile.reload();
             player.sendMessage(ColorText.translate("&eYou have created a claim &f" + town + " &e(&cPvP&e)"));
         }
         else if (args[0].equalsIgnoreCase("nopvp")) {
             if (args.length < 2) {
-                this.getUsage(sender);
+                this.getUsage(sender, label);
                 return true;
             }
             final StringBuilder x = new StringBuilder();
@@ -74,7 +71,7 @@ public class ClaimCommand implements CommandExecutor {
                 x.append(String.valueOf(String.valueOf(args[i])) + " ");
             }
             final String town = x.toString().trim();
-            if (this.location.getConfigurationSection("Claims." + town) != null) {
+            if (this.locationFile.getConfigurationSection("Claims." + town) != null) {
                 player.sendMessage(ColorText.translate("&cThis claim is already created!"));
                 return true;
             }
@@ -83,17 +80,34 @@ public class ClaimCommand implements CommandExecutor {
                 player.sendMessage(ColorText.translate("&cYou must make a WorldEdit selection."));
                 return true;
             }
-            location.set("Claims." + town + ".world", sel.getMaximumPoint().getWorld().getName());
-            this.location.set("Claims." + town + ".pvp", false);
-            this.location.set("Claims." + town + ".cornerA.x", sel.getMaximumPoint().getX());
-            LocationFile.getConfig().set("Claims." + town + ".cornerA.y", sel.getMaximumPoint().getY());
-            LocationFile.getConfig().set("Claims." + town + ".cornerA.z", sel.getMaximumPoint().getZ());
-            LocationFile.getConfig().set("Claims." + town + ".cornerB.x", sel.getMinimumPoint().getX());
-            LocationFile.getConfig().set("Claims." + town + ".cornerB.y", sel.getMinimumPoint().getY());
-            LocationFile.getConfig().set("Claims." + town + ".cornerB.z", sel.getMinimumPoint().getZ());
-            location.save();
-            location.reload();
+            player.performCommand("/expand vert");
+            this.locationFile.set("Claims." + town + ".world", sel.getMaximumPoint().getWorld().getName());
+            this.locationFile.set("Claims." + town + ".pvp", false);
+            this.locationFile.set("Claims." + town + ".cornerA.x", sel.getMaximumPoint().getX() + 1);
+            this.locationFile.set("Claims." + town + ".cornerA.y", sel.getMaximumPoint().getY());
+            this.locationFile.set("Claims." + town + ".cornerA.z", sel.getMaximumPoint().getZ() + 1);
+            this.locationFile.set("Claims." + town + ".cornerB.x", sel.getMinimumPoint().getX());
+            this.locationFile.set("Claims." + town + ".cornerB.y", sel.getMinimumPoint().getY());
+            this.locationFile.set("Claims." + town + ".cornerB.z", sel.getMinimumPoint().getZ());
+            this.locationFile.save();
+            this.locationFile.reload();
             player.sendMessage(ColorText.translate("&eYou have created a claim &f" + town + " &e(&aNo PvP&e)"));
+        }
+        else if (args[0].equalsIgnoreCase("delete") || args[0].equalsIgnoreCase("remove")) {
+            if (args.length < 2) {
+                player.sendMessage(ColorText.translate("&cUsage: /" + label + " delete <name>"));
+                return true;
+            }
+            String town = args[1];
+            if (this.locationFile.getConfigurationSection("Claims." + town) == null) {
+                player.sendMessage(ColorText.translate("&cThis claim is already deleted."));
+                return true;
+            }
+            this.locationFile.set("Claims." + town, null);
+            this.locationFile.save();
+            this.locationFile.reload();
+            player.sendMessage(ColorText.translate("&6You've successfully delete " + town + "."));
+            return true;
         }
         else if (args[0].equalsIgnoreCase("list")) {
             player.sendMessage(ColorText.translate("&eList of all Claims: &f" + this.getClaimList().toString().replace("[", "").replace("]", "")));
@@ -105,16 +119,17 @@ public class ClaimCommand implements CommandExecutor {
     }
     
     private Set<String> getClaimList() {
-        return (Set<String>)this.location.getConfigurationSection("Claims").getKeys(false);
+        return (Set<String>)this.locationFile.getConfigurationSection("Claims").getKeys(false);
     }
     
-    private void getUsage(final CommandSender sender) {
+    private void getUsage(CommandSender sender, String label) {
         sender.sendMessage(ColorText.translate("&7&m------------------------------"));
-        sender.sendMessage(ColorText.translate("&6Claim Commands"));
+        sender.sendMessage(ColorText.translate("&6&lClaim Commands"));
         sender.sendMessage("");
-        sender.sendMessage(ColorText.translate("&e/claim pvp <claimName> &7- &fCreate a SafeZone Claim."));
-        sender.sendMessage(ColorText.translate("&e/claim nopvp <claimName> &7- &fCreate a PvP Claim."));
-        sender.sendMessage(ColorText.translate("&e/claim list &7- &fList of all Claims."));
+        sender.sendMessage(ColorText.translate("&e/" + label + " pvp <name> &7- &fCreate a SafeZone Claim."));
+        sender.sendMessage(ColorText.translate("&e/" + label + " nopvp <name> &7- &fCreate a PvP Claim."));
+        sender.sendMessage(ColorText.translate("&e/" + label + " delete <name> &7- &fDelete a Claim.."));
+        sender.sendMessage(ColorText.translate("&e/" + label + " list &7- &fList of all Claims."));
         sender.sendMessage(ColorText.translate("&7&m------------------------------"));
     }
 }

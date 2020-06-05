@@ -2,6 +2,7 @@ package net.bfcode.fullpvp.commands;
 
 import java.util.ArrayList;
 
+import net.bfcode.fullpvp.utilities.ColorText;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -31,30 +32,30 @@ public class VanishCommand implements CommandExecutor  {
 				VanishListener.getInstance();
 				if (VanishListener.isVanished(p.getPlayer())) {
 					VanishListener.getInstance().setVanish(p, false);
-					sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&eYou have turned your vanish &coff&e."));
+					sender.sendMessage(ColorText.translate("&eYou have turned your vanish &coff&e."));
 					return true;
 				}
 				VanishListener.getInstance().setVanish(p, true);
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&eYou have turned your vanish &aon&e."));
+				sender.sendMessage(ColorText.translate("&eYou have turned your vanish &aon&e."));
 				return true;
 			}
 			if (!sender.hasPermission("fullpvp.command.vanish.argument.others")) {
-				sender.sendMessage(ChatColor.RED + "No.");
+				sender.sendMessage(Utils.NO_PERMISSION);
 				return true;
 			}
 			Player t = Bukkit.getPlayer(args[0]);
 			if (t == null) {
-				sender.sendMessage("§6Could not find player §f" + args[0].toString() + "§6.");
+				sender.sendMessage(Utils.PLAYER_NOT_FOUND);
 				return true;
 			}
 			VanishListener.getInstance();
 			if (VanishListener.isVanished(t.getPlayer())) {
 				VanishListener.getInstance().setVanish(t, false);
-				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7You have &cdisabled &7" + t.getName() + "'s &3&lVanish Mode"));
+				sender.sendMessage(ColorText.translate("&7You have &cdisabled &7" + t.getName() + "'s &3&lVanish Mode"));
 				return true;
 			}
 			VanishListener.getInstance().setVanish(t, true);
-			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7You have &aenabled &7" + t.getName() + "'s &3&lVanish Mode"));
+			sender.sendMessage(ColorText.translate("&7You have &aenabled &7" + t.getName() + "'s &3&lVanish Mode"));
 			return true;
 		}
 		return false;
