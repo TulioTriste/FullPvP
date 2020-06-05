@@ -8,13 +8,11 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryHolder;
 import com.sk89q.worldedit.bukkit.selections.CuboidSelection;
 
 import net.bfcode.fullpvp.FullPvP;
@@ -22,7 +20,6 @@ import net.bfcode.fullpvp.configuration.LocationFile;
 import net.bfcode.fullpvp.configuration.MessagesFile;
 import net.bfcode.fullpvp.listener.VanishListener;
 import net.bfcode.fullpvp.utilities.ColorText;
-import net.bfcode.fullpvp.utilities.ItemMaker;
 import net.bfcode.fullpvp.utilities.ItemStackBuilder;
 
 public class HostCommand implements CommandExecutor, Listener {

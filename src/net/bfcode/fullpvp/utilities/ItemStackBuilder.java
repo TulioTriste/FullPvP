@@ -38,7 +38,7 @@ public class ItemStackBuilder
         for (final String loreBit : strings) {
             loreArray.add(ChatColor.WHITE + loreBit);
         }
-        this.itemMeta.setLore((List)loreArray);
+        this.itemMeta.setLore(loreArray);
         return this;
     }
     
@@ -47,7 +47,7 @@ public class ItemStackBuilder
         for (final String loreBit : strings) {
             loreArray.add(ChatColor.translateAlternateColorCodes('&', loreBit));
         }
-        this.itemMeta.setLore((List)loreArray);
+        this.itemMeta.setLore(loreArray);
         return this;
     }
     

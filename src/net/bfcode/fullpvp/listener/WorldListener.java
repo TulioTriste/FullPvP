@@ -8,9 +8,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
 
 import net.bfcode.fullpvp.FullPvP;
+import net.bfcode.fullpvp.utilities.PlayerUtil;
 
 
 public class WorldListener implements Listener {
@@ -39,6 +41,11 @@ public class WorldListener implements Listener {
 		}
 		event.setCancelled(true);
 		return;
+	}
+	
+	@EventHandler
+	public void onLeave(PlayerKickEvent event) {
+		PlayerUtil.allowMovement(event.getPlayer());
 	}
 	
 	@EventHandler

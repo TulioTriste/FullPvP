@@ -30,7 +30,6 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.configuration.Configuration;
 import org.bukkit.entity.Player;
 
 import java.util.WeakHashMap;
@@ -40,11 +39,9 @@ public class ScoreboardManager implements Listener {
     public WeakHashMap<Player, ScoreboardAPI> helper;
     private String scoreboardTitle;
     private FullPvP plugin;
-    private Configuration config;
     
     public ScoreboardManager() {
         this.plugin = FullPvP.getInstance();
-        this.config = (Configuration)this.plugin.getConfig();
         this.helper = new WeakHashMap<Player, ScoreboardAPI>();
     }
     
@@ -206,6 +203,7 @@ public class ScoreboardManager implements Listener {
 	                    					.replace("{x}", DTCHandler.dtcFile.getInt("CurrentDTC." + dtc + ".X") + "")
 	                    					.replace("{y}", DTCHandler.dtcFile.getInt("CurrentDTC." + dtc + ".Y") + "")
 	                    					.replace("{z}", DTCHandler.dtcFile.getInt("CurrentDTC." + dtc + ".Z") + "");
+	                    					lines.add(dtclines);
 	                    				}
 	                    			}
 	                    		}

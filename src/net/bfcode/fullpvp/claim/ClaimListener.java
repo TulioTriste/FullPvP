@@ -15,6 +15,7 @@ import com.sk89q.worldedit.bukkit.selections.CuboidSelection;
 
 import net.bfcode.fullpvp.FullPvP;
 import net.bfcode.fullpvp.configuration.LocationFile;
+import net.bfcode.fullpvp.configuration.MessagesFile;
 import net.bfcode.fullpvp.utilities.ColorText;
 
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -48,7 +49,7 @@ public class ClaimListener implements Listener {
                 if (isPvP) {
                     continue;
                 }
-                player.sendMessage(ColorText.translate("&7* &eEntrando a Zona Segura"));
+                player.sendMessage(ColorText.translate(MessagesFile.getConfig().getString("Entry-zone-noPvP")));
                 player.setHealth(((Damageable)player).getMaxHealth());
                 player.setFoodLevel(20);
                 player.setFireTicks(0);
@@ -60,7 +61,7 @@ public class ClaimListener implements Listener {
                 if(isPvP) {
                 	continue;
                 }
-                player.sendMessage(ColorText.translate("&7* &eSaliendo de Zona Segura"));
+                player.sendMessage(ColorText.translate(MessagesFile.getConfig().getString("Leaving-zone-noPvP")));
             }
         }
     }

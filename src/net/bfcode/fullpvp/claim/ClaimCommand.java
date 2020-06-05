@@ -3,7 +3,6 @@ package net.bfcode.fullpvp.claim;
 import java.util.Set;
 import com.sk89q.worldedit.bukkit.selections.Selection;
 
-import net.bfcode.fullpvp.FullPvP;
 import net.bfcode.fullpvp.configuration.LocationFile;
 import net.bfcode.fullpvp.utilities.ColorText;
 import net.bfcode.fullpvp.utilities.Utils;
@@ -29,37 +28,6 @@ public class ClaimCommand implements CommandExecutor {
         }
         if (args.length < 1) {
             this.getUsage(sender, label);
-        }
-        else if (args[0].equalsIgnoreCase("pvp")) {
-            if (args.length < 2) {
-                this.getUsage(sender, label);
-                return true;
-            }
-            final StringBuilder x = new StringBuilder();
-            for (int i = 1; i < args.length; ++i) {
-                x.append(String.valueOf(String.valueOf(args[i])) + " ");
-            }
-            final String town = x.toString().trim();
-            if (this.locationFile.getConfigurationSection("Claims." + town) != null) {
-                player.sendMessage(ColorText.translate("&cThis claim is already created!"));
-                return true;
-            }
-            final Selection sel = Utils.getWorldEdit().getSelection(player);
-            if (sel == null) {
-                player.sendMessage(ColorText.translate("&cYou must make a WorldEdit selection."));
-                return true;
-            }
-            this.locationFile.set("Claims." + town + ".world", sel.getMaximumPoint().getWorld().getName());
-            this.locationFile.set("Claims." + town + ".pvp", true);
-            this.locationFile.set("Claims." + town + ".cornerA.x", sel.getMaximumPoint().getX());
-            this.locationFile.set("Claims." + town + ".cornerA.y", sel.getMaximumPoint().getY());
-            this.locationFile.set("Claims." + town + ".cornerA.z", sel.getMaximumPoint().getZ());
-            this.locationFile.set("Claims." + town + ".cornerB.x", sel.getMinimumPoint().getX());
-            this.locationFile.set("Claims." + town + ".cornerB.y", sel.getMinimumPoint().getY());
-            this.locationFile.set("Claims." + town + ".cornerB.z", sel.getMinimumPoint().getZ());
-            this.locationFile.save();
-            this.locationFile.reload();
-            player.sendMessage(ColorText.translate("&eYou have created a claim &f" + town + " &e(&cPvP&e)"));
         }
         else if (args[0].equalsIgnoreCase("nopvp")) {
             if (args.length < 2) {

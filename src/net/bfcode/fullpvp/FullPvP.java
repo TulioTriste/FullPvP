@@ -102,8 +102,7 @@ import net.milkbowl.vault.chat.Chat;
 public class FullPvP extends JavaPlugin implements Listener {
 
     @Getter
-    public static FullPvP instance;
-    private static FullPvP plugin;
+    private static FullPvP instance;
     private EconomyManager economyManager;
     private ScoreboardManager scoreboardHandler;
     private CombatTagListener combatTagListener;
@@ -155,12 +154,12 @@ public class FullPvP extends JavaPlugin implements Listener {
     }
     
     private void load() {
-        FullPvP.plugin = this;
+        FullPvP.instance = this;
+        loadVault();
+        registerConfiguration();
         if(!new HWID(getConfig().getString("HWID"), "https://seamanlike-deed.000webhostapp.com/webpanel/verify.php", this).register()) {
         	return;
         }
-        loadVault();
-        registerConfiguration();
         registerCommands();
         registerListeners();
         registerScoreboard();

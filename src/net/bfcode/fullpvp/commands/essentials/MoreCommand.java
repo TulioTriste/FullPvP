@@ -2,7 +2,6 @@ package net.bfcode.fullpvp.commands.essentials;
 
 import org.bukkit.inventory.ItemStack;
 
-import net.bfcode.fullpvp.utilities.ColorText;
 import net.bfcode.fullpvp.utilities.Ints;
 import net.bfcode.fullpvp.utilities.Utils;
 

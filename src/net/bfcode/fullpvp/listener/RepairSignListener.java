@@ -1,24 +1,21 @@
 package net.bfcode.fullpvp.listener;
 
-import org.bukkit.Sound;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.EventHandler;
-import org.bukkit.entity.Player;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.block.Sign;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.plugin.Plugin;
+import org.bukkit.inventory.ItemStack;
 
 import net.bfcode.fullpvp.FullPvP;
 import net.bfcode.fullpvp.utilities.ColorText;
 import net.bfcode.fullpvp.utilities.InventoryMaker;
 import net.bfcode.fullpvp.utilities.ItemMaker;
-
-import org.bukkit.Bukkit;
-import org.bukkit.event.Listener;
-
 
 public class RepairSignListener implements Listener {
 	

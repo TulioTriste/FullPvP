@@ -20,6 +20,8 @@ Website:
   - "&7&m-------------------------------------------"
 Broadcast-Prefix: "&7[&6&lFullPvP&7] "
 No-Permission: "&cYou don't have permission to execute this command."
+Entry-zone-noPvP: "&7* &eEntrando a Zona Segur"
+Leaving-zone-noPvP: "&7* &eSaliendo de Zona Segura"
 Host-with-StaffMode: "&cYou are not host event with StaffMode."
 Host-in-noZone: "&cYou are not host event in Zone with PvP"
 ChatClear-message: "&eChat has been cleared by &d{player}&e."

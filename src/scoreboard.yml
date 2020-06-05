@@ -22,6 +22,7 @@ Scoreboard:
        - " &f\u00BB &eVanished&7: {status}"
        - " &f\u00BB &ePlayers&7: &f{players}"
      DestroyTheCore:
+       - "&7&m--------------------------"
        - "&6&lDTC"
        - " &f\u00BB &ePoints: &f{points-left}"
        - " &f\u00BB &eCoords: &f{x}, {y}, {z}"
@@ -54,6 +55,7 @@ Scoreboard:
      - "{staffmode}"
      - "{claims}"
      - "{freeze}"
+     - "{dtc}"
      - "&4&lCombat&7: &f{combat}"
      - "&9&lEnderpearl&7: {enderpearl}"
      - "&a&lSpawn&7: {spawn}"

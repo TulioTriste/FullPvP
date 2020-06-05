@@ -1,19 +1,17 @@
 package net.bfcode.fullpvp.destroythecore;
 
-import org.bukkit.Location;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import net.bfcode.fullpvp.FullPvP;
 import net.bfcode.fullpvp.configuration.MessagesFile;
 import net.bfcode.fullpvp.utilities.ColorText;
 import net.bfcode.fullpvp.utilities.Ints;
 import net.bfcode.fullpvp.utilities.Utils;
-
-import org.bukkit.entity.Player;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.CommandExecutor;
 
 public class DTCCommand implements CommandExecutor {
 	

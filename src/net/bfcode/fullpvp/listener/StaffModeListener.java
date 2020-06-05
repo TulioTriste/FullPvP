@@ -45,7 +45,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import net.bfcode.fullpvp.FullPvP;
 import net.bfcode.fullpvp.commands.StaffModeCommand;
 import net.bfcode.fullpvp.staffmode.StaffInventory;
-import net.bfcode.fullpvp.utilities.JavaUtils;
 
 public class StaffModeListener implements Listener {
 	private final Map<UUID, Location> fakeChestLocationMap = new HashMap<UUID, Location>();

@@ -48,30 +48,32 @@ public class DTCListener implements Listener {
     public void onBlockBreak(final BlockBreakEvent event) {
         Player player = event.getPlayer();
         Block block = event.getBlock();
-        Iterator<String> iterator = this.dtcFile.getConfigurationSection("CurrentDTC").getKeys(false).iterator();
-        if (iterator.hasNext()) {
-            final String dtc = iterator.next();
-            if (block.getLocation().getBlockX() == this.dtcFile.getInt("DTC." + dtc + ".X") && 
-            	block.getLocation().getBlockY() == this.dtcFile.getInt("DTC." + dtc + ".Y") && 
-            	block.getLocation().getBlockZ() == this.dtcFile.getInt("DTC." + dtc + ".Z") && 
-            	block.getType().equals(Material.OBSIDIAN)) {
-                event.setCancelled(true);
-                MessagesFile messages = MessagesFile.getConfig();
-                DTCHandler.decrementPoints(dtc);
-                Bukkit.broadcastMessage(ColorText.translate(messages.getString("Destroy-The-Core.Destroyed")
-                		.replace("{player}", player.getName())
-                		.replace("{dtc}", dtc))
-                		.replace("{points}", String.valueOf(DTCHandler.getDTCPoints(dtc))));
-                if (DTCHandler.getDTCPoints(dtc) == 0) {
-                    DTCHandler.setDTCEvent(dtc, false);
-                    Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), FullPvP.getInstance().getConfig().getString("DTC-Reward")
-                    		.replace("{player}", player.getName()));
-                    Bukkit.broadcastMessage(ColorText.translate(messages.getString("Destroy-The-Core.Destroyed-Core")
+        for(@SuppressWarnings("unused") String dtc1 : DTCHandler.getDTCActiveList()) {
+            Iterator<String> iterator = this.dtcFile.getConfigurationSection("CurrentDTC").getKeys(false).iterator();
+            if (iterator.hasNext()) {
+                final String dtc = iterator.next();
+                if (block.getLocation().getBlockX() == this.dtcFile.getInt("DTC." + dtc + ".X") && 
+                	block.getLocation().getBlockY() == this.dtcFile.getInt("DTC." + dtc + ".Y") && 
+                	block.getLocation().getBlockZ() == this.dtcFile.getInt("DTC." + dtc + ".Z") && 
+                	block.getType().equals(Material.OBSIDIAN)) {
+                    event.setCancelled(true);
+                    MessagesFile messages = MessagesFile.getConfig();
+                    DTCHandler.decrementPoints(dtc);
+                    Bukkit.broadcastMessage(ColorText.translate(messages.getString("Destroy-The-Core.Destroyed")
                     		.replace("{player}", player.getName())
-                    		.replace("{dtc}", dtc)));
+                    		.replace("{dtc}", dtc))
+                    		.replace("{points}", String.valueOf(DTCHandler.getDTCPoints(dtc))));
+                    if (DTCHandler.getDTCPoints(dtc) == 0) {
+                        DTCHandler.setDTCEvent(dtc, false);
+                        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), FullPvP.getInstance().getConfig().getString("DTC-Reward")
+                        		.replace("{player}", player.getName()));
+                        Bukkit.broadcastMessage(ColorText.translate(messages.getString("Destroy-The-Core.Destroyed-Core")
+                        		.replace("{player}", player.getName())
+                        		.replace("{dtc}", dtc)));
+                    }
                 }
-            }
-            return;
+                return;
+            }	
         }
         if (player.getGameMode().equals(GameMode.CREATIVE) && player.isOp()) {
             return;
