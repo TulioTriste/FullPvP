@@ -19,7 +19,7 @@ public class ColouredSignListener implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGH)
     public void onSignCreate(final SignChangeEvent event) {
         final Player player = event.getPlayer();
-        if (player != null && player.hasPermission("base.sign.colour")) {
+        if (player != null && player.hasPermission("fullpvp.sign.colour")) {
             final String[] lines = event.getLines();
             for (int i = 0; i < lines.length; ++i) {
                 event.setLine(i, ChatColor.translateAlternateColorCodes('&', lines[i]));

@@ -18,7 +18,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import net.bfcode.fullpvp.FullPvP;
-import net.bfcode.fullpvp.staffmode.StaffPriority;
 import net.bfcode.fullpvp.utilities.BaseConstants;
 import net.bfcode.fullpvp.utilities.BukkitUtils;
 import net.bfcode.fullpvp.utilities.Utils;
@@ -86,11 +85,6 @@ public class InvseeCommand implements CommandExecutor, Listener {
                 }
                 if (target2 == null) {
                     sender.sendMessage(String.format(BaseConstants.PLAYER_WITH_NAME_OR_UUID_NOT_FOUND, args[0]));
-                    return true;
-                }
-                final StaffPriority selfPriority = StaffPriority.of(player);
-                if (StaffPriority.of(target2).isMoreThan(selfPriority)) {
-                    sender.sendMessage(ChatColor.RED + "You do not have access to check the inventory of that player.");
                     return true;
                 }
                 inventory = (Inventory)target2.getInventory();

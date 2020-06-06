@@ -41,7 +41,7 @@ public class VanishListener implements Listener {
 		Player player = e.getPlayer();
 		for (Player online : Bukkit.getOnlinePlayers()) {
 			if (isVanished(online)) {
-				if (player.hasPermission("rank.staff")) {
+				if (player.hasPermission("fullpvp.command.vanish")) {
 					player.showPlayer(online);
 				} else {
 					player.hidePlayer(online);
@@ -89,7 +89,7 @@ public class VanishListener implements Listener {
 		if (b == true) {
 			Vanish.add(p);
 			for (Player online : Bukkit.getOnlinePlayers()) {
-				if (online.hasPermission("rank.staff")) {
+				if (online.hasPermission("fullpvp.command.vanish")) {
 					online.showPlayer(p);
 				} else {
 					online.hidePlayer(p);

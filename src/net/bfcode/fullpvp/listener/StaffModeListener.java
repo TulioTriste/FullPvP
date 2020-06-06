@@ -70,7 +70,7 @@ public class StaffModeListener implements Listener {
 
 	@EventHandler
 	public void onGamemodeChange(PlayerMoveEvent event) {
-		if (event.getPlayer().hasPermission("command.staffmode")) {
+		if (event.getPlayer().hasPermission("fullpvp.command.staffmode")) {
 			if (event.getPlayer().getGameMode() != GameMode.CREATIVE) {
 				if (StaffModeCommand.modMode.contains(event.getPlayer())) {
 					event.getPlayer().setGameMode(GameMode.CREATIVE);

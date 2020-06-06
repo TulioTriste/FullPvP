@@ -51,7 +51,7 @@ public class TournamentListener implements Listener {
     @EventHandler
     public void onBlockPlace(final BlockPlaceEvent event) {
         final Player player = event.getPlayer();
-        if (player.getGameMode() == GameMode.CREATIVE && player.hasPermission("hcf.utils.staff")) {
+        if (player.getGameMode() == GameMode.CREATIVE && player.isOp()) {
             return;
         }
         if (this.plugin.getTournamentManager().getTournament() != null && this.plugin.getTournamentManager().isInTournament(player.getUniqueId())) {
@@ -79,7 +79,7 @@ public class TournamentListener implements Listener {
     @EventHandler
     public void onBlockBreak(final BlockBreakEvent event) {
         final Player player = event.getPlayer();
-        if (player.getGameMode() == GameMode.CREATIVE && player.hasPermission("hcf.utils.staff")) {
+        if (player.getGameMode() == GameMode.CREATIVE && player.isOp()) {
             return;
         }
         if (this.plugin.getTournamentManager().getTournament() != null && this.plugin.getTournamentManager().isInTournament(player.getUniqueId())) {
@@ -251,7 +251,7 @@ public class TournamentListener implements Listener {
 			return;
 		}
     	if(event.getCurrentItem().getType().equals(Material.DIAMOND_BOOTS) || event.getCurrentItem().getType().equals(Material.DIAMOND_LEGGINGS) || event.getCurrentItem().getType().equals(Material.DIAMOND_CHESTPLATE) || event.getCurrentItem().getType().equals(Material.DIAMOND_HELMET)) {
-    		player.sendMessage(ColorText.translate("&eNo puedes mover estos items en t� inventario."));
+    		player.sendMessage(ColorText.translate("&eNo puedes mover estos items en tu inventario."));
     		event.setCancelled(true);
     	}
     }

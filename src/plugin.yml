@@ -1,7 +1,7 @@
 name: FullPvP
 main: net.bfcode.fullpvp.FullPvP
-version: 1.0.0
-author: [TU PUTA MADRE, neeah el risas y javita(Tulio)]
+version: 0.0.1
+author: [TulioTriste, Risas]
 commands:
    fly:
    heal:

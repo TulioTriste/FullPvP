@@ -94,7 +94,6 @@ public class ClaimCommand implements CommandExecutor {
         sender.sendMessage(ColorText.translate("&7&m------------------------------"));
         sender.sendMessage(ColorText.translate("&6&lClaim Commands"));
         sender.sendMessage("");
-        sender.sendMessage(ColorText.translate("&e/" + label + " pvp <name> &7- &fCreate a SafeZone Claim."));
         sender.sendMessage(ColorText.translate("&e/" + label + " nopvp <name> &7- &fCreate a PvP Claim."));
         sender.sendMessage(ColorText.translate("&e/" + label + " delete <name> &7- &fDelete a Claim.."));
         sender.sendMessage(ColorText.translate("&e/" + label + " list &7- &fList of all Claims."));

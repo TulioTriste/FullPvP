@@ -38,7 +38,7 @@ public class VanishCommand implements CommandExecutor  {
 				sender.sendMessage(ColorText.translate("&eYou have turned your vanish &aon&e."));
 				return true;
 			}
-			if (!sender.hasPermission("fullpvp.command.vanish.argument.others")) {
+			if (!sender.hasPermission("fullpvp.command.vanish.others")) {
 				sender.sendMessage(Utils.NO_PERMISSION);
 				return true;
 			}

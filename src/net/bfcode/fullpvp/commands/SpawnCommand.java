@@ -33,7 +33,7 @@ public class SpawnCommand implements CommandExecutor {
             player.sendMessage(ColorText.translate(FullPvP.getInstance().getConfig().getString("Spawn.Combat-Tag")));
             return true;
         }
-        if (player.hasPermission("rank.staff")) {
+        if (player.hasPermission("fullpvp.command.spawn.staff")) {
         	LocationFile locations = LocationFile.getConfig();
             int x = locations.getInt("Locations.Spawn.X");
             int y = locations.getInt("Locations.Spawn.Y");

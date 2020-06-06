@@ -24,7 +24,7 @@ public class WorldListener implements Listener {
 	@EventHandler(ignoreCancelled = true, priority = EventPriority.HIGH)
 	public void onBreak(BlockBreakEvent event) {
 		Player player = event.getPlayer();
-		if (player.hasPermission("fullpvp.break.bypass") || player.isOp()) {
+		if (player.hasPermission("fullpvp.breakblocks.bypass") || player.isOp()) {
 			event.setCancelled(false);
 			return;
 		}
@@ -35,7 +35,7 @@ public class WorldListener implements Listener {
 	@EventHandler(ignoreCancelled = true, priority = EventPriority.HIGH)
 	public void onPlace(BlockPlaceEvent event) {
 		Player player = event.getPlayer();
-		if (player.hasPermission("fullpvp.place.bypass")) {
+		if (player.hasPermission("fullpvp.placeblocks.bypass")) {
 			event.setCancelled(false);
 			return;
 		}

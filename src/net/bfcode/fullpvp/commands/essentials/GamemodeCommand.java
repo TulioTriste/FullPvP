@@ -36,7 +36,7 @@ public class GamemodeCommand implements CommandExecutor {
         }
         Player target;
         if (args.length > 1) {
-            target = (sender.hasPermission(command.getPermission() + ".others") ? BukkitUtils.playerWithNameOrUUID(args[1]) : null);
+            target = (sender.hasPermission("fullpvp.command.gamemode.others") ? BukkitUtils.playerWithNameOrUUID(args[1]) : null);
         }
         else {
             if (!(sender instanceof Player)) {

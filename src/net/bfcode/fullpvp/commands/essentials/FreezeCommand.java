@@ -232,7 +232,7 @@ public class FreezeCommand implements Listener, Runnable, CommandExecutor {
                 .create();
         if (frozen.contains(player.getUniqueId())) {
             for (Player online : Bukkit.getServer().getOnlinePlayers()) {
-                if (!online.hasPermission("command.freeze")) {
+                if (!online.hasPermission("fullpvp.command.freeze")) {
                     continue;
                 }
                 online.spigot().sendMessage(components);

@@ -34,9 +34,8 @@ public class EconomyCommand implements CommandExecutor, TabCompleter {
     
     @SuppressWarnings({ "deprecation", "unlikely-arg-type" })
 	public boolean onCommand(final CommandSender sender, final Command command, final String label, final String[] args) {
-        final boolean hasStaffPermission = sender.hasPermission(command.getPermission() + ".staff");
         OfflinePlayer target;
-        if (args.length > 0 && hasStaffPermission) {
+        if (args.length > 0 && sender.hasPermission("fullpvp.command.balance.staff")) {
             target = BukkitUtils.offlinePlayerWithNameOrUUID(args[0]);
         }
         else {
@@ -52,7 +51,7 @@ public class EconomyCommand implements CommandExecutor, TabCompleter {
         }
         final UUID uuid = target.getUniqueId();
         final int balance = this.plugin.getEconomyManager().getBalance(uuid);
-        if (args.length < 2 || !hasStaffPermission) {
+        if (args.length < 2 || !sender.hasPermission("fullpvp.command.balance.staff")) {
             sender.sendMessage(ChatColor.YELLOW + (sender.equals(target) ? "Your balance" : ("Balance of " + target.getName())) + " is " + ChatColor.LIGHT_PURPLE + '$' + balance + ChatColor.YELLOW + '.');
             return true;
         }

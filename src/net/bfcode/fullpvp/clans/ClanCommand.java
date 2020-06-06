@@ -284,7 +284,7 @@ public class ClanCommand implements CommandExecutor {
         		player.sendMessage(ColorText.translate("&cUsage: /clan reload"));
         		return true;
         	}
-        	if(!player.hasPermission("clans.command.reload")) {
+        	if(!player.hasPermission("fullpvp.command.clan.reload")) {
         		player.sendMessage(ColorText.translate(Utils.NO_PERMISSION));
         		return true;
         	}

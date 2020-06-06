@@ -91,7 +91,7 @@ public class StaffModeCommand implements CommandExecutor, Listener {
 				enterMod((Player) sender);
 				return true;
 			}
-			if (!sender.hasPermission("fullpvp.command.staffmode.argument.others")) {
+			if (!sender.hasPermission("fullpvp.command.staffmode.others")) {
 				sender.sendMessage(Utils.NO_PERMISSION);
 				return true;
 			}

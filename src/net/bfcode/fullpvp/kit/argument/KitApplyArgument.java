@@ -21,7 +21,7 @@ public class KitApplyArgument extends CommandArgument
     public KitApplyArgument(final FullPvP plugin) {
         super("apply", "Applies a kit to player");
         this.plugin = plugin;
-        this.permission = "command.kit.argument." + this.getName();
+        this.permission = "fullpvp.command.kit.argument." + this.getName();
     }
     
     @Override

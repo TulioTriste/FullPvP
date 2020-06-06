@@ -78,7 +78,7 @@ public class FreezeListener implements Listener {
 	}
 	
 	public boolean isBypassing(Player player) {
-		return player.hasPermission("rank.staff");
+		return player.hasPermission("fullpvp.command.freeze.bypass");
 	}
 	
 	public void addFreeze(Player player, Player target) {
@@ -87,7 +87,7 @@ public class FreezeListener implements Listener {
 		task.runTaskTimer(FullPvP.getInstance(), 100L, 100L);
 		this.freezeTasks.put(target.getUniqueId(), task);
 		
-		Message.sendMessage(ColorText.translate("&f" + target.getName() + " &ehas been freezed by &f" + player.getName() + "&e."), "rank.staff");
+		Message.sendMessage(ColorText.translate("&f" + target.getName() + " &ehas been freezed by &f" + player.getName() + "&e."), "fullpvp.command.freeze");
 	}
 	
 	public void addPortalFreeze(Player target) {
@@ -118,7 +118,7 @@ public class FreezeListener implements Listener {
 		if(this.freezedPlayers.contains(target.getUniqueId())) {
 			this.freezedPlayers.remove(target.getUniqueId());
 		}
-		Message.sendMessage(ColorText.translate("&f" + target.getName() + " &ehas been unfrozen by &f" + player.getName() + "&e."), "rank.staff");
+		Message.sendMessage(ColorText.translate("&f" + target.getName() + " &ehas been unfrozen by &f" + player.getName() + "&e."), "fullpvp.command.freeze");
 		target.sendMessage(ColorText.translate("&eYou have been unfrozen by &a" + player.getName() + "&e."));
 	}
 
@@ -169,16 +169,18 @@ public class FreezeListener implements Listener {
 			}
     	}
     }
+	
     public void onCommand(Player player, Player target, final CommandSender sender, final Command command, final String label, final String[] args) {
 		this.freezedPlayers.add(target.getUniqueId());
 		FreezeTask task = new FreezeTask(target);
 		task.runTaskTimer(FullPvP.getInstance(), 100L, 100L);
 		this.freezeTasks.put(target.getUniqueId(), task);
-        if (target.hasPermission("utilities.player.staff")) {
+        if (target.hasPermission("fullpvp.command.freeze.bypass")) {
             sender.sendMessage(ColorText.translate("&cYou may not freeze to " + target.getName() + "."));
             return;
         }
 	}
+    
 	@EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
     	Player player = event.getPlayer();
@@ -281,7 +283,7 @@ public class FreezeListener implements Listener {
 		if(this.freezeTasks.containsKey(player.getUniqueId())) {
 			this.freezeTasks.get(player.getUniqueId()).cancel();
 			this.freezeTasks.remove(player.getUniqueId());
-			if (!player.hasPermission("rank.staff")) {
+			if (!player.hasPermission("fullpvp.command.freeze")) {
 				return;
 			}
 			Message.sendMessage(" ");

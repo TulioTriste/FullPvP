@@ -33,8 +33,8 @@ public class HealCommand implements CommandExecutor {
 			sender.sendMessage(Utils.NO_PERMISSION);
 			return true;
 		}
-        if (args.length > 0 && sender.hasPermission(command.getPermission() + ".others")) {
-            if (args[0].equalsIgnoreCase("all") && sender.hasPermission(command.getPermission() + ".all")) {
+        if (args.length > 0 && sender.hasPermission("fullpvp.command.heal.others")) {
+            if (args[0].equalsIgnoreCase("all") && sender.hasPermission("fullpvp.command.heal.all")) {
                 targets = (Collection<Player>)ImmutableSet.copyOf(Bukkit.getOnlinePlayers());
             }
             else {
