@@ -30,7 +30,6 @@ import gnu.trove.map.TObjectShortMap;
 import gnu.trove.map.hash.TObjectIntHashMap;
 import gnu.trove.map.hash.TObjectShortHashMap;
 
-
 public class SimpleItemDb implements ItemDb {
     private static final Comparator<String> STRING_LENGTH_COMPARATOR;
     private static final Pattern PARTS_PATTERN;
@@ -43,10 +42,10 @@ public class SimpleItemDb implements ItemDb {
     
     @SuppressWarnings({ "unchecked", "rawtypes" })
 	public SimpleItemDb(final JavaPlugin plugin) {
-        this.items = (TObjectIntMap<String>)new TObjectIntHashMap();
-        this.names = (TreeMultimap<ItemData, String>)TreeMultimap.create((Comparator)Ordering.allEqual(), (Comparator)SimpleItemDb.STRING_LENGTH_COMPARATOR);
+        this.items = new TObjectIntHashMap();
+        this.names = TreeMultimap.create(Ordering.allEqual(), SimpleItemDb.STRING_LENGTH_COMPARATOR);
         this.primaryName = new HashMap<ItemData, String>();
-        this.durabilities = (TObjectShortMap<String>)new TObjectShortHashMap();
+        this.durabilities = new TObjectShortHashMap();
         this.splitPattern = Pattern.compile("((.*)[:+',;.](\\d+))");
         this.file = new ManagedFile("items.csv", plugin);
         this.reloadItemDatabase();

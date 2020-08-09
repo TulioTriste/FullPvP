@@ -196,16 +196,18 @@ public class ScoreboardManager implements Listener {
 	                    	
 	                    	if(string.contains("{dtc}")) {
 	                    		
-	                    		for(String dtc : DTCHandler.getDTCActiveList()) {
-	                    			if(DTCHandler.isStarted(dtc) && !StaffModeCommand.isMod(player)) {
-	                    				for(String dtclines : config.getStringList("Scoreboard.Variables.DestroyTheCore")) {
-	                    					dtclines = dtclines.replace("{points-left}", DTCHandler.dtcFile.get("DTC." + dtc + ".PointsLeft") + "")
-	                    					.replace("{x}", DTCHandler.dtcFile.getInt("CurrentDTC." + dtc + ".X") + "")
-	                    					.replace("{y}", DTCHandler.dtcFile.getInt("CurrentDTC." + dtc + ".Y") + "")
-	                    					.replace("{z}", DTCHandler.dtcFile.getInt("CurrentDTC." + dtc + ".Z") + "");
-	                    					lines.add(dtclines);
-	                    				}
-	                    			}
+	                    		if(!DTCHandler.getDTCActiveList().isEmpty()) {
+		                    		for(String dtc : DTCHandler.getDTCActiveList()) {
+		                    			if(DTCHandler.isStarted(dtc) && !StaffModeCommand.isMod(player)) {
+		                    				for(String dtclines : config.getStringList("Scoreboard.Variables.DestroyTheCore")) {
+		                    					dtclines = dtclines.replace("{points-left}", DTCHandler.dtcFile.get("DTC." + dtc + ".PointsLeft") + "")
+		                    					.replace("{x}", DTCHandler.dtcFile.getInt("CurrentDTC." + dtc + ".X") + "")
+		                    					.replace("{y}", DTCHandler.dtcFile.getInt("CurrentDTC." + dtc + ".Y") + "")
+		                    					.replace("{z}", DTCHandler.dtcFile.getInt("CurrentDTC." + dtc + ".Z") + "");
+		                    					lines.add(dtclines);
+		                    				}
+		                    			}
+		                    		}
 	                    		}
 	                    		
 	                    		continue;

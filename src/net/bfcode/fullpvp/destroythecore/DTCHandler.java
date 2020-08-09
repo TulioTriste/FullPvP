@@ -41,11 +41,11 @@ public class DTCHandler
     }
     
     public static Set<String> getDTCActiveList() {
-        return (Set<String>)DTCHandler.dtcFile.getConfigurationSection("CurrentDTC").getKeys(false);
+        return DTCHandler.dtcFile.getConfigurationSection("CurrentDTC").getKeys(false);
     }
     
     public static int getDTCListSize() {
-        final Set<String> list = (Set<String>)DTCHandler.dtcFile.getConfigurationSection("CurrentDTC").getKeys(false);
+        Set<String> list = DTCHandler.dtcFile.getConfigurationSection("CurrentDTC").getKeys(false);
         return list.size();
     }
     

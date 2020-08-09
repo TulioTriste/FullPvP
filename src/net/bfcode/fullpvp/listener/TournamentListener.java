@@ -204,7 +204,7 @@ public class TournamentListener implements Listener {
     public void onPlayerQuit(final PlayerQuitEvent event) {
         final Player player = event.getPlayer();
         if (this.plugin.getTournamentManager().isInTournament(player.getUniqueId())) {
-            this.plugin.getTournamentManager().playerLeft(this.plugin.getTournamentManager().getTournament(), player, false);
+            this.plugin.getTournamentManager().playerLeft(this.plugin.getTournamentManager().getTournament(), player, true);
         }
     }
     
@@ -212,7 +212,7 @@ public class TournamentListener implements Listener {
     public void onPlayerKick(final PlayerKickEvent event) {
         final Player player = event.getPlayer();
         if (this.plugin.getTournamentManager().isInTournament(player.getUniqueId())) {
-            this.plugin.getTournamentManager().playerLeft(this.plugin.getTournamentManager().getTournament(), player, false);
+            this.plugin.getTournamentManager().playerLeft(this.plugin.getTournamentManager().getTournament(), player, true);
         }
     }
     

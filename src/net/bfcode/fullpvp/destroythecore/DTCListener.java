@@ -48,7 +48,8 @@ public class DTCListener implements Listener {
     public void onBlockBreak(final BlockBreakEvent event) {
         Player player = event.getPlayer();
         Block block = event.getBlock();
-        for(@SuppressWarnings("unused") String dtc1 : DTCHandler.getDTCActiveList()) {
+
+	    if(!this.dtcFile.getConfigurationSection("DTC").getKeys(false).isEmpty()) {
             Iterator<String> iterator = this.dtcFile.getConfigurationSection("CurrentDTC").getKeys(false).iterator();
             if (iterator.hasNext()) {
                 final String dtc = iterator.next();
@@ -73,8 +74,8 @@ public class DTCListener implements Listener {
                     }
                 }
                 return;
-            }	
-        }
+            }
+	    }
         if (player.getGameMode().equals(GameMode.CREATIVE) && player.isOp()) {
             return;
         }

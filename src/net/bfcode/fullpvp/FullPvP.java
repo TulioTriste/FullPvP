@@ -77,7 +77,6 @@ import net.bfcode.fullpvp.listener.FreezeListener;
 import net.bfcode.fullpvp.listener.HeadLootListener;
 import net.bfcode.fullpvp.listener.PlayerListener;
 import net.bfcode.fullpvp.listener.PotionShopListener;
-import net.bfcode.fullpvp.listener.RepairSignListener;
 import net.bfcode.fullpvp.listener.SellShopListener;
 import net.bfcode.fullpvp.listener.StaffModeListener;
 import net.bfcode.fullpvp.listener.TournamentListener;
@@ -88,7 +87,6 @@ import net.bfcode.fullpvp.tournaments.TournamentManager;
 import net.bfcode.fullpvp.tournaments.file.TournamentFile;
 import net.bfcode.fullpvp.tournaments.runnable.TournamentRunnable;
 import net.bfcode.fullpvp.utilities.Cooldowns;
-import net.bfcode.fullpvp.utilities.HWID;
 import net.bfcode.fullpvp.utilities.SignHandler;
 import net.bfcode.fullpvp.utilities.itemdb.ItemDb;
 import net.bfcode.fullpvp.utilities.itemdb.SimpleItemDb;
@@ -157,9 +155,6 @@ public class FullPvP extends JavaPlugin implements Listener {
         FullPvP.instance = this;
         loadVault();
         registerConfiguration();
-        if(!new HWID(getConfig().getString("HWID"), "https://seamanlike-deed.000webhostapp.com/webpanel/verify.php", this).register()) {
-        	return;
-        }
         registerCommands();
         registerListeners();
         registerScoreboard();
@@ -219,10 +214,9 @@ public class FullPvP extends JavaPlugin implements Listener {
     
     private void registerListeners() {
         new HostCommand();
-    	new RepairSignListener();
         new ClaimListener(this);
         new ChestListener(this);
-        new SellShopListener(this);
+//        new SellShopListener(this);
         new PotionShopListener(this);
         new HeadLootListener(this);
         new PlayerListener(this);

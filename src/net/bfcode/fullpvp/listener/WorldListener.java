@@ -1,6 +1,7 @@
 package net.bfcode.fullpvp.listener;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -8,7 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent;
-import org.bukkit.event.player.PlayerKickEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
 
 import net.bfcode.fullpvp.FullPvP;
@@ -24,7 +25,7 @@ public class WorldListener implements Listener {
 	@EventHandler(ignoreCancelled = true, priority = EventPriority.HIGH)
 	public void onBreak(BlockBreakEvent event) {
 		Player player = event.getPlayer();
-		if (player.hasPermission("fullpvp.breakblocks.bypass") || player.isOp()) {
+		if (player.hasPermission("fullpvp.breakblocks.bypass") && player.getGameMode().equals(GameMode.CREATIVE)) {
 			event.setCancelled(false);
 			return;
 		}
@@ -35,7 +36,7 @@ public class WorldListener implements Listener {
 	@EventHandler(ignoreCancelled = true, priority = EventPriority.HIGH)
 	public void onPlace(BlockPlaceEvent event) {
 		Player player = event.getPlayer();
-		if (player.hasPermission("fullpvp.placeblocks.bypass")) {
+		if (player.hasPermission("fullpvp.placeblocks.bypass") && player.getGameMode().equals(GameMode.CREATIVE)) {
 			event.setCancelled(false);
 			return;
 		}
@@ -44,7 +45,7 @@ public class WorldListener implements Listener {
 	}
 	
 	@EventHandler
-	public void onLeave(PlayerKickEvent event) {
+	public void onLeave(PlayerQuitEvent event) {
 		PlayerUtil.allowMovement(event.getPlayer());
 	}
 	
