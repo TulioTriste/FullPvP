@@ -81,7 +81,7 @@ public class TournamentCreateArgument extends CommandArgument {
                     TextComponent mensaje = new TextComponent();
                     mensaje.setText(ColorText.translate("&2&l" + type.getName() + " &fhosted by &r" + name + " &7(" + "&a" + tournament.getPlayers().size() + "&7/&a" + tournament.getSize() + "&7)" + " &a!Click to join¡"));
                     mensaje.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tour join"));
-                    online.sendMessage(mensaje);
+                    online.sendMessage(mensaje.getText());
                 }
                 new TournamentRunnable(this.plugin.getTournamentManager().getTournament()).runAnnounce();
                 Cooldowns.addCooldown("TOURNAMENT_COOLDOWN", player, 1800);

@@ -253,7 +253,7 @@ public class BukkitUtils {
 
     public static long getIdleTime(final Player player) {
         Preconditions.checkNotNull((Object)player);
-        final long idleTime = ((CraftPlayer)player).getHandle().getChunkZ();
+        final long idleTime = ((CraftPlayer)player).getHandle().getChunkCoordinates().getZ();
         return (idleTime > 0L) ? (MinecraftServer.az() - idleTime) : 0L;
     }
 }

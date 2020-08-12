@@ -110,7 +110,7 @@ public class TournamentRunnable {
                     	mensaje.setText(ColorText.translate("&2&l" + TournamentRunnable.this.tournament.getType().getName() + " &fhosted by &r" + name + " "+ "&fstarting in " + countdown + " second" + ((countdown == 1) ? "" : "s") + " &7(" + "&a" + tournament.getPlayers().size() + "&7/&a" + tournament.getSize() + "&7)" + " &a!Click to join�"));
                     	mensaje.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tour join"));
                     	for (final Player online : Bukkit.getServer().getOnlinePlayers()) {
-                    		online.sendMessage(mensaje);
+                    		online.sendMessage(mensaje.getText());
                     	}
                     }
                     else if (countdown < 0) {

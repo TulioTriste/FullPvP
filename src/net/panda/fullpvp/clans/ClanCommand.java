@@ -153,7 +153,7 @@ public class ClanCommand implements CommandExecutor {
             TextComponent mensaje = new TextComponent();
             mensaje.setText(ColorText.translate("&eYou has been invited to '&a" + ClanHandler.getClan(player) + "&e' type &f'/clan join " + ClanHandler.getClan(player) + "' or &7(Click here)"));
             mensaje.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/clan join " + ClanHandler.getClan(player)));
-            target.sendMessage(mensaje);
+            target.sendMessage(mensaje.getText());
         }
         else if (args[0].equalsIgnoreCase("deinvite")) {
             if (args.length < 2) {
