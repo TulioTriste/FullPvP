@@ -78,7 +78,6 @@ import net.panda.fullpvp.listener.FreezeListener;
 import net.panda.fullpvp.listener.HeadLootListener;
 import net.panda.fullpvp.listener.PlayerListener;
 import net.panda.fullpvp.listener.PotionShopListener;
-import net.panda.fullpvp.listener.SellShopListener;
 import net.panda.fullpvp.listener.StaffModeListener;
 import net.panda.fullpvp.listener.TournamentListener;
 import net.panda.fullpvp.listener.VanishListener;
@@ -119,10 +118,6 @@ public class FullPvP extends JavaPlugin implements Listener {
     private PlayTimeManager playTimeManager;
     private SignHandler signHandler;
     private Chat chat;
-
-    public FullPvP() {
-        spawnHandler = new SpawnHandler(this);
-    }
     
     private boolean loadVault() {
     	RegisteredServiceProvider<Chat> provider = getServer().getServicesManager().getRegistration(Chat.class);
@@ -265,6 +260,7 @@ public class FullPvP extends JavaPlugin implements Listener {
     }
     
     private void registerHandlers() {
+        spawnHandler = new SpawnHandler(this);
         spawnHandler.enable();
         serverHandler = new ServerHandler(this);
         itemDb = new SimpleItemDb(this);

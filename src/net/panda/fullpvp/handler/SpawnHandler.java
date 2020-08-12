@@ -24,6 +24,7 @@ import java.util.HashMap;
 import org.bukkit.event.Listener;
 
 public class SpawnHandler extends Handler implements Listener {
+	
     private HashMap<UUID, SpawnTask> spawnTasks;
     private HashMap<UUID, Long> warmup;
     
@@ -35,7 +36,7 @@ public class SpawnHandler extends Handler implements Listener {
     
     @Override
     public void enable() {
-        this.getInstance().getServer().getPluginManager().registerEvents(this, this.getInstance());
+        FullPvP.getInstance().getServer().getPluginManager().registerEvents(this, FullPvP.getInstance());
     }
     
     @Override

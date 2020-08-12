@@ -1,6 +1,6 @@
 name: FullPvP
-main: net.bfcode.fullpvp.FullPvP
-version: 0.0.1
+main: net.panda.fullpvp.FullPvP
+version: 1.0.0
 author: [TulioTriste, Risas]
 commands:
    fly:
